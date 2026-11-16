@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AEGIS-Lab · Paper 1:1</title>
+<style>
+:root{--bg:#0b0f17;--card:#131a26;--line:#22304a;--txt:#e6ecf5;--muted:#8296b3;
+--up:#2dd4a7;--down:#f26d7d;--acc:#5b8cff}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--txt);
+font:15px/1.5 -apple-system,'Segoe UI',Roboto,sans-serif;padding:24px}
+.wrap{max-width:860px;margin:0 auto}
+h1{font-size:22px;letter-spacing:.5px}
+h1 span{color:var(--acc)}
+.sub{color:var(--muted);font-size:13px;margin:4px 0 20px}
+.badge{display:inline-block;background:var(--card);border:1px solid var(--line);
+border-radius:99px;padding:2px 12px;font-size:12px;color:var(--up)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.card .k{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.8px}
+.card .v{font-size:22px;font-weight:600;margin-top:4px}
+.up{color:var(--up)}.down{color:var(--down)}.muted{color:var(--muted)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:14px 0}
+.panel h2{font-size:14px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:10px}
+.chart{width:100%;height:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{color:var(--muted);text-align:left;font-weight:500;padding:6px 8px;border-bottom:1px solid var(--line)}
+td{padding:6px 8px;border-bottom:1px solid rgba(34,48,74,.5)}
+footer{color:var(--muted);font-size:12px;margin-top:24px;text-align:center}
+a{color:var(--acc)}
+</style></head><body><div class="wrap">
+<h1>AEGIS<span>-Lab</span> · Paper Engine 1:1</h1>
+<div class="sub">Bybit/OKX публичные данные · риск 1.0 USDT на сделку · экспирация 300/900 сек · TP/SL = 0.8×ATR15m · обновляется воркером GitHub Actions каждые 5 мин</div>
+<span class="badge">🟢 trading</span>
+<div class="grid">
+<div class="card"><div class="k">Equity</div><div class="v">$1000.00</div></div>
+<div class="card"><div class="k">Win Rate</div><div class="v">0.0%</div></div>
+<div class="card"><div class="k">Profit Factor</div><div class="v">∞</div></div>
+<div class="card"><div class="k">Сделок</div><div class="v">0</div></div>
+<div class="card"><div class="k">Sharpe (paper)</div><div class="v">0.00</div></div>
+<div class="card"><div class="k">Серия убытков</div><div class="v">0 / 6</div></div>
+</div>
+<div class="panel"><h2>Кривая эквити</h2><div class="muted">Недостаточно данных для графика</div></div>
+<div class="panel"><h2>Открытые позиции (0/3)</h2>
+<table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TP</th><th>SL</th><th>TTL</th><th>Qty</th></tr>
+<tr><td colspan="7" class="muted">Позиций нет</td></tr></table></div>
+<div class="panel"><h2>Последние сделки</h2>
+<table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TTL</th><th>Итог</th><th>PnL $</th></tr>
+<tr><td colspan="6" class="muted">Сделок пока нет — воркер собирает сигналы</td></tr></table></div>
+<footer>Breaker: OK · paper-only, не реальные деньги · <a href="https://github.com/palcikia-crypto/aegis-lab">репозиторий</a> · данные: results/state.json</footer>
+</div></body></html>
