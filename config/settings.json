@@ -1,0 +1,21 @@
+{
+  "symbols": ["BTCUSDT", "ETHUSDT", "SOLUSDT"],
+  "qty_step": {"BTCUSDT": 0.001, "ETHUSDT": 0.01, "SOLUSDT": 0.1},
+  "min_qty": {"BTCUSDT": 0.001, "ETHUSDT": 0.01, "SOLUSDT": 0.1},
+  "start_equity": 1000.0,
+  "risk_per_trade": 1.0,
+  "expiry_seconds": [300, 900],
+  "atr_k": 0.8,
+  "atr_period": 14,
+  "min_atr_frac": 0.0015,
+  "fee_rate": 0.00075,
+  "vol_spike_min": 1.4,
+  "ema_fast": 9,
+  "ema_slow": 21,
+  "momentum_bars": 10,
+  "max_concurrent": 3,
+  "loss_streak_pause": 6,
+  "pause_minutes": 60,
+  "daily_drawdown_stop": 0.05,
+  "data_sources": ["bytick", "bybit", "okx"]
+}

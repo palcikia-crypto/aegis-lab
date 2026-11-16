@@ -1,0 +1,48 @@
+name: aegis-worker
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  push:
+    branches: [main]
+    paths: ["src/**", "config/**", ".github/workflows/aegis.yml"]
+  workflow_dispatch:
+
+concurrency:
+  group: aegis-worker
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install requests
+
+      - name: Run AEGIS worker
+        run: python -m src.worker
+
+      - name: Commit results
+        run: |
+          git config user.name "aegis-bot"
+          git config user.email "aegis-bot@users.noreply.github.com"
+          git add results docs
+          if git diff --cached --quiet; then
+            echo "no changes"
+          else
+            git commit -m "worker: cycle update [skip ci]"
+            for i in 1 2 3; do
+              git pull --rebase origin main && git push && break
+              echo "push retry $i" && sleep 5
+            done
+          fi
