@@ -10,7 +10,7 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, HERE)
 
 from src import market, features, engine, dashboard  # noqa: E402
-from src import strategies  # noqa: E402
+from src import strategies, universe  # noqa: E402
 
 OPT_PATH = os.path.join(HERE, "results", "opt.json")
 MODEL_PATH = os.path.join(HERE, "results", "model.json")
@@ -70,13 +70,21 @@ def run_cycle():
     if opt and not st.get("adapt"):
         engine.seed_adapt(st, opt.get("combo_stats", {}))
 
+    symbols = universe.load_universe(n=CFG.get("universe_size", 8)) \
+        if CFG.get("auto_universe", True) else CFG["symbols"]
+    # positions may live on coins that left the universe — resolve them too
+    for p in st["positions"]:
+        if p["symbol"] not in symbols:
+            symbols.append(p["symbol"])
+    universe.apply_specs(CFG, symbols)
+
     symbol_bars = {}
     sources = {}
-    for sym in CFG["symbols"]:
+    for sym in symbols:
         bars, src = market.fetch_klines(sym, limit=800)
         symbol_bars[sym] = bars
         sources[sym] = src
-        time.sleep(0.3)
+        time.sleep(0.2)
 
     # 1) resolve open positions against fresh bars (updates adapt brain)
     engine.resolve_positions(st, trades, symbol_bars, CFG, now_ms)
@@ -90,7 +98,7 @@ def run_cycle():
     model = load_model()
     regimes = {}
     if ok:
-        for sym in CFG["symbols"]:
+        for sym in symbols:
             if len(st["positions"]) >= CFG["max_concurrent"]:
                 break
             if any(p["symbol"] == sym for p in st["positions"]):

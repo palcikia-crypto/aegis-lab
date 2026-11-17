@@ -77,13 +77,40 @@ def round_qty(qty, step):
     return math.floor(qty / step + 1e-12) * step
 
 
+def fee_edge_ok(cfg, feat):
+    """Fee-Edge Envelope: trade only when the target move dominates costs.
+
+    Round-trip taker fees + spread buffer, multiplied by a required edge
+    factor. This is the anti-fee shield: no trade unless the envelope is
+    wide enough that fees are a small fraction of the target.
+    """
+    dist = cfg["atr_k"] * feat["atr15"]
+    close = feat["close"]
+    fee_dist = 2 * cfg["fee_rate"] * close + cfg.get("spread_buffer", 0.0002) * close
+    return dist >= cfg.get("fee_edge_mult", 3.0) * fee_dist
+
+
+def vol_scaled_ttl(cfg, feat, dist):
+    """TTL from physics, not superstition: time for price to travel dist
+    at the current ATR pace, with a safety buffer, clamped to bounds.
+    Kills the #1 leak — trades expiring in timeout before TP/SL is hit."""
+    speed = max(feat["atr15"] / 15.0, 1e-9)  # price units per minute
+    minutes = dist / speed
+    ttl = int(minutes * 60 * cfg.get("ttl_buffer", 2.5))
+    return max(cfg.get("ttl_min", 300), min(cfg.get("ttl_max", 900), ttl))
+
+
 def risk_qty(cfg, symbol, entry, dist):
     """Qty so that a stop-out loses ~risk_per_trade including fees."""
     per_unit = dist + entry * cfg["fee_rate"]
     if per_unit <= 0:
         return 0.0
-    qty = round_qty(cfg["risk_per_trade"] / per_unit, cfg["qty_step"][symbol])
-    if qty < cfg["min_qty"][symbol]:
+    step = cfg.get("qty_step", {}).get(symbol, cfg.get("qty_step_default", 0.001))
+    min_qty = cfg.get("min_qty", {}).get(symbol, cfg.get("min_qty_default", 0.001))
+    qty = round_qty(cfg["risk_per_trade"] / per_unit, step)
+    if qty < min_qty:
+        return 0.0
+    if qty * entry < cfg.get("min_notional", {}).get(symbol, 5.0):
         return 0.0
     return qty
 
@@ -170,14 +197,16 @@ def open_positions(st, cfg, symbol, feat, side, now_ms, source,
     if qty <= 0:
         return None
     direction = 1 if side == "long" else -1
-    ttl = cfg["expiry_seconds"][len(st["positions"]) % len(cfg["expiry_seconds"])]
+    rr = cfg.get("rr", 1.0)
+    ttl = vol_scaled_ttl(cfg, feat, dist)
     pos = {
         "id": f"{sym}-{now_ms}",
         "symbol": sym,
         "side": side,
         "entry": entry,
         "dist": round(dist, 6),
-        "tp": round(entry + direction * dist, 6),
+        "rr": rr,
+        "tp": round(entry + direction * rr * dist, 6),
         "sl": round(entry - direction * dist, 6),
         "qty": qty,
         "risk": cfg["risk_per_trade"],

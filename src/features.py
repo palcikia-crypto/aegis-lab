@@ -178,6 +178,15 @@ def features(bars, cfg):
     }
 
 
+def fee_edge_ok(cfg, feat):
+    """Fee-Edge Envelope (PRO): target move must dominate round-trip
+    fees + spread by a required factor. See engine.fee_edge_ok."""
+    dist = cfg["atr_k"] * feat["atr15"]
+    close = feat["close"]
+    fee_dist = (2 * cfg["fee_rate"] + cfg.get("spread_buffer", 0.0002)) * close
+    return dist >= cfg.get("fee_edge_mult", 3.0) * fee_dist
+
+
 def signal(feat, cfg):
     """Legacy single-rule entry (kept as the baseline strategy)."""
     if feat is None or feat["atr15"] is None:

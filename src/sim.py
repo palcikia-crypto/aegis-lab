@@ -15,7 +15,7 @@ import time
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, HERE)
 
-from src import market, features, strategies  # noqa: E402
+from src import market, features, strategies, universe  # noqa: E402
 import src.engine as engine  # noqa: E402
 
 with open(os.path.join(HERE, "config", "settings.json")) as f:
@@ -66,10 +66,18 @@ class Window:
         return self.bars[:i]
 
 
-def fetch_windows(days):
+def active_symbols(cfg):
+    """Auto-universe: the system downloads the coins it needs itself."""
+    if cfg.get("auto_universe", True):
+        return universe.load_universe(n=cfg.get("universe_size", 8))
+    return cfg["symbols"]
+
+
+def fetch_windows(days, symbols=None):
+    symbols = symbols or active_symbols(CFG)
     wins = {}
     srcs = {}
-    for sym in CFG["symbols"]:
+    for sym in symbols:
         bars, src = market.fetch_history(sym, days + 1)
         wins[sym] = Window(bars)
         srcs[sym] = src
@@ -78,8 +86,10 @@ def fetch_windows(days):
     return wins, srcs
 
 
-def replay(wins, cfg, start_ts=None, end_ts=None, collect_trades=True):
+def replay(wins, cfg, start_ts=None, end_ts=None, collect_trades=True,
+           symbols=None, step_ms=5 * 60_000):
     """Run the engine over history. Returns (state, trades, eq_rows)."""
+    symbols = symbols or list(wins)
     if start_ts is None:
         start_ts = min(w.ts[WARMUP_BARS] for w in wins.values())
     if end_ts is None:
@@ -88,7 +98,6 @@ def replay(wins, cfg, start_ts=None, end_ts=None, collect_trades=True):
     st = fresh_state()
     trades = []
     eq_rows = []
-    step_ms = 5 * 60_000  # live worker decides every 5 min, mirror that
     last_eq = start_ts
 
     for now_ms in range(start_ts, end_ts, step_ms):
@@ -97,7 +106,7 @@ def replay(wins, cfg, start_ts=None, end_ts=None, collect_trades=True):
         engine.roll_day(st, now_ms)
         ok, _reason = engine.breakers_ok(st, cfg, now_ms)
         if ok:
-            for sym in CFG["symbols"]:
+            for sym in symbols:
                 if len(st["positions"]) >= cfg["max_concurrent"]:
                     break
                 if any(p["symbol"] == sym for p in st["positions"]):
@@ -124,7 +133,9 @@ def replay(wins, cfg, start_ts=None, end_ts=None, collect_trades=True):
 
 def run_sim(days, seed_equity=None):
     t0 = time.time()
-    wins, _srcs = fetch_windows(days)
+    symbols = active_symbols(CFG)
+    universe.apply_specs(CFG, symbols)
+    wins, _srcs = fetch_windows(days, symbols)
 
     engine.STATE_PATH = SIM_STATE_PATH
     engine.TRADES_PATH = SIM_TRADES_PATH

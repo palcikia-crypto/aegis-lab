@@ -11,6 +11,7 @@ SIM_TRADES_PATH = os.path.join(RESULTS, "sim_trades.jsonl")
 SIM_EQUITY_PATH = os.path.join(RESULTS, "sim_equity.csv")
 MODEL_PATH = os.path.join(RESULTS, "model.json")
 OPT_PATH = os.path.join(RESULTS, "opt.json")
+UNIVERSE_PATH = os.path.join(RESULTS, "universe.json")
 
 
 def load_jsonl(path):
@@ -44,6 +45,13 @@ def load_opt():
     if not os.path.exists(OPT_PATH):
         return None
     with open(OPT_PATH) as f:
+        return json.load(f)
+
+
+def load_universe():
+    if not os.path.exists(UNIVERSE_PATH):
+        return None
+    with open(UNIVERSE_PATH) as f:
         return json.load(f)
 
 
@@ -161,6 +169,14 @@ def generate(st, trades, cfg):
 <div class="panel"><h2>Песочница · последние sim-сделки</h2>
 <table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TTL</th><th>Итог</th><th>PnL $</th></tr>
 {sim_rows or '<tr><td colspan="6" class="muted">Sim-сделок пока нет</td></tr>'}</table></div>"""
+    uni = load_universe()
+    uni_panel = ""
+    if uni:
+        syms = ", ".join(uni.get("symbols", []))
+        uni_panel = f"""
+<div class="panel"><h2>Авто-вселенная монет (PRO)</h2>
+<div class="sub">система сама скачивает топ-ликвидные инструменты с Binance (включая золото XAUUSDT, когда оно в топе) и их торговые спецификации</div>
+<p style="font-size:14px;margin-top:8px">{esc(syms)}</p></div>"""
     strat_panel = ""
     if opt:
         best_p = opt.get("best", {}).get("params", {})
@@ -224,7 +240,7 @@ a{{color:var(--acc)}}
 {ml_card}{sim_cards}
 </div>
 <div class="panel"><h2>Кривая эквити</h2>{equity_svg(eq_rows)}</div>
-{sim_panel}{strat_panel}
+{sim_panel}{strat_panel}{uni_panel}
 <div class="panel"><h2>Открытые позиции ({len(st['positions'])}/{cfg['max_concurrent']})</h2>
 <table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TP</th><th>SL</th><th>TTL</th><th>Qty</th></tr>
 {pos_rows or '<tr><td colspan="7" class="muted">Позиций нет</td></tr>'}</table></div>

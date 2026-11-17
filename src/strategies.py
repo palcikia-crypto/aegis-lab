@@ -7,18 +7,14 @@ combos disable themselves and winning ones re-enable — the system
 adapts to the market in real time.
 """
 from src import regime as rg
-
-
-def _distance_ok(feat, cfg):
-    d = cfg["atr_k"] * feat["atr15"]
-    return d >= feat["close"] * cfg["min_atr_frac"]
+from src.features import fee_edge_ok as _distance_ok
 
 
 def baseline(feat, cfg, r):
     """Volume spike + EMA alignment + momentum (original AEGIS rule)."""
     if feat["vol_spike"] < cfg["vol_spike_min"]:
         return None
-    if not _distance_ok(feat, cfg):
+    if not _distance_ok(cfg, feat):
         return None
     up = feat["ema_fast"] > feat["ema_slow"] and feat["momentum"] > 0
     dn = feat["ema_fast"] < feat["ema_slow"] and feat["momentum"] < 0
@@ -37,7 +33,7 @@ def mean_reversion(feat, cfg, r):
     """
     if r != rg.RANGE:
         return None
-    if not _distance_ok(feat, cfg):
+    if not _distance_ok(cfg, feat):
         return None
     z = feat.get("bb_z")
     rsi = feat.get("rsi14")
@@ -59,7 +55,7 @@ def breakout(feat, cfg, r):
     """
     if r not in (rg.VOLATILE, rg.TREND_UP, rg.TREND_DOWN):
         return None
-    if not _distance_ok(feat, cfg):
+    if not _distance_ok(cfg, feat):
         return None
     hi, lo = feat.get("don_hi"), feat.get("don_lo")
     if hi is None or lo is None:
@@ -78,7 +74,7 @@ def trend_follow(feat, cfg, r):
     """Momentum continuation in established trends (ADX-confirmed)."""
     if r not in (rg.TREND_UP, rg.TREND_DOWN):
         return None
-    if not _distance_ok(feat, cfg):
+    if not _distance_ok(cfg, feat):
         return None
     if feat["vol_spike"] < cfg.get("trend_vol_min", 1.1):
         return None

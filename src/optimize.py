@@ -25,12 +25,17 @@ from src import sim as sim_mod  # noqa: E402
 from src import engine  # noqa: E402
 
 OPT_PATH = os.path.join(engine.RESULTS, "opt.json")
-GRID = {
+STAGE1 = {
     "atr_k": [0.6, 0.8, 1.0, 1.3],
     "vol_spike_min": [1.2, 1.4, 1.7],
 }
+STAGE2 = {
+    "rr": [1.0, 1.5, 2.0],
+    "fee_edge_mult": [2.0, 3.0, 5.0],
+}
 CHUNKS = 3
 MIN_TRADES = 30
+OPT_STEP_MS = 15 * 60_000  # coarse steps for search speed; live stays 5-min
 
 
 def profit_factor(trades):
@@ -81,20 +86,15 @@ def combo_stats(trades, min_n=5):
     return {k: b for k, b in out.items() if b["n"] >= min_n}
 
 
-def main():
-    ap = argparse.ArgumentParser(description="AEGIS WFO optimizer")
-    ap.add_argument("--days", type=int, default=30)
-    args = ap.parse_args()
-    t0 = time.time()
-
-    wins, _srcs = sim_mod.fetch_windows(args.days)
-    keys = list(GRID)
-    leaderboard = []
-    for values in itertools.product(*(GRID[k] for k in keys)):
-        override = dict(zip(keys, values))
+def run_grid(wins, grid, base_overrides):
+    keys = list(grid)
+    rows = []
+    for values in itertools.product(*(grid[k] for k in keys)):
+        override = dict(base_overrides)
+        override.update(dict(zip(keys, values)))
         cfg = dict(sim_mod.CFG)
         cfg.update(override)
-        st, trades, _eq = sim_mod.replay(wins, cfg)
+        st, trades, _eq = sim_mod.replay(wins, cfg, step_ms=OPT_STEP_MS)
         score = combo_score(trades, st)
         mean_c, worst_c = chunk_consistency(trades)
         row = {
@@ -107,13 +107,32 @@ def main():
             "chunk_worst_pnl": worst_c,
             "score": score,
         }
-        leaderboard.append(row)
+        rows.append(row)
         print(f"grid {override}: score={score} trades={row['trades']} "
               f"wr={row['win_rate']} pnl={row['pnl']}", flush=True)
+    return rows
 
+
+def main():
+    ap = argparse.ArgumentParser(description="AEGIS WFO optimizer")
+    ap.add_argument("--days", type=int, default=30)
+    args = ap.parse_args()
+    t0 = time.time()
+
+    wins, _srcs = sim_mod.fetch_windows(args.days)
+
+    # stage 1: market geometry (stop distance x signal threshold)
+    leaderboard = run_grid(wins, STAGE1, {})
+    leaderboard.sort(key=lambda r: (-r["score"], -r["pnl"]))
+    s1_best = leaderboard[0]
+
+    # stage 2: payoff geometry (R:R x fee envelope) around stage-1 best
+    rows2 = run_grid(wins, STAGE2, s1_best["params"])
+    leaderboard = leaderboard + rows2
     leaderboard.sort(key=lambda r: (-r["score"], -r["pnl"]))
     best = leaderboard[0]
     robust = best["score"] > -1e8
+
     # combo seeds from the winning params' replay
     cfg = dict(sim_mod.CFG)
     cfg.update(best["params"])
