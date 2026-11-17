@@ -31,7 +31,7 @@ STAGE1 = {
 }
 STAGE2 = {
     "rr": [1.0, 1.5, 2.0],
-    "fee_edge_mult": [2.0, 3.0, 5.0],
+    "fee_edge_mult": [2.0, 3.0],
 }
 CHUNKS = 3
 MIN_TRADES = 30

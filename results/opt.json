@@ -6,7 +6,7 @@
   "atr_k": 0.8,
   "vol_spike_min": 1.7,
   "rr": 1.0,
-  "fee_edge_mult": 5.0
+  "fee_edge_mult": 3.0
  },
  "best": {
   "params": {
