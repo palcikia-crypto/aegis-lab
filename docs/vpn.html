@@ -57,6 +57,20 @@ a{color:#7dd3fc}
 </div>
 
 <div class="card">
+<h2>🌟 Универсальный узел (vpn-uni) — для Google AI Studio и всего остального</h2>
+<p>Отдельный третий сервер, проверен: туннель работает, серверы Google (Gemini API, AI Studio) отвечают. Два варианта — вставляй через «Импорт из буфера»:</p>
+<ol>
+<li><b>Быстрый (рекомендую)</b> — как твой рабочий, порт 80:
+<pre id="cfg3"></pre></li>
+<li><b>С TLS</b> — если порт 80 перестанет пробиваться:
+<pre id="cfg4"></pre></li>
+</ol>
+<button class="btn" onclick="copy3()">📋 Скопировать (порт 80)</button>
+<button class="btn" onclick="copy4()">📋 Скопировать (с TLS)</button>
+<p class="small">Если Google AI Studio всё равно напишет «не поддерживается в вашей стране» — скажи мне, переключу тебя на вариант с API-ключом (прокси-воркер), он обходит и региональные проверки.</p>
+</div>
+
+<div class="card">
 <h2>Ограничение (важно понимать)</h2>
 <p class="small">Cloudflare запрещает воркерам ходить на сайты, которые сами работают через Cloudflare (примерно каждая пятая ссылка в интернете). Гугл, YouTube, Instagram, X, Telegram и большинство сервисов — работают.</p>
 </div>
@@ -71,6 +85,15 @@ document.getElementById("cfg2").textContent=
 function copyCfg(){navigator.clipboard.writeText(document.getElementById("cfg").textContent).then(()=>alert("Скопировано"))}
 function copy2(){navigator.clipboard.writeText(document.getElementById("cfg2").textContent).then(()=>alert("Скопировано"))}
 function copy2b(){navigator.clipboard.writeText("vless://"+uuid+"@"+HOST2+":80?encryption=none&security=none&type=ws&host="+HOST2+"&path=%2F#AegisVPN-2noTLS").then(()=>alert("Скопировано"))}
+const HOST3="vpn-uni.apigemenipp.workers.dev";
+function link(host,port,tls){
+  const sec=tls?"security=tls&sni="+host+"&fp=chrome&":"security=none&";
+  return "vless://"+uuid+"@"+host+":"+port+"?encryption=none&"+sec+"type=ws&host="+host+"&path=%2F#"+(tls?"Aegis-UNI-TLS":"Aegis-UNI");
+}
+document.getElementById("cfg3").textContent=link(HOST3,80,false);
+document.getElementById("cfg4").textContent=link(HOST3,443,true);
+function copy3(){navigator.clipboard.writeText(document.getElementById("cfg3").textContent).then(()=>alert("Скопировано"))}
+function copy4(){navigator.clipboard.writeText(document.getElementById("cfg4").textContent).then(()=>alert("Скопировано"))}
 </script>
 </body>
 </html>
