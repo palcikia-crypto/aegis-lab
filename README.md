@@ -103,3 +103,17 @@ walk-forward 70/30, Monte Carlo 1000 прогонов по PnL. Модель п�
 запускаются ежедневно (cron 02:25 UTC) и коммитят датасет с моделью.
 
 **Paper-only.** Это исследовательский стенд, не инвестиционная рекомендация.
+## Cloudflare Workers
+`cloudflare/gemini-proxy/worker.js` — прокси Google Gemini API через Cloudflare (обход региональных блокировок).
+Живой воркер: https://gemini-proxy.apigemenipp.workers.dev
+
+Использование: заменить базовый URL `https://generativelanguage.googleapis.com` на адрес воркера,
+API-ключ Gemini передаётся как обычно (`x-goog-api-key` или `?key=`). CORS включён — работает из браузера.
+
+Пример:
+```
+GET https://gemini-proxy.apigemenipp.workers.dev/v1beta/models?key=ВАШ_GEMINI_KEY
+POST https://gemini-proxy.apigemenipp.workers.dev/v1beta/models/gemini-2.0-flash:generateContent?key=ВАШ_GEMINI_KEY
+```
+
+Деплой из репозитория (локально): `npx wrangler@3 deploy cloudflare/gemini-proxy/worker.js --name gemini-proxy --compatibility-date 2024-12-01`
