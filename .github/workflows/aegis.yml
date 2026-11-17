@@ -9,10 +9,6 @@ on:
     paths: ["src/**", "config/**", ".github/workflows/aegis.yml"]
   workflow_dispatch:
 
-concurrency:
-  group: aegis-worker
-  cancel-in-progress: false
-
 permissions:
   contents: write
 
@@ -20,6 +16,9 @@ jobs:
   run:
     runs-on: ubuntu-latest
     timeout-minutes: 8
+    concurrency:
+      group: aegis-worker-run
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
 
@@ -52,6 +51,9 @@ jobs:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 50
+    concurrency:
+      group: aegis-worker-train
+      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v4
 
