@@ -244,7 +244,8 @@ def seed_adapt(st, combo_stats):
         return 0
     added = 0
     for key, b in combo_stats.items():
-        if key not in st.get("adapt", {}) and b.get("n", 0) >= 5:
+        if key not in st.get("adapt", {}) and b.get("n", 0) >= 5 \
+                and b.get("ewma", 0.0) >= 0:
             st.setdefault("adapt", {})[key] = {"n": b["n"],
                                                "ewma": b.get("ewma", 0.0)}
             added += 1

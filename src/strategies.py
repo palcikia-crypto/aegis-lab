@@ -100,13 +100,13 @@ def combo_key(strategy, r):
 
 
 def combo_allowed(adapt, strategy, r, cfg):
-    """Adaptive gate: explore new combos, exploit only positive ones."""
+    """Adaptive gate: combos trade until clearly bad (deep negative ewma)."""
     if not adapt:
         return True
     b = adapt.get(combo_key(strategy, r))
     if b is None or b.get("n", 0) < cfg.get("adapt_min_sample", 10):
         return True
-    return b.get("ewma", 0.0) > 0.0
+    return b.get("ewma", 0.0) > cfg.get("adapt_disable_below", -0.35)
 
 
 def strategy_order(adapt):
@@ -131,7 +131,7 @@ def strategy_order(adapt):
 def decide(feat, cfg, adapt=None):
     """Try strategies in adapt-aware priority order.
 
-    Strict pass: only combos with non-negative expectancy (or new ones).
+    Combos trade unless clearly bad (ewma below adapt_disable_below).
     Blocked combos accumulate a probe counter; every N-th blocked signal
     is traded anyway (rate-limited exploration) so the brain keeps
     sampling and can detect regime changes / recover combos.

@@ -195,7 +195,7 @@ def generate(st, trades, cfg):
         arows = ""
         for k in sorted(adapt, key=lambda x: -adapt[x].get("ewma", 0)):
             b = adapt[k]
-            on = b.get("n", 0) < 10 or b.get("ewma", 0) > 0
+            on = b.get("n", 0) < 10 or b.get("ewma", 0) > -0.35
             arows += (f"<tr><td>{esc(k)}</td><td>{b.get('n', 0)}</td>"
                       f"<td class='{'up' if b.get('ewma', 0) > 0 else 'down'}'>{b.get('ewma', 0):+.3f}</td>"
                       f"<td class='{'up' if on else 'down'}'>{'ON' if on else 'OFF'}</td></tr>")

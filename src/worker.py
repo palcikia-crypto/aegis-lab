@@ -46,9 +46,15 @@ def load_model():
         return None
 
 
+MIN_MODEL_AUC = 0.55
+
+
 def gate(model, feat, side):
-    """ML filter (Этап 3): None model -> pass-through."""
+    """ML filter (Этап 3): pass-through unless the model has real edge."""
     if model is None:
+        return True, None
+    auc = (model.get("wfo") or {}).get("val_auc", 0.0)
+    if auc < MIN_MODEL_AUC:
         return True, None
     p = features.ml_prob(model, feat, side)
     return p >= model["threshold"], round(p, 4)
