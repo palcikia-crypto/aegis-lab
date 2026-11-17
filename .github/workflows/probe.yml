@@ -1,0 +1,83 @@
+name: probe-vpn
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [".github/workflows/probe.yml"]
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: VLESS E2E test
+        run: |
+          python3 - <<'PYEOF'
+          import socket, ssl, base64, os, uuid, time
+          HOST = "vless-vpn.apigemenipp.workers.dev"
+          UID = uuid.UUID("f30d23f3-92c3-4147-86de-b76f36f718ed").bytes
+          try:
+              vless = bytes([0]) + UID + bytes([0,1]) + (80).to_bytes(2,"big") + bytes([2,len(b"example.com")]) + b"example.com"
+              payload = vless + b"GET / HTTP/1.1\r\nHost: example.com\r\nUser-Agent: e2e\r\nConnection: close\r\n\r\n"
+              key = base64.b64encode(os.urandom(16)).decode()
+              hs = (f"GET / HTTP/1.1\r\nHost: {HOST}\r\nUpgrade: websocket\r\nConnection: Upgrade\r\n"
+                    f"Sec-WebSocket-Key: {key}\r\nSec-WebSocket-Version: 13\r\n"
+                    f"Sec-WebSocket-Protocol: {base64.b64encode(payload).decode()}\r\n\r\n")
+              s = socket.create_connection((HOST,443), timeout=20)
+              w = ssl.create_default_context().wrap_socket(s, server_hostname=HOST)
+              w.sendall(hs.encode())
+              resp = b""
+              while b"\r\n\r\n" not in resp:
+                  d = w.recv(4096)
+                  if not d: break
+                  resp += d
+              print("UPGRADE:", resp.split(b"\r\n")[0].decode())
+              if b" 101 " not in resp.split(b"\r\n")[0]:
+                  print("RESULT: upgrade failed:", resp[:300]); raise SystemExit
+              def rf():
+                  h = b""
+                  while len(h) < 2:
+                      c = w.recv(1)
+                      if not c: return None, None
+                      h += c
+                  op, ln = h[0]&0x0F, h[1]&0x7F
+                  if ln == 126:
+                      ext = b""
+                      while len(ext) < 2: ext += w.recv(2-len(ext))
+                      ln = int.from_bytes(ext,"big")
+                  data = b""
+                  while len(data) < ln:
+                      c = w.recv(min(65536, ln-len(data)))
+                      if not c: break
+                      data += c
+                  return op, data
+              op, d2 = rf()
+              print("VLESS REPLY:", d2[:2].hex() if d2 else None)
+              body = (d2 or b"")[2:]
+              t0 = time.time()
+              while time.time()-t0 < 20:
+                  o2, dd = rf()
+                  if not (o2 or dd): break
+                  body += dd
+                  if b"</html>" in body: break
+              print("BYTES:", len(body))
+              print("HTTP:", body.split(b"\r\n")[0].decode(errors="replace")[:80])
+              print("RESULT:", "PASS - VPN TUNNEL WORKS" if b"Example Domain" in body else "FAIL - no site data")
+              w.close()
+          except SystemExit:
+              raise
+          except Exception as e:
+              print("RESULT: ERROR", type(e).__name__, str(e)[:150])
+          PYEOF
+      - name: Health checks
+        run: |
+          python3 - <<'PYEOF'
+          import requests
+          for u in ["https://vless-vpn.apigemenipp.workers.dev/", "https://gemini-proxy.apigemenipp.workers.dev/"]:
+              try:
+                  r = requests.get(u, headers={"User-Agent": "Mozilla/5.0"}, timeout=15)
+                  print(u, "->", r.status_code, r.text[:90].replace("\n"," "))
+              except Exception as e:
+                  print(u, "->", type(e).__name__, str(e)[:100])
+          PYEOF
