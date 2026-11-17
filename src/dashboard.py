@@ -288,8 +288,9 @@ table{{font-size:11.5px}}th,td{{padding:4px 6px}}
 <div class="panel"><h2>Кривая эквити</h2>{equity_svg(eq_rows)}</div>
 {sim_panel}{strat_panel}{uni_panel}{train_panel}{adapt_panel}
 <div class="panel"><h2>Открытые позиции ({len(st['positions'])}/{cfg['max_concurrent']})</h2>
+<div class="sub">движок проверяет рынок каждые 5 минут; сигнал приходит в среднем раз в 30–90 минут — когда условия совпадут, сделка появится здесь автоматически</div>
 <table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TP</th><th>SL</th><th>TTL</th><th>Qty</th><th>Стратегия · режим</th></tr>
-{pos_rows or '<tr><td colspan="8" class="muted">Позиций нет</td></tr>'}</table></div>
+{pos_rows or '<tr><td colspan="8" class="muted">Позиций нет — ждём сигнал (проверка каждые 5 мин)</td></tr>'}</table></div>
 <div class="panel"><h2>Последние сделки</h2>
 <table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TTL</th><th>Итог</th><th>PnL $</th><th>Стратегия</th></tr>
 {tr_rows or '<tr><td colspan="7" class="muted">Сделок пока нет — воркер собирает сигналы</td></tr>'}</table></div>
