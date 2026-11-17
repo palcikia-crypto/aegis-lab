@@ -117,3 +117,13 @@ POST https://gemini-proxy.apigemenipp.workers.dev/v1beta/models/gemini-2.0-flash
 ```
 
 Деплой из репозитория (локально): `npx wrangler@3 deploy cloudflare/gemini-proxy/worker.js --name gemini-proxy --compatibility-date 2024-12-01`
+
+## VLESS VPN (Workers)
+`cloudflare/vless-vpn/worker.js` — VLESS over WebSocket + TLS на Cloudflare Workers (TCP + DNS).
+Адрес: `vless-vpn.apigemenipp.workers.dev`, UUID задан в коде (константа `UUID`).
+
+Импорт клиента (v2rayNG / Hiddify / v2rayN): добавить по ссылке или вручную:
+```
+vless://f30d23f3-92c3-4147-86de-b76f36f718ed@vless-vpn.apigemenipp.workers.dev:443?encryption=none&security=tls&sni=vless-vpn.apigemenipp.workers.dev&fp=chrome&type=ws&host=vless-vpn.apigemenipp.workers.dev&path=%2F#AegisVPN
+```
+Проверка живости: `GET https://vless-vpn.apigemenipp.workers.dev/` → JSON со UUID.
