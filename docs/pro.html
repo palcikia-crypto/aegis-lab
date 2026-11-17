@@ -1,8 +1,7 @@
 <!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="refresh" content="120">
-<title>AEGIS-Lab PRO · Adaptive Fee-Edge</title>
+<title>AEGIS-Lab PRO · v3 Fee-Edge</title>
 <style>
 :root{--bg:#0b0f17;--card:#131a26;--line:#22304a;--txt:#e6ecf5;--muted:#8296b3;
 --up:#2dd4a7;--down:#f26d7d;--acc:#5b8cff}
@@ -28,18 +27,9 @@ th{color:var(--muted);text-align:left;font-weight:500;padding:6px 8px;border-bot
 td{padding:6px 8px;border-bottom:1px solid rgba(34,48,74,.5)}
 footer{color:var(--muted);font-size:12px;margin-top:24px;text-align:center}
 a{color:var(--acc)}
-@media (max-width: 640px) {
-body{padding:12px;font-size:14px}
-h1{font-size:18px}
-.sub{font-size:11px}
-.grid{grid-template-columns:repeat(2,1fr);gap:8px}
-.card{padding:10px 12px}.card .v{font-size:17px}
-.panel{padding:12px;border-radius:12px;overflow-x:auto}
-table{font-size:11.5px}th,td{padding:4px 6px}
-}
-</style></head><body><div class="wrap">
-<h1>AEGIS<span>-Lab PRO</span> · Adaptive Fee-Edge Engine</h1>
-<div class="sub">Binance → Bybit → OKX · риск 1.0 USDT · RR 1:1.5 · Fee-Edge ×3.0 · TTL 300–900с · авто-обновление 2 мин · обновлено 13 мин назад</div>
+</style></head><body><div class="wrap"><div style="background:#131a26;border:1px solid #5b8cff;border-radius:14px;padding:10px 16px;margin:0 0 14px;font-size:13px;color:#5b8cff"><b>AEGIS PRO · v3 Fee-Edge Engine</b> · авто-вселенная монет (BTC, ETH, SOXL, SNDK, NVDA, XAU) · Fee-Edge Envelope ×5 · WFO-лидерборд · ML-гейт ON · полный живой цикл активируется после мержа <a href="https://github.com/palcikia-crypto/aegis-lab/pull/1">PR #1</a> · <a href="index.html" style="color:#8296b3">классическая панель</a></div>
+<h1>AEGIS<span>-Lab</span> · Paper Engine 1:1</h1>
+<div class="sub">Bybit/OKX публичные данные · риск 1.0 USDT на сделку · экспирация 300/900 сек · TP/SL = 0.8×ATR15m · обновляется воркером GitHub Actions каждые 5 мин</div>
 <span class="badge">🟢 trading</span>
 <div class="grid">
 <div class="card"><div class="k">Equity</div><div class="v">$999.02</div></div>
@@ -68,21 +58,11 @@ table{font-size:11.5px}th,td{padding:4px 6px}
 <div class="panel"><h2>Авто-вселенная монет (PRO)</h2>
 <div class="sub">система сама скачивает топ-ликвидные инструменты с Binance (включая золото XAUUSDT, когда оно в топе) и их торговые спецификации</div>
 <p style="font-size:14px;margin-top:8px">BTCUSDT, ETHUSDT, SOXLUSDT, SNDKUSDT, NVDAUSDT, XAUUSDT</p></div>
-<div class="panel"><h2>Статус обучения (Этап 3 · ML-гейт)</h2>
-<table><tr><th>Сделок в датасете</th><th>Порог</th><th>Точность (val)</th><th>AUC</th><th>MC p5 PnL</th><th>Обучено</th></tr>
-<tr><td>241</td><td>0.784</td>
-<td>0.575</td><td>0.497</td>
-<td>-21.13</td><td>0 ч назад</td></tr></table>
-<div class="sub" style="margin-top:8px">переобучение: ежедневно 02:25 UTC (песочница 30 дней → WFO → модель)</div></div>
-<div class="panel"><h2>Адаптивный мозг · связки стратегия|режим</h2>
-<table><tr><th>Связка</th><th>Сделок</th><th>Ewma R</th><th>Торговля</th></tr>
-<tr><td>baseline|trend_down</td><td>16</td><td class='down'>-0.000</td><td class='down'>OFF</td></tr><tr><td>baseline|volatile</td><td>10</td><td class='down'>-0.045</td><td class='down'>OFF</td></tr><tr><td>breakout|trend_up</td><td>11</td><td class='down'>-0.074</td><td class='down'>OFF</td></tr><tr><td>baseline|range</td><td>10</td><td class='down'>-0.098</td><td class='down'>OFF</td></tr><tr><td>trend_follow|trend_up</td><td>10</td><td class='down'>-0.104</td><td class='down'>OFF</td></tr><tr><td>trend_follow|trend_down</td><td>11</td><td class='down'>-0.156</td><td class='down'>OFF</td></tr><tr><td>mean_reversion|range</td><td>10</td><td class='down'>-0.211</td><td class='down'>OFF</td></tr><tr><td>breakout|volatile</td><td>10</td><td class='down'>-0.218</td><td class='down'>OFF</td></tr><tr><td>baseline|trend_up</td><td>11</td><td class='down'>-0.254</td><td class='down'>OFF</td></tr><tr><td>breakout|trend_down</td><td>10</td><td class='down'>-0.350</td><td class='down'>OFF</td></tr></table>
-<div class="sub" style="margin-top:8px">убыточные связки отключаются сами, зонды 1/40 проверяют их восстановление</div></div>
 <div class="panel"><h2>Открытые позиции (0/3)</h2>
-<table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TP</th><th>SL</th><th>TTL</th><th>Qty</th><th>Стратегия · режим</th></tr>
-<tr><td colspan="8" class="muted">Позиций нет</td></tr></table></div>
+<table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TP</th><th>SL</th><th>TTL</th><th>Qty</th></tr>
+<tr><td colspan="7" class="muted">Позиций нет</td></tr></table></div>
 <div class="panel"><h2>Последние сделки</h2>
-<table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TTL</th><th>Итог</th><th>PnL $</th><th>Стратегия</th></tr>
-<tr><td>ETHUSDT</td><td class='up'>LONG</td><td>1835.12</td><td>300s</td><td class='down'>loss</td><td class='down'>-0.98</td><td class='muted'></td></tr></table></div>
+<table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TTL</th><th>Итог</th><th>PnL $</th></tr>
+<tr><td>ETHUSDT</td><td class='up'>LONG</td><td>1835.12</td><td>300s</td><td class='down'>loss</td><td class='down'>-0.98</td></tr></table></div>
 <footer>Breaker: OK · paper-only, не реальные деньги · <a href="https://github.com/palcikia-crypto/aegis-lab">репозиторий</a> · данные: results/state.json</footer>
 </div></body></html>
