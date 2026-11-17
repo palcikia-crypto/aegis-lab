@@ -118,6 +118,12 @@ POST https://gemini-proxy.apigemenipp.workers.dev/v1beta/models/gemini-2.0-flash
 
 Деплой из репозитория (локально): `npx wrangler@3 deploy cloudflare/gemini-proxy/worker.js --name gemini-proxy --compatibility-date 2024-12-01`
 
+## Gemini Чат (замена AI Studio)
+`docs/chat.html` — веб-чат с Gemini на Cloudflare Pages, работает из РФ без VPN:
+запросы идут через прокси-воркер `gemini-api` на Google API (API-эндпоинт не блокирует
+Cloudflare-IP, в отличие от веб-интерфейса AI Studio). API-ключ Gemini хранится только
+в localStorage браузера пользователя, в репозиторий и воркер не попадает.
+
 ## VLESS VPN (Workers)
 `cloudflare/vless-vpn/worker.js` — VLESS over WebSocket + TLS на Cloudflare Workers (TCP + DNS).
 Два узла — основной `vless-vpn` и запасной `aegis-vpn` (одинаковый код, оба прошли E2E). Плюс универсальный узел `vpn-uni` для Google AI Studio и прочего. UUID задан в коде (константа `UUID`).
