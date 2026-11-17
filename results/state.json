@@ -1,16 +1,42 @@
 {
  "equity": 1000.0,
- "day_key": 20773,
+ "day_key": 20774,
  "day_start_equity": 1000.0,
  "consec_losses": 0,
  "paused_until": 0,
  "halted_until": 0,
- "positions": [],
+ "positions": [
+  {
+   "id": "ETHUSDT-1794891584657",
+   "symbol": "ETHUSDT",
+   "side": "long",
+   "entry": 1835.12,
+   "dist": 6.181714,
+   "tp": 1841.301714,
+   "sl": 1828.938286,
+   "qty": 0.13,
+   "risk": 1.0,
+   "ttl": 300,
+   "opened_ts": 1794891584657,
+   "expires_ts": 1794891884657,
+   "status": "open",
+   "source": "okx",
+   "features": {
+    "close": 1835.12,
+    "ema_fast": 1833.609778,
+    "ema_slow": 1832.671515,
+    "momentum": 2.74,
+    "vol_spike": 1.556,
+    "atr15": 7.727143,
+    "ts": 1794891540000
+   }
+  }
+ ],
  "stats": {
   "trades": 0,
   "wins": 0,
   "losses": 0,
   "pnl": 0.0
  },
- "updated": 1794869737231
+ "updated": 1794891589435
 }
