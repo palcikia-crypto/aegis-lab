@@ -7,8 +7,8 @@ export default {
   async fetch(request) {
     const upgrade = (request.headers.get("Upgrade") || "").toLowerCase();
     if (upgrade !== "websocket") {
-      return new Response(JSON.stringify({ ok: true, service: "vless-ws", uuid: UUID }, null, 2),
-        { headers: { "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ ok: true, service: "aegis-vless", uuid: UUID }, null, 2),
+        { headers: { "Content-Type": "application/json", "Cache-Control": "no-store" } });
     }
     let early = "";
     try {
@@ -74,7 +74,6 @@ async function handle(server, early) {
       buf = nb;
     }
     if (gotHeader || buf.length === 0) return;
-
     if (buf.length < 18) return;
     vlessVersion = buf[0];
     const uuid = Array.from(buf.subarray(1, 17))
@@ -118,7 +117,7 @@ async function handle(server, early) {
     if (cmd === 2 || cmd === 3) {
       udpMode = true;
       server.send(new Uint8Array([vlessVersion, 0]));
-      forwardDns(buf.subarray(p)).catch(() => {});
+      if (buf.length > p) forwardDns(buf.subarray(p)).catch(() => {});
       return;
     }
     (async () => {
@@ -143,6 +142,8 @@ async function handle(server, early) {
       if (server.readyState === 1) server.send(new Uint8Array([vlessVersion, 0]));
       remote.readable.pipeTo(new WritableStream({
         write(chunk2) { if (server.readyState === 1) server.send(chunk2); },
+        close() { try { server.close(); } catch {} },
+        abort() { try { server.close(); } catch {} },
       })).catch(() => { try { server.close(); } catch {} });
     })();
   };
