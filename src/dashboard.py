@@ -294,7 +294,7 @@ table{{font-size:11.5px}}th,td{{padding:4px 6px}}
 <div class="panel"><h2>Последние сделки</h2>
 <table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TTL</th><th>Итог</th><th>PnL $</th><th>Стратегия</th></tr>
 {tr_rows or '<tr><td colspan="7" class="muted">Сделок пока нет — воркер собирает сигналы</td></tr>'}</table></div>
-<footer>Breaker: {esc(breaker)} · paper-only, не реальные деньги · <a href="https://github.com/palcikia-crypto/aegis-lab">репозиторий</a> · данные: results/state.json</footer>
+<footer>Breaker: {esc(breaker)} · paper-only, не реальные деньги · <a href="https://github.com/palcikia-crypto/aegis-lab">репозиторий</a> · зеркало: <a href="https://aegis-lab.pages.dev">aegis-lab.pages.dev</a> · данные: results/state.json</footer>
 </div></body></html>"""
     for name in ("index.html", "pro.html"):
         with open(os.path.join(DOCS, name), "w") as f:
