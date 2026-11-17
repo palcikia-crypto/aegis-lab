@@ -99,11 +99,13 @@ def trade_row(t):
     cls = {"win": "up", "loss": "down"}.get(t.get("status"), "")
     pnl = t.get("pnl")
     pnl_s = f"{pnl:+.2f}" if pnl is not None else "—"
+    strat = t.get("strategy") or ""
     return (f"<tr><td>{esc(t.get('symbol'))}</td>"
             f"<td class='{'up' if t.get('side')=='long' else 'down'}'>{esc(t.get('side','').upper())}</td>"
             f"<td>{t.get('entry')}</td><td>{t.get('ttl')}s</td>"
             f"<td class='{cls}'>{esc(t.get('status'))}</td>"
-            f"<td class='{cls}'>{pnl_s}</td></tr>")
+            f"<td class='{cls}'>{pnl_s}</td>"
+            f"<td class='muted'>{esc(strat)}</td></tr>")
 
 
 def sim_trade_row(t):
@@ -139,7 +141,8 @@ def generate(st, trades, cfg):
         f"<tr><td>{esc(p['symbol'])}</td>"
         f"<td class='{'up' if p['side']=='long' else 'down'}'>{p['side'].upper()}</td>"
         f"<td>{p['entry']}</td><td>{p['tp']}</td><td>{p['sl']}</td>"
-        f"<td>{p['ttl']}s</td><td>{p['qty']}</td></tr>"
+        f"<td>{p['ttl']}s</td><td>{p['qty']}</td>"
+        f"<td class='muted'>{esc(p.get('strategy') or '')} · {esc(p.get('regime') or '')}</td></tr>"
         for p in reversed(st["positions"][-20:]))
 
     tr_rows = "".join(trade_row(t) for t in reversed(trades[-30:]))
@@ -169,6 +172,39 @@ def generate(st, trades, cfg):
 <div class="panel"><h2>Песочница · последние sim-сделки</h2>
 <table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TTL</th><th>Итог</th><th>PnL $</th></tr>
 {sim_rows or '<tr><td colspan="6" class="muted">Sim-сделок пока нет</td></tr>'}</table></div>"""
+    import time as _t
+    upd_ago = max(0, int((_t.time() * 1000 - st.get("updated", 0)) / 60000))
+    upd_s = f"обновлено {upd_ago} мин назад" if st.get("updated") else ""
+
+    train_panel = ""
+    if model:
+        wfo = model.get("wfo", {})
+        mc = model.get("monte_carlo") or {}
+        age_h = max(0, int((_t.time() * 1000 - model.get("trained_ts", 0)) / 3_600_000))
+        train_panel = f"""
+<div class="panel"><h2>Статус обучения (Этап 3 · ML-гейт)</h2>
+<table><tr><th>Сделок в датасете</th><th>Порог</th><th>Точность (val)</th><th>AUC</th><th>MC p5 PnL</th><th>Обучено</th></tr>
+<tr><td>{model.get('n_trades')}</td><td>{model.get('threshold')}</td>
+<td>{wfo.get('val_accuracy', '—')}</td><td>{wfo.get('val_auc', '—')}</td>
+<td>{mc.get('p5_final_pnl', '—')}</td><td>{age_h} ч назад</td></tr></table>
+<div class="sub" style="margin-top:8px">переобучение: ежедневно 02:25 UTC (песочница 30 дней → WFO → модель)</div></div>"""
+
+    adapt = st.get("adapt", {})
+    adapt_panel = ""
+    if adapt:
+        arows = ""
+        for k in sorted(adapt, key=lambda x: -adapt[x].get("ewma", 0)):
+            b = adapt[k]
+            on = b.get("n", 0) < 10 or b.get("ewma", 0) > 0
+            arows += (f"<tr><td>{esc(k)}</td><td>{b.get('n', 0)}</td>"
+                      f"<td class='{'up' if b.get('ewma', 0) > 0 else 'down'}'>{b.get('ewma', 0):+.3f}</td>"
+                      f"<td class='{'up' if on else 'down'}'>{'ON' if on else 'OFF'}</td></tr>")
+        adapt_panel = f"""
+<div class="panel"><h2>Адаптивный мозг · связки стратегия|режим</h2>
+<table><tr><th>Связка</th><th>Сделок</th><th>Ewma R</th><th>Торговля</th></tr>
+{arows}</table>
+<div class="sub" style="margin-top:8px">убыточные связки отключаются сами, зонды 1/40 проверяют их восстановление</div></div>"""
+
     uni = load_universe()
     uni_panel = ""
     if uni:
@@ -200,7 +236,8 @@ def generate(st, trades, cfg):
     html = f"""<!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AEGIS-Lab · Paper 1:1</title>
+<meta http-equiv="refresh" content="120">
+<title>AEGIS-Lab PRO · Adaptive Fee-Edge</title>
 <style>
 :root{{--bg:#0b0f17;--card:#131a26;--line:#22304a;--txt:#e6ecf5;--muted:#8296b3;
 --up:#2dd4a7;--down:#f26d7d;--acc:#5b8cff}}
@@ -226,9 +263,18 @@ th{{color:var(--muted);text-align:left;font-weight:500;padding:6px 8px;border-bo
 td{{padding:6px 8px;border-bottom:1px solid rgba(34,48,74,.5)}}
 footer{{color:var(--muted);font-size:12px;margin-top:24px;text-align:center}}
 a{{color:var(--acc)}}
+@media (max-width: 640px) {{
+body{{padding:12px;font-size:14px}}
+h1{{font-size:18px}}
+.sub{{font-size:11px}}
+.grid{{grid-template-columns:repeat(2,1fr);gap:8px}}
+.card{{padding:10px 12px}}.card .v{{font-size:17px}}
+.panel{{padding:12px;border-radius:12px;overflow-x:auto}}
+table{{font-size:11.5px}}th,td{{padding:4px 6px}}
+}}
 </style></head><body><div class="wrap">
-<h1>AEGIS<span>-Lab</span> · Paper Engine 1:1</h1>
-<div class="sub">Bybit/OKX публичные данные · риск {cfg['risk_per_trade']} USDT на сделку · экспирация {cfg['expiry_seconds'][0]}/{cfg['expiry_seconds'][1]} сек · TP/SL = {cfg['atr_k']}×ATR15m · обновляется воркером GitHub Actions каждые 5 мин</div>
+<h1>AEGIS<span>-Lab PRO</span> · Adaptive Fee-Edge Engine</h1>
+<div class="sub">Binance → Bybit → OKX · риск {cfg['risk_per_trade']} USDT · RR 1:{cfg.get('rr', 1.0)} · Fee-Edge ×{cfg.get('fee_edge_mult', 3.0)} · TTL {cfg.get('ttl_min', 300)}–{cfg.get('ttl_max', 900)}с · авто-обновление 2 мин · {upd_s}</div>
 <span class="badge">{status_badge}</span>
 <div class="grid">
 <div class="card"><div class="k">Equity</div><div class="v">${st['equity']:.2f}</div></div>
@@ -240,14 +286,15 @@ a{{color:var(--acc)}}
 {ml_card}{sim_cards}
 </div>
 <div class="panel"><h2>Кривая эквити</h2>{equity_svg(eq_rows)}</div>
-{sim_panel}{strat_panel}{uni_panel}
+{sim_panel}{strat_panel}{uni_panel}{train_panel}{adapt_panel}
 <div class="panel"><h2>Открытые позиции ({len(st['positions'])}/{cfg['max_concurrent']})</h2>
-<table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TP</th><th>SL</th><th>TTL</th><th>Qty</th></tr>
-{pos_rows or '<tr><td colspan="7" class="muted">Позиций нет</td></tr>'}</table></div>
+<table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TP</th><th>SL</th><th>TTL</th><th>Qty</th><th>Стратегия · режим</th></tr>
+{pos_rows or '<tr><td colspan="8" class="muted">Позиций нет</td></tr>'}</table></div>
 <div class="panel"><h2>Последние сделки</h2>
-<table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TTL</th><th>Итог</th><th>PnL $</th></tr>
-{tr_rows or '<tr><td colspan="6" class="muted">Сделок пока нет — воркер собирает сигналы</td></tr>'}</table></div>
+<table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TTL</th><th>Итог</th><th>PnL $</th><th>Стратегия</th></tr>
+{tr_rows or '<tr><td colspan="7" class="muted">Сделок пока нет — воркер собирает сигналы</td></tr>'}</table></div>
 <footer>Breaker: {esc(breaker)} · paper-only, не реальные деньги · <a href="https://github.com/palcikia-crypto/aegis-lab">репозиторий</a> · данные: results/state.json</footer>
 </div></body></html>"""
-    with open(os.path.join(DOCS, "index.html"), "w") as f:
-        f.write(html)
+    for name in ("index.html", "pro.html"):
+        with open(os.path.join(DOCS, name), "w") as f:
+            f.write(html)
