@@ -21,7 +21,7 @@ a{color:#7dd3fc}
 <p class="small">Сервер проверен: подключение, авторизация и загрузка сайтов через туннель работают. Проблема в РФ — провайдеры блокируют адреса <code>*.workers.dev</code>. Ниже — обходы.</p>
 
 <div class="card">
-<h2>✅ Способ 1 (главный): конфиг с фрагментацией внутри</h2>
+<h2>Запасной: конфиг с фрагментацией внутри</h2>
 <p>Вставь этот текст в v2rayNG: <b>+ (справа вверху) → «Импорт конфигурации из буфера обмена»</b>. Фрагментация уже настроена внутри конфига — кнопка в приложении не нужна.</p>
 <pre id="cfg">Файл конфига: vpn/xray-fragment.json</pre>
 <button class="btn" onclick="copyCfg()">📋 Скопировать конфиг</button>
@@ -29,14 +29,15 @@ a{color:#7dd3fc}
 </div>
 
 <div class="card">
-<h2>✅ Способ 2: без TLS, порт 80</h2>
-<p>Тот же сервер без TLS — иногда пробивает блокировку по SNI. Вставь тоже через «Импорт из буфера»:</p>
+<h2>⭐ Способ 3: без TLS, порт 80 — ПРОВЕРЕН, РАБОТАЕТ</h2>
+<p>Главный рабочий вариант. Два узла — если один перестанет работать, вставь второй:</p>
 <pre id="cfg2"></pre>
-<button class="btn" onclick="copy2()">📋 Скопировать</button>
+<button class="btn" onclick="copy2()">📋 Скопировать (узел 1)</button>
+<button class="btn" onclick="copy2b()">📋 Скопировать (узел 2)</button>
 </div>
 
 <div class="card">
-<h2>✅ Способ 3: убрать DNS-блокировку (айпи вместо адреса)</h2>
+<h2>✅ Способ 2: убрать DNS-блокировку (айпи вместо адреса)</h2>
 <p>Если провайдер блокирует по DNS: отредактируй сервер (долгое нажатие → «Редактировать конфигурацию») и в поле <b>Адрес (Address)</b> впиши айпи вместо имени, <b>не трогая</b> поля SNI/Host:</p>
 <ul>
 <li>Узел 1 (AegisVPN-1): айпи <code>188.114.96.0</code></li>
@@ -63,11 +64,13 @@ a{color:#7dd3fc}
 <script>
 const uuid="f30d23f3-92c3-4147-86de-b76f36f718ed";
 const HOST="vless-vpn.apigemenipp.workers.dev";
+const HOST2="aegis-vpn.apigemenipp.workers.dev";
 fetch("vpn/xray-fragment.json").then(r=>r.text()).then(t=>{document.getElementById("cfg").textContent=t;});
 document.getElementById("cfg2").textContent=
 "vless://"+uuid+"@"+HOST+":80?encryption=none&security=none&type=ws&host="+HOST+"&path=%2F#AegisVPN-noTLS";
 function copyCfg(){navigator.clipboard.writeText(document.getElementById("cfg").textContent).then(()=>alert("Скопировано"))}
 function copy2(){navigator.clipboard.writeText(document.getElementById("cfg2").textContent).then(()=>alert("Скопировано"))}
+function copy2b(){navigator.clipboard.writeText("vless://"+uuid+"@"+HOST2+":80?encryption=none&security=none&type=ws&host="+HOST2+"&path=%2F#AegisVPN-2noTLS").then(()=>alert("Скопировано"))}
 </script>
 </body>
 </html>
