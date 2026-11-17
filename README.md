@@ -54,6 +54,26 @@ v3 PRO — система сама развивается: скачивает н
 Включите GitHub Pages: Settings → Pages → Source: `main` / `/docs`.
 Панель: https://palcikia-crypto.github.io/aegis-lab/
 
+## Cloudflare Pages
+Панель дополнительно деплоится на Cloudflare Pages (`.github/workflows/cloudflare-pages.yml`).
+
+Требуемые секреты репозитория (Settings → Secrets and variables → Actions):
+- `CLOUDFLARE_API_TOKEN` — API-токен Cloudflare (Account API Tokens)
+- `CLOUDFLARE_ACCOUNT_ID` — Account ID
+- опционально для R2: `CLOUDFLARE_R2_ACCESS_KEY_ID`, `CLOUDFLARE_R2_SECRET_ACCESS_KEY`
+
+Повторное использование в любом другом репозитории (секреты должны быть заданы в нём же):
+
+```yaml
+jobs:
+  deploy:
+    uses: palcikia-crypto/aegis-lab/.github/workflows/cloudflare-pages.yml@main
+    with:
+      directory: docs
+      project_name: my-project
+    secrets: inherit
+```
+
 ## Дорожная карта (по ТЗ)
 1. ✅ Этап 1: базовый каркас + калькулятор риска + таймеры (этот репо, paper).
 2. ✅ Этап 2 (частично): запись признаков каждой сделки → датасет.
