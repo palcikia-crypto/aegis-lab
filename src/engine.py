@@ -134,6 +134,7 @@ def resolve_positions(st, trades, symbol_bars, cfg, now_ms):
             st["stats"]["losses"] += 1
             st["consec_losses"] += 1
         trades.append(pos)
+        adapt_update(st, pos)
     st["positions"] = still_open
 
 
@@ -160,7 +161,8 @@ def roll_day(st, now_ms):
         st["day_start_equity"] = st["equity"]
 
 
-def open_positions(st, cfg, symbol, feat, side, now_ms, source):
+def open_positions(st, cfg, symbol, feat, side, now_ms, source,
+                   strategy=None, regime=None):
     sym = symbol
     dist = cfg["atr_k"] * feat["atr15"]
     entry = feat["close"]
@@ -184,8 +186,37 @@ def open_positions(st, cfg, symbol, feat, side, now_ms, source):
         "expires_ts": now_ms + ttl * 1000,
         "status": "open",
         "source": source,
+        "strategy": strategy,
+        "regime": regime,
         "features": {k: (round(v, 6) if isinstance(v, float) else v)
                      for k, v in feat.items()},
     }
     st["positions"].append(pos)
     return pos
+
+
+def adapt_update(st, pos):
+    """Online learning: ewma of R (pnl/risk) per strategy|regime combo."""
+    strategy = pos.get("strategy")
+    r = pos.get("regime")
+    if not strategy or not r:
+        return
+    key = f"{strategy}|{r}"
+    b = st.setdefault("adapt", {}).setdefault(key, {"n": 0, "ewma": 0.0})
+    alpha = 0.15
+    r_mult = pos["pnl"] / max(pos.get("risk", 1.0), 1e-9)
+    b["n"] += 1
+    b["ewma"] = round(alpha * r_mult + (1 - alpha) * b["ewma"], 4)
+
+
+def seed_adapt(st, combo_stats):
+    """Seed live brain from sandbox optimizer results (missing keys only)."""
+    if not combo_stats:
+        return 0
+    added = 0
+    for key, b in combo_stats.items():
+        if key not in st.get("adapt", {}) and b.get("n", 0) >= 5:
+            st.setdefault("adapt", {})[key] = {"n": b["n"],
+                                               "ewma": b.get("ewma", 0.0)}
+            added += 1
+    return added

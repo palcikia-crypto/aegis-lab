@@ -1,7 +1,26 @@
-# AEGIS-Lab · Paper Engine 1:1 (Bybit/OKX, GitHub Actions)
+# AEGIS-Lab v2 · Adaptive Paper Engine 1:1 (Binance/OKX/Bybit, GitHub Actions)
 
 Paper-версия «AEGIS-1:1 QUANT ENGINE» под бюджет $0: весь движок живёт в GitHub
 Actions на публичных рыночных данных, без API-ключей и без реальных денег.
+v2 — адаптивная мульти-стратегия: сама ищет эдж, отключает убыточные
+связки «стратегия|режим рынка» и переобучается daily.
+
+## Архитектура v2
+- **Данные**: Binance USDT-M futures (лучшие лимиты/надёжность) → Bybit → OKX,
+  автоматический фолбэк. Ключи не нужны.
+- **Режим рынка** (`src/regime.py`): ADX(15m) + перцентиль ATR →
+  trend_up / trend_down / range / volatile.
+- **Стратегии** (`src/strategies.py`): baseline (объём+EMA+моментум),
+  mean_reversion (BB+RSI, только рейндж), breakout (Donchian 15m + объём,
+  против тренда не торгует), trend_follow (ADX-подтверждённый моментум).
+- **Адаптивный мозг**: ewma R-мультипликатора по каждой связке
+  «стратегия|режим»; связки с отрицательным ожиданием отключаются сами,
+  при деградации снова включаются. Сид — из песочницы (opt.json).
+- **Оптимизатор WFO** (`src/optimize.py`): грид (ATR k × vol-порог),
+  робастность = прибыльность в каждом временном чанке + PF + WR.
+  Лучшие параметры воркер подхватывает автоматически.
+- **ML-гейт** (`src/train.py`): логрегрессия на 8 признаках, WFO 70/30,
+  Monte Carlo 1000 прогонов. Фильтрует слабые сигналы в живом цикле.
 
 ## Что внутри
 - **Движок 1:1** (`src/engine.py`): риск фиксированный в USDT, TP/SL = ±D,
@@ -39,9 +58,10 @@ Actions на публичных рыночных данных, без API-клю
 пометкой `source: "sim"`; живое paper-состояние не затрагивается.
 
 ```bash
-python -m src.sim --days 14   # реплей истории в песочницу
-python -m src.train           # обучение ML-гейта (sim + live сделки)
-python -m src.worker          # живой цикл
+python -m src.optimize --days 30  # WFO-грид параметров → opt.json
+python -m src.sim --days 30       # реплей истории в песочницу
+python -m src.train               # обучение ML-гейта (sim + live сделки)
+python -m src.worker              # живой цикл
 ```
 
 `src/train.py` (Этап 3): логистическая регрессия на признаках сделок,

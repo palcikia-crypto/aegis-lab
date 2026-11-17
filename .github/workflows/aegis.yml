@@ -50,7 +50,7 @@ jobs:
 
   sandbox-train:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 50
     steps:
       - uses: actions/checkout@v4
 
@@ -58,8 +58,9 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Run sandbox replay + train ML gate
+      - name: Optimize (WFO grid) + sandbox replay + train ML gate
         run: |
+          python -m src.optimize --days 30
           python -m src.sim --days 30
           python -m src.train
 

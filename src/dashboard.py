@@ -10,6 +10,7 @@ SIM_STATE_PATH = os.path.join(RESULTS, "sim_state.json")
 SIM_TRADES_PATH = os.path.join(RESULTS, "sim_trades.jsonl")
 SIM_EQUITY_PATH = os.path.join(RESULTS, "sim_equity.csv")
 MODEL_PATH = os.path.join(RESULTS, "model.json")
+OPT_PATH = os.path.join(RESULTS, "opt.json")
 
 
 def load_jsonl(path):
@@ -37,6 +38,29 @@ def load_model():
         return None
     with open(MODEL_PATH) as f:
         return json.load(f)
+
+
+def load_opt():
+    if not os.path.exists(OPT_PATH):
+        return None
+    with open(OPT_PATH) as f:
+        return json.load(f)
+
+
+def leaderboard_rows(opt):
+    if not opt:
+        return ""
+    rows = ""
+    for r in opt.get("leaderboard", [])[:8]:
+        p = r.get("params", {})
+        pnl = r.get("pnl", 0)
+        cls = "up" if pnl >= 0 else "down"
+        rows += (f"<tr><td>ATR k={p.get('atr_k')} · vol≥{p.get('vol_spike_min')}</td>"
+                 f"<td>{r.get('trades')}</td><td>{r.get('win_rate')}%</td>"
+                 f"<td>PF {r.get('profit_factor')}</td>"
+                 f"<td class='{cls}'>{pnl:+.2f}</td>"
+                 f"<td class='{'up' if r.get('chunk_worst_pnl', 0) > 0 else 'muted'}'>{r.get('chunk_worst_pnl')}</td></tr>")
+    return rows
 
 
 def esc(s):
@@ -116,6 +140,7 @@ def generate(st, trades, cfg):
 
     sim_st, sim_trades = load_sim()
     model = load_model()
+    opt = load_opt()
     sim_cards = ""
     sim_panel = ""
     if sim_st:
@@ -136,6 +161,16 @@ def generate(st, trades, cfg):
 <div class="panel"><h2>Песочница · последние sim-сделки</h2>
 <table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TTL</th><th>Итог</th><th>PnL $</th></tr>
 {sim_rows or '<tr><td colspan="6" class="muted">Sim-сделок пока нет</td></tr>'}</table></div>"""
+    strat_panel = ""
+    if opt:
+        best_p = opt.get("best", {}).get("params", {})
+        rows = leaderboard_rows(opt)
+        n_combos = len(opt.get("combo_stats", {}))
+        strat_panel = f"""
+<div class="panel"><h2>Оптимизатор WFO · лидерборд параметров</h2>
+<div class="sub">лучшие: ATR k={best_p.get('atr_k')} · vol≥{best_p.get('vol_spike_min')} · адаптивных комбинаций стратегия|режим: {n_combos}</div>
+<table><tr><th>Параметры</th><th>Сделок</th><th>WR</th><th>PF</th><th>PnL $</th><th>Худший чанк</th></tr>
+{rows}</table></div>"""
     ml_card = ""
     if model:
         wfo = model.get("wfo", {})
@@ -189,7 +224,7 @@ a{{color:var(--acc)}}
 {ml_card}{sim_cards}
 </div>
 <div class="panel"><h2>Кривая эквити</h2>{equity_svg(eq_rows)}</div>
-{sim_panel}
+{sim_panel}{strat_panel}
 <div class="panel"><h2>Открытые позиции ({len(st['positions'])}/{cfg['max_concurrent']})</h2>
 <table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TP</th><th>SL</th><th>TTL</th><th>Qty</th></tr>
 {pos_rows or '<tr><td colspan="7" class="muted">Позиций нет</td></tr>'}</table></div>

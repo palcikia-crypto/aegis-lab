@@ -15,7 +15,7 @@ import time
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, HERE)
 
-from src import market, features  # noqa: E402
+from src import market, features, strategies  # noqa: E402
 import src.engine as engine  # noqa: E402
 
 with open(os.path.join(HERE, "config", "settings.json")) as f:
@@ -24,8 +24,7 @@ with open(os.path.join(HERE, "config", "settings.json")) as f:
 SIM_STATE_PATH = os.path.join(engine.RESULTS, "sim_state.json")
 SIM_TRADES_PATH = os.path.join(engine.RESULTS, "sim_trades.jsonl")
 SIM_EQUITY_PATH = os.path.join(engine.RESULTS, "sim_equity.csv")
-WARMUP_BARS = 400
-RESOLVE_WINDOW = 20
+WARMUP_BARS = 800
 
 
 def fresh_state():
@@ -37,21 +36,10 @@ def fresh_state():
         "paused_until": 0,
         "halted_until": 0,
         "positions": [],
+        "adapt": {},
         "stats": {"trades": 0, "wins": 0, "losses": 0, "pnl": 0.0},
         "updated": 0,
     }
-
-
-def load_sim_trades():
-    if not os.path.exists(SIM_TRADES_PATH):
-        return []
-    out = []
-    with open(SIM_TRADES_PATH) as f:
-        for line in f:
-            line = line.strip()
-            if line:
-                out.append(json.loads(line))
-    return out
 
 
 def save_sim(trades, st, eq_rows):
@@ -78,72 +66,94 @@ class Window:
         return self.bars[:i]
 
 
-def run_sim(days, seed_equity=None):
-    t0 = time.time()
+def fetch_windows(days):
     wins = {}
+    srcs = {}
     for sym in CFG["symbols"]:
         bars, src = market.fetch_history(sym, days + 1)
         wins[sym] = Window(bars)
+        srcs[sym] = src
         print(f"history {sym}: {len(bars)} bars from {src}", flush=True)
         time.sleep(0.3)
+    return wins, srcs
 
-    start_ts = min(w.ts[WARMUP_BARS] for w in wins.values())
-    end_ts = max(w.ts[-1] for w in wins.values())
 
-    # sandbox paths: reuse the live engine functions on separate files
-    engine.STATE_PATH = SIM_STATE_PATH
-    engine.TRADES_PATH = SIM_TRADES_PATH
-    engine.EQUITY_PATH = SIM_EQUITY_PATH
+def replay(wins, cfg, start_ts=None, end_ts=None, collect_trades=True):
+    """Run the engine over history. Returns (state, trades, eq_rows)."""
+    if start_ts is None:
+        start_ts = min(w.ts[WARMUP_BARS] for w in wins.values())
+    if end_ts is None:
+        end_ts = max(w.ts[-1] for w in wins.values())
 
     st = fresh_state()
-    if seed_equity is not None:
-        st["equity"] = float(seed_equity)
     trades = []
     eq_rows = []
-
     step_ms = 5 * 60_000  # live worker decides every 5 min, mirror that
     last_eq = start_ts
-    minutes = 0
+
     for now_ms in range(start_ts, end_ts, step_ms):
-        minutes += 1
         windows = {sym: w.upto(now_ms) for sym, w in wins.items()}
-        engine.resolve_positions(st, trades, windows, CFG, now_ms)
+        engine.resolve_positions(st, trades, windows, cfg, now_ms)
         engine.roll_day(st, now_ms)
-        ok, _reason = engine.breakers_ok(st, CFG, now_ms)
+        ok, _reason = engine.breakers_ok(st, cfg, now_ms)
         if ok:
             for sym in CFG["symbols"]:
-                if len(st["positions"]) >= CFG["max_concurrent"]:
+                if len(st["positions"]) >= cfg["max_concurrent"]:
                     break
                 if any(p["symbol"] == sym for p in st["positions"]):
                     continue
                 w = windows[sym]
                 if len(w) <= WARMUP_BARS or w[-1]["ts"] < now_ms - 5 * 60_000:
                     continue
-                feat = features.features(w[-WARMUP_BARS:], CFG)
-                side = features.signal(feat, CFG)
-                if side:
-                    engine.open_positions(st, CFG, sym, feat, side, now_ms,
-                                          "sim")
+                feat = features.features(w[-WARMUP_BARS:], cfg)
+                decision = strategies.decide(feat, cfg, st.get("adapt"))
+                if decision:
+                    side, strat, reg = decision
+                    engine.open_positions(st, cfg, sym, feat, side, now_ms,
+                                          "sim", strategy=strat, regime=reg)
         if now_ms - last_eq >= 30 * 60_000:
             eq_rows.append((now_ms, st["equity"]))
             last_eq = now_ms
 
     eq_rows.append((end_ts, st["equity"]))
-    for t in trades:
-        t["id"] = "sim-" + t["id"]
+    if collect_trades:
+        for t in trades:
+            t["id"] = "sim-" + t["id"]
+    return st, trades, eq_rows
+
+
+def run_sim(days, seed_equity=None):
+    t0 = time.time()
+    wins, _srcs = fetch_windows(days)
+
+    engine.STATE_PATH = SIM_STATE_PATH
+    engine.TRADES_PATH = SIM_TRADES_PATH
+    engine.EQUITY_PATH = SIM_EQUITY_PATH
+
+    st, trades, eq_rows = replay(wins, CFG)
+    if seed_equity is not None:
+        st["equity"] = float(seed_equity)
     save_sim(trades, st, eq_rows)
 
     s = st["stats"]
     wr = (s["wins"] / s["trades"] * 100) if s["trades"] else 0.0
+    by_strat = {}
+    for t in trades:
+        k = t.get("strategy") or "baseline"
+        b = by_strat.setdefault(k, {"n": 0, "wins": 0, "pnl": 0.0})
+        b["n"] += 1
+        b["pnl"] = round(b["pnl"] + t.get("pnl", 0.0), 2)
+        if t.get("pnl", 0) > 0:
+            b["wins"] += 1
     result = {
         "days": days,
-        "sim_minutes": minutes,
         "trades": s["trades"],
         "wins": s["wins"],
         "losses": s["losses"],
         "win_rate": round(wr, 1),
         "pnl": round(s["pnl"], 2),
         "equity": round(st["equity"], 2),
+        "by_strategy": by_strat,
         "elapsed_s": round(time.time() - t0, 1),
     }
     print(json.dumps(result), flush=True)

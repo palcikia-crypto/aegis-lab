@@ -46,6 +46,20 @@ def fetch_klines_bybit(symbol, interval="1", limit=200):
     raise RuntimeError(f"bybit klines failed for {symbol}: {last_err}")
 
 
+def fetch_klines_binance(symbol, interval="1m", limit=500):
+    """Binance USDT-M futures public klines (no key). Max limit 1500."""
+    url = (f"https://fapi.binance.com/fapi/v1/klines?symbol={symbol}"
+           f"&interval={interval}&limit={min(limit, 1500)}")
+    rows = _get_json(url)
+    if not rows:
+        raise RuntimeError(f"binance klines empty for {symbol}")
+    bars = [{"ts": int(b[0]), "o": float(b[1]), "h": float(b[2]),
+             "l": float(b[3]), "c": float(b[4]), "v": float(b[5])}
+            for b in rows]
+    bars.sort(key=lambda x: x["ts"])
+    return bars, "binance"
+
+
 def fetch_klines_okx(symbol, limit=200):
     inst = symbol.replace("USDT", "-USDT-SWAP")
     url = (f"https://www.okx.com/api/v5/market/candles"
@@ -66,6 +80,8 @@ def fetch_klines(symbol, limit=200):
     errors = []
     for src in CFG["data_sources"]:
         try:
+            if src == "binance":
+                return fetch_klines_binance(symbol, limit=limit)
             if src in ("bytick", "bybit"):
                 return fetch_klines_bybit(symbol, limit=limit)
             if src == "okx":
@@ -74,6 +90,39 @@ def fetch_klines(symbol, limit=200):
             errors.append(str(e))
             time.sleep(0.5)
     raise RuntimeError(f"all sources failed for {symbol}: " + " | ".join(errors))
+
+
+def fetch_klines_binance_range(symbol, days, interval="1m"):
+    """Paginated Binance futures history walk backwards via endTime."""
+    by_ts = {}
+    end_ms = int(time.time() * 1000)
+    need = days * 1440
+    empty_streak = 0
+    while len(by_ts) < need:
+        url = (f"https://fapi.binance.com/fapi/v1/klines?symbol={symbol}"
+               f"&interval={interval}&limit=1500&endTime={end_ms}")
+        rows = _get_json(url)
+        if not rows:
+            empty_streak += 1
+            if empty_streak >= 3:
+                break
+            time.sleep(1.5)
+            continue
+        empty_streak = 0
+        for b in rows:
+            by_ts[int(b[0])] = b
+        oldest = min(int(b[0]) for b in rows)
+        if oldest >= end_ms:
+            break
+        end_ms = oldest - 1
+        time.sleep(0.2)
+    if len(by_ts) < 300:
+        raise RuntimeError(f"binance range short for {symbol}: {len(by_ts)}")
+    bars = [{"ts": ts, "o": float(b[1]), "h": float(b[2]),
+             "l": float(b[3]), "c": float(b[4]), "v": float(b[5])}
+            for ts, b in by_ts.items()]
+    bars.sort(key=lambda x: x["ts"])
+    return bars, "binance"
 
 
 def _bars_from_bybit_list(lst):
@@ -152,6 +201,8 @@ def fetch_history(symbol, days):
     errors = []
     for src in CFG["data_sources"]:
         try:
+            if src == "binance":
+                return fetch_klines_binance_range(symbol, days)
             if src in ("bytick", "bybit"):
                 return fetch_klines_bybit_range(symbol, days)
             if src == "okx":

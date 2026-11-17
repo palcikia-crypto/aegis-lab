@@ -12,5 +12,47 @@
   "losses": 1,
   "pnl": -0.9822456614424777
  },
- "updated": 1794940872082
+ "updated": 1794942783045,
+ "adapt": {
+  "mean_reversion|range": {
+   "n": 10,
+   "ewma": -0.2106
+  },
+  "baseline|range": {
+   "n": 10,
+   "ewma": -0.0982
+  },
+  "trend_follow|trend_down": {
+   "n": 11,
+   "ewma": -0.1559
+  },
+  "baseline|trend_up": {
+   "n": 11,
+   "ewma": -0.2536
+  },
+  "trend_follow|trend_up": {
+   "n": 10,
+   "ewma": -0.1044
+  },
+  "baseline|trend_down": {
+   "n": 16,
+   "ewma": -0.0
+  },
+  "baseline|volatile": {
+   "n": 10,
+   "ewma": -0.045
+  },
+  "breakout|volatile": {
+   "n": 10,
+   "ewma": -0.2183
+  },
+  "breakout|trend_down": {
+   "n": 10,
+   "ewma": -0.3496
+  },
+  "breakout|trend_up": {
+   "n": 11,
+   "ewma": -0.0743
+  }
+ }
 }

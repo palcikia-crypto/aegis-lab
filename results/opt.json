@@ -1,0 +1,220 @@
+{
+ "generated_ts": 1794942511560,
+ "days": 10,
+ "robust": false,
+ "cfg_overrides": {},
+ "best": {
+  "params": {
+   "atr_k": 1.3,
+   "vol_spike_min": 1.2
+  },
+  "trades": 109,
+  "win_rate": 30.3,
+  "pnl": -20.36,
+  "profit_factor": 0.33,
+  "chunk_mean_pnl": -6.79,
+  "chunk_worst_pnl": -9.74,
+  "score": -1000000000.0
+ },
+ "leaderboard": [
+  {
+   "params": {
+    "atr_k": 1.3,
+    "vol_spike_min": 1.2
+   },
+   "trades": 109,
+   "win_rate": 30.3,
+   "pnl": -20.36,
+   "profit_factor": 0.33,
+   "chunk_mean_pnl": -6.79,
+   "chunk_worst_pnl": -9.74,
+   "score": -1000000000.0
+  },
+  {
+   "params": {
+    "atr_k": 1.3,
+    "vol_spike_min": 1.4
+   },
+   "trades": 113,
+   "win_rate": 31.0,
+   "pnl": -20.64,
+   "profit_factor": 0.34,
+   "chunk_mean_pnl": -6.88,
+   "chunk_worst_pnl": -10.64,
+   "score": -1000000000.0
+  },
+  {
+   "params": {
+    "atr_k": 1.3,
+    "vol_spike_min": 1.7
+   },
+   "trades": 110,
+   "win_rate": 28.2,
+   "pnl": -21.12,
+   "profit_factor": 0.32,
+   "chunk_mean_pnl": -7.04,
+   "chunk_worst_pnl": -12.95,
+   "score": -1000000000.0
+  },
+  {
+   "params": {
+    "atr_k": 0.8,
+    "vol_spike_min": 1.4
+   },
+   "trades": 103,
+   "win_rate": 36.9,
+   "pnl": -23.09,
+   "profit_factor": 0.33,
+   "chunk_mean_pnl": -7.7,
+   "chunk_worst_pnl": -8.54,
+   "score": -1000000000.0
+  },
+  {
+   "params": {
+    "atr_k": 1.0,
+    "vol_spike_min": 1.4
+   },
+   "trades": 104,
+   "win_rate": 32.7,
+   "pnl": -23.48,
+   "profit_factor": 0.29,
+   "chunk_mean_pnl": -7.83,
+   "chunk_worst_pnl": -11.04,
+   "score": -1000000000.0
+  },
+  {
+   "params": {
+    "atr_k": 0.6,
+    "vol_spike_min": 1.7
+   },
+   "trades": 106,
+   "win_rate": 37.7,
+   "pnl": -23.61,
+   "profit_factor": 0.39,
+   "chunk_mean_pnl": -7.87,
+   "chunk_worst_pnl": -13.46,
+   "score": -1000000000.0
+  },
+  {
+   "params": {
+    "atr_k": 0.8,
+    "vol_spike_min": 1.2
+   },
+   "trades": 104,
+   "win_rate": 38.5,
+   "pnl": -23.9,
+   "profit_factor": 0.33,
+   "chunk_mean_pnl": -7.97,
+   "chunk_worst_pnl": -8.52,
+   "score": -1000000000.0
+  },
+  {
+   "params": {
+    "atr_k": 1.0,
+    "vol_spike_min": 1.2
+   },
+   "trades": 109,
+   "win_rate": 33.9,
+   "pnl": -24.08,
+   "profit_factor": 0.3,
+   "chunk_mean_pnl": -8.03,
+   "chunk_worst_pnl": -10.84,
+   "score": -1000000000.0
+  },
+  {
+   "params": {
+    "atr_k": 0.8,
+    "vol_spike_min": 1.7
+   },
+   "trades": 106,
+   "win_rate": 34.0,
+   "pnl": -25.16,
+   "profit_factor": 0.31,
+   "chunk_mean_pnl": -8.39,
+   "chunk_worst_pnl": -11.53,
+   "score": -1000000000.0
+  },
+  {
+   "params": {
+    "atr_k": 0.6,
+    "vol_spike_min": 1.4
+   },
+   "trades": 106,
+   "win_rate": 35.8,
+   "pnl": -25.54,
+   "profit_factor": 0.36,
+   "chunk_mean_pnl": -8.51,
+   "chunk_worst_pnl": -14.6,
+   "score": -1000000000.0
+  },
+  {
+   "params": {
+    "atr_k": 1.0,
+    "vol_spike_min": 1.7
+   },
+   "trades": 104,
+   "win_rate": 25.0,
+   "pnl": -29.15,
+   "profit_factor": 0.2,
+   "chunk_mean_pnl": -9.72,
+   "chunk_worst_pnl": -13.92,
+   "score": -1000000000.0
+  },
+  {
+   "params": {
+    "atr_k": 0.6,
+    "vol_spike_min": 1.2
+   },
+   "trades": 110,
+   "win_rate": 35.5,
+   "pnl": -29.73,
+   "profit_factor": 0.32,
+   "chunk_mean_pnl": -9.91,
+   "chunk_worst_pnl": -15.89,
+   "score": -1000000000.0
+  }
+ ],
+ "combo_stats": {
+  "mean_reversion|range": {
+   "n": 10,
+   "ewma": -0.2106
+  },
+  "baseline|range": {
+   "n": 10,
+   "ewma": -0.0982
+  },
+  "trend_follow|trend_down": {
+   "n": 11,
+   "ewma": -0.1559
+  },
+  "baseline|trend_up": {
+   "n": 11,
+   "ewma": -0.2536
+  },
+  "trend_follow|trend_up": {
+   "n": 10,
+   "ewma": -0.1044
+  },
+  "baseline|trend_down": {
+   "n": 16,
+   "ewma": -0.0
+  },
+  "baseline|volatile": {
+   "n": 10,
+   "ewma": -0.045
+  },
+  "breakout|volatile": {
+   "n": 10,
+   "ewma": -0.2183
+  },
+  "breakout|trend_down": {
+   "n": 10,
+   "ewma": -0.3496
+  },
+  "breakout|trend_up": {
+   "n": 11,
+   "ewma": -0.0743
+  }
+ },
+ "elapsed_s": 107.1
+}

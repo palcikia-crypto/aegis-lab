@@ -1,4 +1,5 @@
-"""AEGIS-Lab worker: fetch -> resolve -> signal -> open -> save -> dashboard."""
+"""AEGIS-Lab worker: fetch -> resolve -> decide (multi-strategy + regime)
+-> ML gate -> open -> adapt -> save -> dashboard."""
 import json
 import os
 import sys
@@ -9,11 +10,30 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, HERE)
 
 from src import market, features, engine, dashboard  # noqa: E402
+from src import strategies  # noqa: E402
+
+OPT_PATH = os.path.join(HERE, "results", "opt.json")
+MODEL_PATH = os.path.join(HERE, "results", "model.json")
 
 with open(os.path.join(HERE, "config", "settings.json")) as f:
     CFG = json.load(f)
 
-MODEL_PATH = os.path.join(HERE, "results", "model.json")
+if os.path.exists(OPT_PATH):
+    try:
+        with open(OPT_PATH) as f:
+            CFG.update(json.load(f).get("cfg_overrides", {}))
+    except Exception:
+        pass
+
+
+def load_opt():
+    if not os.path.exists(OPT_PATH):
+        return None
+    try:
+        with open(OPT_PATH) as f:
+            return json.load(f)
+    except Exception:
+        return None
 
 
 def load_model():
@@ -46,15 +66,19 @@ def run_cycle():
     st = engine.load_state(CFG)
     trades = engine.load_trades()
 
+    opt = load_opt()
+    if opt and not st.get("adapt"):
+        engine.seed_adapt(st, opt.get("combo_stats", {}))
+
     symbol_bars = {}
     sources = {}
     for sym in CFG["symbols"]:
-        bars, src = market.fetch_klines(sym, limit=300)
+        bars, src = market.fetch_klines(sym, limit=800)
         symbol_bars[sym] = bars
         sources[sym] = src
         time.sleep(0.3)
 
-    # 1) resolve open positions against fresh bars
+    # 1) resolve open positions against fresh bars (updates adapt brain)
     engine.resolve_positions(st, trades, symbol_bars, CFG, now_ms)
 
     # 2) day rollover + breakers
@@ -64,6 +88,7 @@ def run_cycle():
     opened = []
     gated = 0
     model = load_model()
+    regimes = {}
     if ok:
         for sym in CFG["symbols"]:
             if len(st["positions"]) >= CFG["max_concurrent"]:
@@ -74,16 +99,19 @@ def run_cycle():
             if not bars or now_ms - bars[-1]["ts"] > 5 * 60_000:
                 continue  # stale data, skip
             feat = features.features(bars, CFG)
-            side = features.signal(feat, CFG)
-            if side:
+            decision = strategies.decide(feat, CFG, st.get("adapt"))
+            if decision:
+                side, strat, reg = decision
+                regimes[sym] = reg
                 allow, p = gate(model, feat, side)
                 if not allow:
                     gated += 1
                     continue
                 pos = engine.open_positions(st, CFG, sym, feat, side, now_ms,
-                                            sources[sym])
+                                            sources[sym], strategy=strat,
+                                            regime=reg)
                 if pos:
-                    opened.append(pos["id"])
+                    opened.append(f"{pos['id']}:{strat}")
 
     # 3) persist
     engine.save_state(st)
@@ -94,9 +122,11 @@ def run_cycle():
     result = {
         "now": now_ms,
         "sources": sources,
+        "regimes": regimes,
         "opened": opened,
         "ml_gated": gated,
         "ml_active": model is not None,
+        "adapt_combos": len(st.get("adapt", {})),
         "open_positions": len(st["positions"]),
         "equity": round(st["equity"], 2),
         "breaker": reason,
