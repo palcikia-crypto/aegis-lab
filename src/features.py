@@ -91,3 +91,25 @@ def signal(feat, cfg):
     if dn:
         return "short"
     return None
+
+
+def ml_vector(feat, side):
+    """Feature vector for the ML gate (train.py uses the same layout)."""
+    c = max(feat["close"], 1e-9)
+    return [
+        (feat["ema_fast"] - feat["ema_slow"]) / c,
+        feat["momentum"] / c,
+        feat["vol_spike"],
+        feat["atr15"] / c,
+        1.0 if side == "long" else -1.0,
+    ]
+
+
+def ml_prob(model, feat, side):
+    """Probability that this signal wins, from a trained model dict."""
+    import math
+    x = ml_vector(feat, side)
+    z = model["bias"]
+    for w, v, m, s in zip(model["weights"], x, model["mean"], model["std"]):
+        z += w * ((v - m) / s if s > 1e-12 else 0.0)
+    return 1.0 / (1.0 + math.exp(-max(-30.0, min(30.0, z))))

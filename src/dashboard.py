@@ -1,10 +1,42 @@
 """Generate the dashboard: docs/index.html (static, dark, no external deps)."""
+import json
 import os
 import statistics
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RESULTS = os.path.join(HERE, "results")
 DOCS = os.path.join(HERE, "docs")
+SIM_STATE_PATH = os.path.join(RESULTS, "sim_state.json")
+SIM_TRADES_PATH = os.path.join(RESULTS, "sim_trades.jsonl")
+SIM_EQUITY_PATH = os.path.join(RESULTS, "sim_equity.csv")
+MODEL_PATH = os.path.join(RESULTS, "model.json")
+
+
+def load_jsonl(path):
+    if not os.path.exists(path):
+        return []
+    out = []
+    with open(path) as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                out.append(json.loads(line))
+    return out
+
+
+def load_sim():
+    st = None
+    if os.path.exists(SIM_STATE_PATH):
+        with open(SIM_STATE_PATH) as f:
+            st = json.load(f)
+    return st, load_jsonl(SIM_TRADES_PATH)
+
+
+def load_model():
+    if not os.path.exists(MODEL_PATH):
+        return None
+    with open(MODEL_PATH) as f:
+        return json.load(f)
 
 
 def esc(s):
@@ -32,6 +64,17 @@ def equity_svg(rows, w=760, h=180):
 
 
 def trade_row(t):
+    cls = {"win": "up", "loss": "down"}.get(t.get("status"), "")
+    pnl = t.get("pnl")
+    pnl_s = f"{pnl:+.2f}" if pnl is not None else "—"
+    return (f"<tr><td>{esc(t.get('symbol'))}</td>"
+            f"<td class='{'up' if t.get('side')=='long' else 'down'}'>{esc(t.get('side','').upper())}</td>"
+            f"<td>{t.get('entry')}</td><td>{t.get('ttl')}s</td>"
+            f"<td class='{cls}'>{esc(t.get('status'))}</td>"
+            f"<td class='{cls}'>{pnl_s}</td></tr>")
+
+
+def sim_trade_row(t):
     cls = {"win": "up", "loss": "down"}.get(t.get("status"), "")
     pnl = t.get("pnl")
     pnl_s = f"{pnl:+.2f}" if pnl is not None else "—"
@@ -70,6 +113,38 @@ def generate(st, trades, cfg):
     tr_rows = "".join(trade_row(t) for t in reversed(trades[-30:]))
     breaker = "OK" if (st["equity"] and not st.get("paused_until", 0)) else "check state"
     status_badge = "🟢 trading" if not st["positions"] else f"🟢 trading · {len(st['positions'])} open"
+
+    sim_st, sim_trades = load_sim()
+    model = load_model()
+    sim_cards = ""
+    sim_panel = ""
+    if sim_st:
+        ss = sim_st["stats"]
+        swr = (ss["wins"] / ss["trades"] * 100) if ss["trades"] else 0.0
+        sim_eq_rows = []
+        if os.path.exists(SIM_EQUITY_PATH):
+            with open(SIM_EQUITY_PATH) as f:
+                sim_eq_rows = [{"ts": p[0], "eq": p[1]}
+                               for p in (l.split(",") for l in f.read().splitlines() if l.strip())]
+        sim_rows = "".join(sim_trade_row(t) for t in reversed(sim_trades[-15:]))
+        sim_cards = f"""
+<div class="card"><div class="k">Sim-сделок (песочница)</div><div class="v">{ss['trades']}</div></div>
+<div class="card"><div class="k">Sim Win Rate</div><div class="v">{swr:.1f}%</div></div>
+<div class="card"><div class="k">Sim PnL</div><div class="v {'up' if ss['pnl'] >= 0 else 'down'}">{ss['pnl']:+.2f}</div></div>"""
+        sim_panel = f"""
+<div class="panel"><h2>Песочница · sim-эквити</h2>{equity_svg(sim_eq_rows)}</div>
+<div class="panel"><h2>Песочница · последние sim-сделки</h2>
+<table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TTL</th><th>Итог</th><th>PnL $</th></tr>
+{sim_rows or '<tr><td colspan="6" class="muted">Sim-сделок пока нет</td></tr>'}</table></div>"""
+    ml_card = ""
+    if model:
+        wfo = model.get("wfo", {})
+        ml_card = f"""
+<div class="card"><div class="k">ML-гейт (Этап 3)</div><div class="v up">ON</div></div>
+<div class="card"><div class="k">ML порог / точность</div><div class="v">{model['threshold']} / {wfo.get('val_accuracy', '—')}</div></div>"""
+    else:
+        ml_card = """
+<div class="card"><div class="k">ML-гейт (Этап 3)</div><div class="v muted">OFF</div></div>"""
 
     html = f"""<!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
@@ -111,8 +186,10 @@ a{{color:var(--acc)}}
 <div class="card"><div class="k">Сделок</div><div class="v">{s['trades']}</div></div>
 <div class="card"><div class="k">Sharpe (paper)</div><div class="v">{sharpe:.2f}</div></div>
 <div class="card"><div class="k">Серия убытков</div><div class="v">{st['consec_losses']} / {cfg['loss_streak_pause']}</div></div>
+{ml_card}{sim_cards}
 </div>
 <div class="panel"><h2>Кривая эквити</h2>{equity_svg(eq_rows)}</div>
+{sim_panel}
 <div class="panel"><h2>Открытые позиции ({len(st['positions'])}/{cfg['max_concurrent']})</h2>
 <table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TP</th><th>SL</th><th>TTL</th><th>Qty</th></tr>
 {pos_rows or '<tr><td colspan="7" class="muted">Позиций нет</td></tr>'}</table></div>

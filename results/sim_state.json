@@ -1,0 +1,16 @@
+{
+ "equity": 339.51698202679955,
+ "day_key": 20774,
+ "day_start_equity": 357.594291941058,
+ "consec_losses": 3,
+ "paused_until": 1794905700000,
+ "halted_until": 1794960000000,
+ "positions": [],
+ "stats": {
+  "trades": 2933,
+  "wins": 854,
+  "losses": 2079,
+  "pnl": -660.4830179731995
+ },
+ "updated": 1794940854071
+}

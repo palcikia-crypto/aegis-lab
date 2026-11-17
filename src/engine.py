@@ -144,6 +144,7 @@ def breakers_ok(st, cfg, now_ms):
         return False, "daily_halt"
     if st["consec_losses"] >= cfg["loss_streak_pause"]:
         st["paused_until"] = now_ms + cfg["pause_minutes"] * 60_000
+        st["consec_losses"] = 0
         return False, "loss_streak"
     if st.get("day_start_equity") is not None:
         if st["equity"] <= st["day_start_equity"] * (1 - cfg["daily_drawdown_stop"]):

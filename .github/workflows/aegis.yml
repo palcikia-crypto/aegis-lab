@@ -3,6 +3,7 @@ name: aegis-worker
 on:
   schedule:
     - cron: "*/5 * * * *"
+    - cron: "25 2 * * *"
   push:
     branches: [main]
     paths: ["src/**", "config/**", ".github/workflows/aegis.yml"]
@@ -41,6 +42,36 @@ jobs:
             echo "no changes"
           else
             git commit -m "worker: cycle update [skip ci]"
+            for i in 1 2 3; do
+              git pull --rebase origin main && git push && break
+              echo "push retry $i" && sleep 5
+            done
+          fi
+
+  sandbox-train:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run sandbox replay + train ML gate
+        run: |
+          python -m src.sim --days 30
+          python -m src.train
+
+      - name: Commit model + sim dataset
+        run: |
+          git config user.name "aegis-bot"
+          git config user.email "aegis-bot@users.noreply.github.com"
+          git add results
+          if git diff --cached --quiet; then
+            echo "no changes"
+          else
+            git commit -m "sandbox: replay + train [skip ci]"
             for i in 1 2 3; do
               git pull --rebase origin main && git push && break
               echo "push retry $i" && sleep 5

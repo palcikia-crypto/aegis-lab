@@ -13,6 +13,26 @@ from src import market, features, engine, dashboard  # noqa: E402
 with open(os.path.join(HERE, "config", "settings.json")) as f:
     CFG = json.load(f)
 
+MODEL_PATH = os.path.join(HERE, "results", "model.json")
+
+
+def load_model():
+    if not os.path.exists(MODEL_PATH):
+        return None
+    try:
+        with open(MODEL_PATH) as f:
+            return json.load(f)
+    except Exception:
+        return None
+
+
+def gate(model, feat, side):
+    """ML filter (Этап 3): None model -> pass-through."""
+    if model is None:
+        return True, None
+    p = features.ml_prob(model, feat, side)
+    return p >= model["threshold"], round(p, 4)
+
 
 def log_crash(exc):
     os.makedirs(engine.RESULTS, exist_ok=True)
@@ -42,6 +62,8 @@ def run_cycle():
     ok, reason = engine.breakers_ok(st, CFG, now_ms)
 
     opened = []
+    gated = 0
+    model = load_model()
     if ok:
         for sym in CFG["symbols"]:
             if len(st["positions"]) >= CFG["max_concurrent"]:
@@ -54,6 +76,10 @@ def run_cycle():
             feat = features.features(bars, CFG)
             side = features.signal(feat, CFG)
             if side:
+                allow, p = gate(model, feat, side)
+                if not allow:
+                    gated += 1
+                    continue
                 pos = engine.open_positions(st, CFG, sym, feat, side, now_ms,
                                             sources[sym])
                 if pos:
@@ -69,6 +95,8 @@ def run_cycle():
         "now": now_ms,
         "sources": sources,
         "opened": opened,
+        "ml_gated": gated,
+        "ml_active": model is not None,
         "open_positions": len(st["positions"]),
         "equity": round(st["equity"], 2),
         "breaker": reason,
