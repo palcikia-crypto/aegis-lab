@@ -5,7 +5,42 @@
  "consec_losses": 3,
  "paused_until": 1794992965099,
  "halted_until": 0,
- "positions": [],
+ "positions": [
+  {
+   "id": "SNDKUSDT-1794999610246",
+   "symbol": "SNDKUSDT",
+   "side": "long",
+   "entry": 829.6,
+   "dist": 5.628571,
+   "rr": 1.5,
+   "tp": 838.042857,
+   "sl": 823.971429,
+   "qty": 0.163,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1794999610246,
+   "expires_ts": 1795000510246,
+   "status": "open",
+   "source": "lab-paper",
+   "strategy": "baseline",
+   "regime": "range",
+   "features": {
+    "close": 829.6,
+    "ema_fast": 829.244444,
+    "ema_slow": 828.106494,
+    "momentum": 1.2,
+    "vol_spike": 4.743,
+    "atr15": 7.035714,
+    "rsi14": 89.36,
+    "bb_z": 1.237,
+    "don_hi": 836.7,
+    "don_lo": 817.2,
+    "adx15": null,
+    "atr_pct": 0.389,
+    "ts": 1794999540000
+   }
+  }
+ ],
  "adapt": {
   "baseline|range": {
    "n": 9,
@@ -18,5 +53,5 @@
   "losses": 8,
   "pnl": -7.864818608304027
  },
- "updated": 1794999265409
+ "updated": 1794999610246
 }
