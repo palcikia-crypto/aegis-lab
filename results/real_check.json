@@ -1,0 +1,47 @@
+[
+ {
+  "symbol": "ETHUSDT",
+  "status": "loss",
+  "recorded_pnl": -0.9822,
+  "recorded_fees_half": 0.1786,
+  "real_1bp": -0.9831,
+  "pess_3bp": -1.1259,
+  "opened": "11-17 04:59"
+ },
+ {
+  "symbol": "SOXLUSDT",
+  "status": "win",
+  "recorded_pnl": 0.9369,
+  "recorded_fees_half": 0.0312,
+  "real_1bp": 1.3138,
+  "pess_3bp": 1.3057,
+  "opened": "11-17 21:21"
+ },
+ {
+  "symbol": "SNDKUSDT",
+  "status": "win",
+  "recorded_pnl": 0.8723,
+  "recorded_fees_half": 0.0619,
+  "real_1bp": 1.1416,
+  "pess_3bp": 1.1253,
+  "opened": "11-17 21:21"
+ },
+ {
+  "symbol": "NVDAUSDT",
+  "status": "win",
+  "recorded_pnl": 0.8573,
+  "recorded_fees_half": 0.0712,
+  "real_1bp": 1.4774,
+  "pess_3bp": 1.4586,
+  "opened": "11-17 21:21"
+ },
+ {
+  "symbol": "SNDKUSDT",
+  "status": "timeout",
+  "recorded_pnl": 0.492,
+  "recorded_fees_half": 0.0476,
+  "real_1bp": 0.4797,
+  "pess_3bp": 0.4671,
+  "opened": "11-17 22:29"
+ }
+]

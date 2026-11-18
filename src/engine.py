@@ -146,10 +146,13 @@ def resolve_positions(st, trades, symbol_bars, cfg, now_ms):
                 continue
         kind, price, closed_ts = closed
         direction = 1 if pos["side"] == "long" else -1
-        gross = (price - pos["entry"]) * direction * pos["qty"]
-        fees = (pos["entry"] + price) * pos["qty"] * cfg["fee_rate"] / 2
+        slip = cfg.get("slippage_rate", 0.0001)
+        entry_fill = pos["entry"] * (1 + direction * slip)
+        exit_fill = price if kind == "win" else price * (1 - direction * slip)
+        gross = (exit_fill - entry_fill) * direction * pos["qty"]
+        fees = (entry_fill + exit_fill) * pos["qty"] * cfg["fee_rate"]
         pnl = gross - fees
-        pos.update({"status": kind, "exit": price, "closed_ts": closed_ts,
+        pos.update({"status": kind, "exit": exit_fill, "closed_ts": closed_ts,
                     "pnl": round(pnl, 4)})
         st["equity"] += pnl
         st["stats"]["trades"] += 1

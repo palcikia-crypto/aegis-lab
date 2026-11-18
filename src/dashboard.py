@@ -318,6 +318,28 @@ def generate(st, trades, cfg):
 <p class="lead">{esc(dev.get("thoughts",""))}</p>
 {params_ai}{exp_applied}{exp_block}{mods_block}</div>"""
 
+    vcheck = _read(os.path.join(RESULTS, "real_check.json"))
+    vcheck_panel = ""
+    if isinstance(vcheck, list) and vcheck:
+        vrows = ""
+        for o in vcheck:
+            vrows += (f"<tr><td class='mono'>{esc(o.get('symbol',''))}</td>"
+                      f"<td class='mono {'up' if (o.get('recorded_pnl') or 0) >= 0 else 'down'}'>{o.get('recorded_pnl', 0):+.3f}</td>"
+                      f"<td class='mono {'up' if (o.get('real_1bp') or 0) >= 0 else 'down'}'>{o.get('real_1bp', 0):+.3f}</td>"
+                      f"<td class='mono {'up' if (o.get('pess_3bp') or 0) >= 0 else 'down'}'>{o.get('pess_3bp', 0):+.3f}</td>"
+                      f"<td class='muted'>{esc(o.get('status',''))}</td></tr>")
+        tot_r = sum(o.get("recorded_pnl", 0) for o in vcheck)
+        tot_v = sum(o.get("real_1bp", 0) for o in vcheck)
+        tot_p = sum(o.get("pess_3bp", 0) for o in vcheck)
+        vcheck_panel = f"""
+<div class="panel"><div class="ph"><span class="ico">🔍</span>Проверка на реальных биржевых данных</div>
+<div class="sub">каждая сделка пересчитана по реальным 1m-свечам Binance: вход по следующему бару c проскальзыванием, полная тейкер-комиссия обе стороны, стоп глубже на проскальзывание</div>
+<table style="margin-top:8px"><tr><th>Символ</th><th>Записано</th><th>Реально (1bp)</th><th>Пессимист (3bp)</th><th>Итог</th></tr>
+{vrows}
+<tr><td><b>TOTAL</b></td><td class='mono {'up' if tot_r >= 0 else 'down'}'><b>{tot_r:+.3f}</b></td>
+<td class='mono {'up' if tot_v >= 0 else 'down'}'><b>{tot_v:+.3f}</b></td>
+<td class='mono {'up' if tot_p >= 0 else 'down'}'><b>{tot_p:+.3f}</b></td><td></td></tr></table></div>"""
+
     html = f"""<!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -423,7 +445,7 @@ th,td{{padding:5px 6px}}
 <div class="card"><div class="k">Серия убытков</div><div class="v {'down' if st['consec_losses'] > 0 else ''}">{st['consec_losses']} / {cfg['loss_streak_pause']}</div><div class="d">стоп-лимит</div></div>
 {ml_card}{sim_cards}
 </div>
-{ai_panel}{dev_panel}
+{ai_panel}{dev_panel}{vcheck_panel}
 <div class="panel"><div class="ph"><span class="ico">📈</span>Кривая эквити</div>{equity_svg(eq_rows)}</div>
 {sim_panel}
 <div class="panel"><div class="ph"><span class="ico">🎯</span>Открытые позиции ({len(st['positions'])}/{cfg['max_concurrent']})</div>
