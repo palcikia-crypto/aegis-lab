@@ -1,53 +1,18 @@
 {
- "equity": 996.763419367198,
+ "equity": 996.846452638096,
  "day_key": 20775,
  "day_start_equity": 1002.1763368597619,
- "consec_losses": 1,
+ "consec_losses": 0,
  "paused_until": 0,
  "halted_until": 0,
- "positions": [
-  {
-   "id": "BTCUSDT-1795016626450",
-   "symbol": "BTCUSDT",
-   "side": "short",
-   "entry": 63216.8,
-   "dist": 253.028571,
-   "rr": 1.5,
-   "tp": 62837.257143,
-   "sl": 63469.828571,
-   "qty": 0.003,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795016626450,
-   "expires_ts": 1795017526450,
-   "status": "open",
-   "source": "okx",
-   "strategy": "baseline",
-   "regime": "volatile",
-   "features": {
-    "close": 63216.8,
-    "ema_fast": 63400.053333,
-    "ema_slow": 63455.873593,
-    "momentum": -273.2,
-    "vol_spike": 4.047,
-    "atr15": 316.285714,
-    "rsi14": 23.76,
-    "bb_z": -2.385,
-    "don_hi": 64423.8,
-    "don_lo": 63038.8,
-    "adx15": null,
-    "atr_pct": 0.895,
-    "ts": 1795016520000
-   }
-  }
- ],
+ "positions": [],
  "stats": {
-  "trades": 29,
-  "wins": 14,
+  "trades": 30,
+  "wins": 15,
   "losses": 15,
-  "pnl": -3.236580632802145
+  "pnl": -3.153547361904129
  },
- "updated": 1795017308649,
+ "updated": 1795017652600,
  "adapt": {
   "mean_reversion|range": {
    "n": 10,
@@ -75,8 +40,8 @@
    "ewma": -0.0
   },
   "baseline|volatile": {
-   "n": 24,
-   "ewma": -0.1794
+   "n": 25,
+   "ewma": -0.14
   },
   "breakout|volatile": {
    "n": 12,
