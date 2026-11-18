@@ -5,7 +5,76 @@
  "consec_losses": 0,
  "paused_until": 1795004012542,
  "halted_until": 0,
- "positions": [],
+ "positions": [
+  {
+   "id": "SOXLUSDT-1795043471015",
+   "symbol": "SOXLUSDT",
+   "side": "long",
+   "entry": 50.39,
+   "dist": 0.605143,
+   "rr": 1.5,
+   "tp": 51.297714,
+   "sl": 49.784857,
+   "qty": 1.573,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1795043471015,
+   "expires_ts": 1795044371015,
+   "status": "open",
+   "source": "lab-paper",
+   "strategy": "baseline",
+   "regime": "volatile",
+   "features": {
+    "close": 50.39,
+    "ema_fast": 49.768667,
+    "ema_slow": 48.97658,
+    "momentum": 1.56,
+    "vol_spike": 2.307,
+    "atr15": 0.756429,
+    "rsi14": 95.53,
+    "bb_z": 1.697,
+    "don_hi": 49.71,
+    "don_lo": 47.59,
+    "adx15": null,
+    "atr_pct": 1.0,
+    "ts": 1795043400000
+   }
+  },
+  {
+   "id": "SNDKUSDT-1795043471015",
+   "symbol": "SNDKUSDT",
+   "side": "long",
+   "entry": 778.7,
+   "dist": 4.857143,
+   "rr": 1.5,
+   "tp": 785.985714,
+   "sl": 773.842857,
+   "qty": 0.187,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1795043471015,
+   "expires_ts": 1795044371015,
+   "status": "open",
+   "source": "lab-paper",
+   "strategy": "baseline",
+   "regime": "volatile",
+   "features": {
+    "close": 778.7,
+    "ema_fast": 774.38,
+    "ema_slow": 769.622078,
+    "momentum": 10.9,
+    "vol_spike": 2.591,
+    "atr15": 6.071429,
+    "rsi14": 91.52,
+    "bb_z": 1.724,
+    "don_hi": 782.4,
+    "don_lo": 761.1,
+    "adx15": null,
+    "atr_pct": 0.947,
+    "ts": 1795043400000
+   }
+  }
+ ],
  "adapt": {
   "baseline|range": {
    "n": 11,
@@ -31,5 +100,5 @@
   "losses": 17,
   "pnl": -7.1761357918352076
  },
- "updated": 1795043137386
+ "updated": 1795043471015
 }
