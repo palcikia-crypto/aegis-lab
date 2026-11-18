@@ -320,25 +320,32 @@ def generate(st, trades, cfg):
 
     vcheck = _read(os.path.join(RESULTS, "real_check.json"))
     vcheck_panel = ""
-    if isinstance(vcheck, list) and vcheck:
+    if isinstance(vcheck, dict) and vcheck.get("trades"):
         vrows = ""
-        for o in vcheck:
+        for o in reversed(vcheck["trades"][-15:]):
+            amb = "⚠ двусмысленно" if o.get("ambiguous") else ""
+            match = o.get("match")
+            mtxt = "✓" if match else "✗ расходится"
+            mcls = "up" if match else "down"
+            pr = o.get("pnl_real") or 0
             vrows += (f"<tr><td class='mono'>{esc(o.get('symbol',''))}</td>"
-                      f"<td class='mono {'up' if (o.get('recorded_pnl') or 0) >= 0 else 'down'}'>{o.get('recorded_pnl', 0):+.3f}</td>"
-                      f"<td class='mono {'up' if (o.get('real_1bp') or 0) >= 0 else 'down'}'>{o.get('real_1bp', 0):+.3f}</td>"
-                      f"<td class='mono {'up' if (o.get('pess_3bp') or 0) >= 0 else 'down'}'>{o.get('pess_3bp', 0):+.3f}</td>"
-                      f"<td class='muted'>{esc(o.get('status',''))}</td></tr>")
-        tot_r = sum(o.get("recorded_pnl", 0) for o in vcheck)
-        tot_v = sum(o.get("real_1bp", 0) for o in vcheck)
-        tot_p = sum(o.get("pess_3bp", 0) for o in vcheck)
+                      f"<td class='muted'>{esc(o.get('opened',''))}</td>"
+                      f"<td><span class='pill {'p-up' if o.get('kind_real')=='win' else 'p-down' if o.get('kind_real')=='loss' else ''}'>{esc(o.get('kind_real') or o.get('status_recorded',''))}</span></td>"
+                      f"<td class='mono {'up' if (o.get('pnl_recorded') or 0) >= 0 else 'down'}'>{(o.get('pnl_recorded') or 0):+.3f}</td>"
+                      f"<td class='mono {'up' if pr >= 0 else 'down'}'>{pr:+.3f}</td>"
+                      f"<td class='mono {mcls}'>{mtxt}</td><td class='muted small'>{amb}</td></tr>")
+        sm = vcheck.get("summary") or {}
+        n_total = s.get("trades", 0)
+        n_checked = sm.get("trades", 0)
+        vrows_tot = (f"<tr><td><b>TOTAL</b></td><td></td><td class='mono'><b>{n_checked}/{n_total}</b> проверено</td>"
+                     f"<td class='mono {'up' if sm.get('recorded_total', 0) >= 0 else 'down'}'><b>{sm.get('recorded_total', 0):+.2f}</b></td>"
+                     f"<td class='mono {'up' if sm.get('real_total', 0) >= 0 else 'down'}'><b>{sm.get('real_total', 0):+.2f}</b></td>"
+                     f"<td class='mono muted'>{sm.get('realism_bias', 0):+.2f} (смещение)</td><td></td></tr>")
         vcheck_panel = f"""
-<div class="panel"><div class="ph"><span class="ico">🔍</span>Проверка на реальных биржевых данных</div>
-<div class="sub">каждая сделка пересчитана по реальным 1m-свечам Binance: вход по следующему бару c проскальзыванием, полная тейкер-комиссия обе стороны, стоп глубже на проскальзывание</div>
-<table style="margin-top:8px"><tr><th>Символ</th><th>Записано</th><th>Реально (1bp)</th><th>Пессимист (3bp)</th><th>Итог</th></tr>
-{vrows}
-<tr><td><b>TOTAL</b></td><td class='mono {'up' if tot_r >= 0 else 'down'}'><b>{tot_r:+.3f}</b></td>
-<td class='mono {'up' if tot_v >= 0 else 'down'}'><b>{tot_v:+.3f}</b></td>
-<td class='mono {'up' if tot_p >= 0 else 'down'}'><b>{tot_p:+.3f}</b></td><td></td></tr></table></div>"""
+<div class="panel"><div class="ph"><span class="ico">🔍</span>Авто-проверка на реальных биржевых данных</div>
+<div class="sub">каждая сделка автоматически пересчитывается по реальным 1m-свечам Binance/Bybit: вход по следующему бару с проскальзыванием, полная тейкер-комиссия обе стороны, стоп глубже на проскальзывание. этими данными питаются ИИ-мозги · обновлено: {esc(sm.get('updated',''))}</div>
+<table style="margin-top:8px"><tr><th>Символ</th><th>Открыта</th><th>Реальный итог</th><th>Записано</th><th>Реально</th><th>Сходится</th><th></th></tr>
+{vrows}{vrows_tot}</table></div>"""
 
     html = f"""<!doctype html>
 <html lang="ru"><head><meta charset="utf-8">

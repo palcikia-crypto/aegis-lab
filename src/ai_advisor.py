@@ -115,6 +115,7 @@ def _digest(st, trades, cfg, extra):
             key=lambda x: -x["r_ewma"])[:5],
         "ml": extra.get("ml"),
         "sim": extra.get("sim"),
+        "real_check": extra.get("real_check"),
         "sources": extra.get("sources", {}),
         "ml_gated_last": extra.get("ml_gated", 0),
     }

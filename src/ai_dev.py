@@ -206,6 +206,7 @@ def _state_digest(st, trades, cfg, extra):
         "optimizer": lb,
         "ml": extra.get("ml"),
         "ml_gated_last_cycle": extra.get("ml_gated"),
+        "real_check": extra.get("real_check"),
         "adapt_top": sorted(
             ({"combo": k, "ewma": round(v.get("ewma", 0), 3), "n": v.get("n", 0)}
              for k, v in (st.get("adapt") or {}).items()),

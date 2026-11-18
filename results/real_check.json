@@ -1,47 +1,75 @@
-[
- {
-  "symbol": "ETHUSDT",
-  "status": "loss",
-  "recorded_pnl": -0.9822,
-  "recorded_fees_half": 0.1786,
-  "real_1bp": -0.9831,
-  "pess_3bp": -1.1259,
-  "opened": "11-17 04:59"
+{
+ "summary": {
+  "updated": "2026-11-18 02:01 UTC",
+  "trades": 5,
+  "recorded_total": 2.176,
+  "real_total": 3.304,
+  "realism_bias": 1.128,
+  "avg_bias": 0.226,
+  "ambiguous": 0,
+  "kind_mismatch": 0,
+  "errors": 0
  },
- {
-  "symbol": "SOXLUSDT",
-  "status": "win",
-  "recorded_pnl": 0.9369,
-  "recorded_fees_half": 0.0312,
-  "real_1bp": 1.3138,
-  "pess_3bp": 1.3057,
-  "opened": "11-17 21:21"
- },
- {
-  "symbol": "SNDKUSDT",
-  "status": "win",
-  "recorded_pnl": 0.8723,
-  "recorded_fees_half": 0.0619,
-  "real_1bp": 1.1416,
-  "pess_3bp": 1.1253,
-  "opened": "11-17 21:21"
- },
- {
-  "symbol": "NVDAUSDT",
-  "status": "win",
-  "recorded_pnl": 0.8573,
-  "recorded_fees_half": 0.0712,
-  "real_1bp": 1.4774,
-  "pess_3bp": 1.4586,
-  "opened": "11-17 21:21"
- },
- {
-  "symbol": "SNDKUSDT",
-  "status": "timeout",
-  "recorded_pnl": 0.492,
-  "recorded_fees_half": 0.0476,
-  "real_1bp": 0.4797,
-  "pess_3bp": 0.4671,
-  "opened": "11-17 22:29"
- }
-]
+ "trades": [
+  {
+   "id": "SNDKUSDT-1794954590378",
+   "symbol": "SNDKUSDT",
+   "side": "long",
+   "opened": "11-17 22:29",
+   "status_recorded": "timeout",
+   "kind_real": "timeout",
+   "pnl_recorded": 0.492,
+   "pnl_real": 0.4455,
+   "ambiguous": false,
+   "match": true
+  },
+  {
+   "id": "NVDAUSDT-1794950499742",
+   "symbol": "NVDAUSDT",
+   "side": "long",
+   "opened": "11-17 21:21",
+   "status_recorded": "win",
+   "kind_real": "win",
+   "pnl_recorded": 0.8573,
+   "pnl_real": 1.4585,
+   "ambiguous": false,
+   "match": true
+  },
+  {
+   "id": "SNDKUSDT-1794950499742",
+   "symbol": "SNDKUSDT",
+   "side": "long",
+   "opened": "11-17 21:21",
+   "status_recorded": "win",
+   "kind_real": "win",
+   "pnl_recorded": 0.8723,
+   "pnl_real": 1.1251,
+   "ambiguous": false,
+   "match": true
+  },
+  {
+   "id": "SOXLUSDT-1794950499742",
+   "symbol": "SOXLUSDT",
+   "side": "long",
+   "opened": "11-17 21:21",
+   "status_recorded": "win",
+   "kind_real": "win",
+   "pnl_recorded": 0.9369,
+   "pnl_real": 1.3056,
+   "ambiguous": false,
+   "match": true
+  },
+  {
+   "id": "ETHUSDT-1794891584657",
+   "symbol": "ETHUSDT",
+   "side": "long",
+   "opened": "11-17 04:59",
+   "status_recorded": "loss",
+   "kind_real": "loss",
+   "pnl_recorded": -0.9822,
+   "pnl_real": -1.0307,
+   "ambiguous": false,
+   "match": true
+  }
+ ]
+}
