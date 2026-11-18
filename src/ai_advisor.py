@@ -162,7 +162,25 @@ def _parse_json(text):
         return None
 
 
+ADVISOR_INTERVAL_S = 900
+
+
+def _throttled(trades):
+    try:
+        with open(AI_REPORT_PATH) as f:
+            last_report = json.load(f)
+    except Exception:
+        return False
+    if time.time() - os.path.getmtime(AI_REPORT_PATH) < ADVISOR_INTERVAL_S:
+        last_closed = last_report.get("last_trade_closed", 0)
+        newest = max((t.get("closed_ts", 0) for t in trades), default=0)
+        return newest <= last_closed
+    return False
+
+
 def maybe_run(st, trades, cfg, extra):
+    if os.path.exists(AI_REPORT_PATH) and _throttled(trades):
+        return {"ok": False, "error": "throttled (раз в 15 мин или по новой сделке)"}
     digest = _digest(st, trades, cfg, extra)
     t0 = time.time()
     answer, err = _ask_llm(digest)
@@ -205,6 +223,7 @@ def maybe_run(st, trades, cfg, extra):
                     {k: report.get(k) for k in ("ts", "model", "verdict", "summary",
                                                 "risks", "actions_applied", "actions_rejected")},
                     ensure_ascii=False) + "\n")
+    report["last_trade_closed"] = max((t.get("closed_ts", 0) for t in trades), default=0)
     with open(AI_REPORT_PATH, "w") as f:
         json.dump(report, f, ensure_ascii=False, indent=1)
     return report
