@@ -1,96 +1,27 @@
 {
- "equity": 996.008198484026,
+ "equity": 996.2940560213765,
  "day_key": 20775,
  "day_start_equity": 1002.1763368597619,
- "consec_losses": 1,
+ "consec_losses": 0,
  "paused_until": 0,
  "halted_until": 0,
- "positions": [
-  {
-   "id": "SOXLUSDT-1795036766257",
-   "symbol": "SOXLUSDT",
-   "side": "short",
-   "entry": 49.56,
-   "dist": 0.696571,
-   "rr": 1.5,
-   "tp": 48.515143,
-   "sl": 50.256571,
-   "qty": 1.3760000000000001,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795036766257,
-   "expires_ts": 1795037666257,
-   "status": "open",
-   "source": "okx",
-   "strategy": "mean_reversion",
-   "regime": "range",
-   "features": {
-    "close": 49.56,
-    "ema_fast": 49.335111,
-    "ema_slow": 49.264329,
-    "momentum": 0.32,
-    "vol_spike": 1.127,
-    "atr15": 0.870714,
-    "rsi14": 83.95,
-    "bb_z": 2.225,
-    "don_hi": 50.49,
-    "don_lo": 46.61,
-    "adx15": null,
-    "atr_pct": 0.0,
-    "ts": 1795036680000
-   }
-  },
-  {
-   "id": "SNDKUSDT-1795036766257",
-   "symbol": "SNDKUSDT",
-   "side": "short",
-   "entry": 780.8,
-   "dist": 5.777143,
-   "rr": 1.5,
-   "tp": 772.134286,
-   "sl": 786.577143,
-   "qty": 0.16,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795036766257,
-   "expires_ts": 1795037666257,
-   "status": "open",
-   "source": "okx",
-   "strategy": "mean_reversion",
-   "regime": "range",
-   "features": {
-    "close": 780.8,
-    "ema_fast": 777.928889,
-    "ema_slow": 777.237229,
-    "momentum": 4.8,
-    "vol_spike": 1.165,
-    "atr15": 7.221429,
-    "rsi14": 82.02,
-    "bb_z": 2.753,
-    "don_hi": 793.5,
-    "don_lo": 756.8,
-    "adx15": null,
-    "atr_pct": 0.105,
-    "ts": 1795036680000
-   }
-  }
- ],
+ "positions": [],
  "stats": {
-  "trades": 37,
-  "wins": 18,
+  "trades": 39,
+  "wins": 20,
   "losses": 19,
-  "pnl": -3.991801515974222
+  "pnl": -3.7059439786238304
  },
- "updated": 1795037455385,
+ "updated": 1795037806661,
  "adapt": {
   "mean_reversion|range": {
-   "n": 16,
-   "ewma": -0.157
+   "n": 18,
+   "ewma": -0.0712
   },
   "baseline|range": {
    "n": 23,
    "ewma": -0.4336,
-   "blocked": 19
+   "blocked": 20
   },
   "trend_follow|trend_down": {
    "n": 11,
