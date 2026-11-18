@@ -1,14 +1,14 @@
 {
  "summary": {
-  "updated": "2026-11-18 03:15 UTC",
-  "trades": 5,
-  "recorded_total": 2.176,
-  "real_total": 3.304,
-  "realism_bias": 1.128,
-  "avg_bias": 0.226,
+  "updated": "2026-11-18 03:18 UTC",
+  "trades": 6,
+  "recorded_total": 1.374,
+  "real_total": 2.414,
+  "realism_bias": 1.04,
+  "avg_bias": 0.173,
   "ambiguous": 0,
   "kind_mismatch": 0,
-  "errors": 1
+  "errors": 0
  },
  "trades": [
   {
@@ -68,6 +68,18 @@
    "kind_real": "loss",
    "pnl_recorded": -0.9822,
    "pnl_real": -1.0307,
+   "ambiguous": false,
+   "match": true
+  },
+  {
+   "id": "SNDKUSDT-1794970010809",
+   "symbol": "SNDKUSDT",
+   "side": "short",
+   "opened": "11-18 02:46",
+   "status_recorded": "timeout",
+   "kind_real": "timeout",
+   "pnl_recorded": -0.8025,
+   "pnl_real": -0.8898,
    "ambiguous": false,
    "match": true
   }
