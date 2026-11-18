@@ -1,20 +1,21 @@
 {
- "ts": "2026-11-18 04:20:29 UTC",
- "latency_s": 2.1,
+ "ts": "2026-11-18 04:34:51 UTC",
+ "latency_s": 2.0,
  "ok": true,
  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
- "verdict": "ok",
- "summary": "Торговля идёт стабильно, небольшая прибыль за день",
+ "verdict": "warn",
+ "summary": "Небольшой убыток за день, два последовательных убытка",
  "risks": [
-  "Низкий AUC в ML-гейте"
+  "Последовательные убытки могут привести к паузе",
+  "Низкий AUC ML-гейта"
  ],
  "actions_applied": [
   {
-   "param": "fee_edge_mult",
-   "value": 3.0,
-   "reason": "Увеличить фильтр комиссий для снижения риска убытков"
+   "param": "loss_streak_pause",
+   "value": 4,
+   "reason": "Снижение порога для паузы при последовательных убытках [обрезано до 4..8]"
   }
  ],
  "actions_rejected": [],
- "last_trade_closed": 1794975445884
+ "last_trade_closed": 1794976248298
 }
