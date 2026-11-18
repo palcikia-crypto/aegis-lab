@@ -1,10 +1,10 @@
 {
- "ts": "2026-11-18 06:44 UTC",
- "phase": "deep_scan",
- "steps": 36,
- "llm_used_today": 3,
+ "ts": "2026-11-18 06:48 UTC",
+ "phase": "evaluate",
+ "steps": 37,
+ "llm_used_today": 4,
  "llm_day_limit": 6,
- "queue_left": 0,
+ "queue_left": 1,
  "checkpoints": 0,
  "baseline": {
   "score": -1000000000.0,
@@ -14,7 +14,10 @@
  },
  "best": null,
  "promoted": [],
- "last": {},
+ "last": {
+  "planned": true,
+  "paper_opened": 1
+ },
  "patterns": {
   "count": 0,
   "ts": null,
@@ -26,11 +29,11 @@
   "trades": 0,
   "wins": 0,
   "pnl": 0.0,
-  "open": 0,
+  "open": 1,
   "active_pack": null
  },
  "paper_realcheck": {
-  "updated": "2026-11-18 06:43 UTC",
+  "updated": "2026-11-18 06:48 UTC",
   "trades": 0,
   "real_total": null,
   "recorded_total": null,
