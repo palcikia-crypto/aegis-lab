@@ -1,35 +1,25 @@
 {
- "ts": "2026-11-18 14:39 UTC",
+ "ts": "2026-11-18 14:51 UTC",
  "books": {
-  "ETHUSDT": {
-   "symbol": "ETHUSDT",
-   "bid": 1770.36,
-   "ask": 1770.37,
-   "spread_bps": 0.06,
-   "imbalance": 0.324,
-   "depth_bid_usd": 1156098,
-   "depth_ask_usd": 590793,
-   "ts": 1795012797091
-  },
-  "SOXLUSDT": {
-   "symbol": "SOXLUSDT",
-   "bid": 48.27,
-   "ask": 48.28,
-   "spread_bps": 2.07,
-   "imbalance": -0.251,
-   "depth_bid_usd": 32611,
-   "depth_ask_usd": 54526,
-   "ts": 1795012797315
+  "SNDKUSDT": {
+   "symbol": "SNDKUSDT",
+   "bid": 755.6,
+   "ask": 755.7,
+   "spread_bps": 1.32,
+   "imbalance": -0.033,
+   "depth_bid_usd": 309443,
+   "depth_ask_usd": 331015,
+   "ts": 1795013487298
   },
   "NVDAUSDT": {
    "symbol": "NVDAUSDT",
-   "bid": 156.91,
-   "ask": 156.92,
-   "spread_bps": 0.64,
-   "imbalance": -0.131,
-   "depth_bid_usd": 22037,
-   "depth_ask_usd": 28693,
-   "ts": 1795012797537
+   "bid": 153.77,
+   "ask": 153.78,
+   "spread_bps": 0.65,
+   "imbalance": 0.058,
+   "depth_bid_usd": 43684,
+   "depth_ask_usd": 38907,
+   "ts": 1795013487551
   }
  }
 }
