@@ -398,6 +398,11 @@ def generate(st, trades, cfg):
             ds_txt = (f"<div class='{'good-p' if v == 'pass' else 'risk'}'>⏳ Прогон устойчивости: {esc(str(ds.get('days','')))}д/{esc(str(ds.get('tf','')))} — "
                       f"{'устойчив' if v == 'pass' else 'НЕ устойчив'} · baseline {ds.get('score_base','—')}/{ds.get('trades_base','—')} · "
                       f"best {ds.get('score_best','—')}/{ds.get('trades_best','—')} · {esc(str(ds.get('ts','')))}</div>")
+        escd = lab_rep.get("escalation")
+        esc_txt = ""
+        if escd and escd.get("kind"):
+            esc_txt = (f"<div class='chip chip-warn'>⚡ AI-эскалация: {escd.get('kind')} "
+                       f"(LLM {escd.get('llm_used', 0)}/{lab_rep.get('llm_day_limit', 6)} сегодня)</div>")
         lab_panel = f"""
 <div class="panel dev"><div class="ph"><span class="ico">🧪</span>Лаборатория · Вторая реальность <span class="muted small">· {esc(lab_rep.get('ts',''))}</span></div>
 <div class="sub">копия системы живёт своей жизнью: строит гипотезы, пишет модули-фильтры, качает данные с бирж, гоняет бэктесты; всё, что стабильно обгоняет оригинал, переносится сюда (авто-откат к лучшему чекпоинту)</div>
@@ -410,7 +415,7 @@ def generate(st, trades, cfg):
 <td class='mono {'up' if (base.get('pnl') or 0) > 0 else 'down'}'>{base.get('pnl','—')}</td></tr>
 <tr><td>{esc(best.get('name') or 'лучшая мутация')}</td><td class='mono'>{best.get('score','—')}</td><td class='mono'>{best.get('trades','—')}</td>
 <td class='mono {'up' if (best.get('pnl') or 0) > 0 else 'down'}'>{best.get('pnl','—')}</td></tr></table>
-{promo_txt}{ds_txt}{pat_txt}{paper_txt}
+{esc_txt}{promo_txt}{ds_txt}{pat_txt}{paper_txt}
 <div class="sub" style="margin:10px 0 4px">журнал шагов:</div>
 <table><tr><th>Время</th><th>Событие</th><th>Детали</th></tr>{''.join(lab_journal_tail)}</table></div>"""
 

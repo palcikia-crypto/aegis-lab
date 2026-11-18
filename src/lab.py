@@ -17,6 +17,8 @@ import argparse
 import json
 import os
 import re
+import subprocess
+import sys
 import time
 
 from src import engine
@@ -96,7 +98,15 @@ SYSTEM = (
     "(python: import math/statistics, экспорт NAME + "
     "filter_signal(feat, cfg) -> (allow: bool, reason); ВЕТО-философия: "
     "блокируй только явно рискованные входы, не глуши всё подряд), "
-    "запрашивать данные (символ/дни) — система скачает их сама с бирж."
+    "запрашивать данные (символ/дни) — система скачает их сама с бирж. "
+    "ЭСКАЛАЦИЯ: тебя вызывают ТОЛЬКО по конкретному триггеру (см. поле эскалация "
+    "в досье: находка ML, золотые паттерны охоты, расхождение реальной сверки, "
+    "просадка lab-paper, провал deep-scan, серия неудач). Пришли, оцени весь "
+    "артефакты досье (паттерны, ML WFO, deep_scan, evo, lab-paper, сверка), "
+    "сделай 1-3 конкретных действия и ВЫЙДИ — лимиты дорогие, не повторяй то, "
+    "что уже внедрено. Дополнительно можешь заказывать действия списком "
+    "\u00abrun\u00bb: [\"retrain_ml\"] \u2014 система сама переобучит ML-гейт на накопленных "
+    "сделках и вернёт тебе свежий WFO в следующим цикле."
     "Отвечай СТРОГО валидным JSON без markdown:\n"
     '{"thoughts": "что понял из досье, где искать улучшение (по-русски, до 150 слов)", '
     '"queue": [{"name": "короткое_имя", "params": {"param": число}, '
@@ -145,7 +155,8 @@ def fresh_state():
     return {"phase": "boot", "steps": 0, "llm_used": 0, "llm_day": _day_key(),
             "last_plan_ts": 0, "baseline_ts": 0, "baseline": None,
             "queue": [], "q_idx": 0, "best": None, "promoted": [],
-            "ckpts": 0}
+            "ckpts": 0, "triggers": {}, "ml_seen_ts": 0, "ml_last_auc": None,
+            "patterns_seen_ts": "", "hunt_clean": 0, "last_escalation": None}
 
 
 def load_state():
@@ -264,6 +275,140 @@ def _pack(st_sim, trades, cfg, name):
     }
 
 
+# ------------------------------------------- эскалация ИИ (триггеры, без рутин)
+TRIG_COOLDOWN = {"critical": 30 * 60, "high": 2 * 3600,
+                 "medium": 6 * 3600, "low": 12 * 3600}
+TRIG_PRIO = {"critical": 0, "high": 1, "medium": 2, "low": 3}
+
+
+def _ml_snapshot():
+    m = _load_json(os.path.join(RESULTS, "model.json"), {})
+    if not m:
+        return None
+    wfo = m.get("wfo") or {}
+    return {"ts": m.get("trained_ts", 0), "auc": wfo.get("val_auc"),
+            "acc": wfo.get("val_accuracy"), "n": m.get("n_trades"),
+            "threshold": m.get("threshold"),
+            "kept_wr": wfo.get("kept_win_rate")}
+
+
+def _fail_streak():
+    if not os.path.exists(JOURNAL_PATH):
+        return 0
+    try:
+        with open(JOURNAL_PATH, encoding="utf-8") as f:
+            rows = f.readlines()[-8:]
+    except Exception:
+        return 0
+    streak = 0
+    for r in reversed(rows):
+        try:
+            ev = json.loads(r).get("event")
+        except Exception:
+            break
+        if ev == "failed":
+            streak += 1
+        elif ev in ("promoted", "checkpoint"):
+            break
+    return streak
+
+
+def _check_triggers(st_lab, extra):
+    """Детерминированный слой решает, когда звать ИИ. Каждая находка/аномалия
+    — повод для полной аналитики; рутина без триггеров ИИ не тратит."""
+    now = _now_ms()
+    seen = st_lab.setdefault("triggers", {})
+    out = []
+
+    def add(kind, prio, detail):
+        if now - int(seen.get(kind, 0)) < TRIG_COOLDOWN[prio] * 1000:
+            return
+        out.append({"kind": kind, "prio": prio, "detail": detail})
+        seen[kind] = now
+
+    ml = _ml_snapshot()
+    if ml and ml.get("ts") and ml["ts"] > int(st_lab.get("ml_seen_ts", 0)):
+        st_lab["ml_seen_ts"] = ml["ts"]
+        prev = st_lab.get("ml_last_auc")
+        auc = ml.get("auc") or 0
+        if prev is not None and abs(auc - prev) >= 0.03:
+            add("ml_shift", "high",
+                f"ML-гейт найдил смещение AUC {prev} -> {auc}, n={ml.get('n')}")
+        elif auc < 0.5:
+            add("ml_weak", "medium", f"ML AUC {auc} ниже случайного — гейт шумит")
+        st_lab["ml_last_auc"] = auc
+
+    pats = _load_json(PATTERNS_PATH, {})
+    pts = pats.get("ts") or ""
+    if pts and pts != st_lab.get("patterns_seen_ts"):
+        st_lab["patterns_seen_ts"] = pts
+        n = len(pats.get("patterns") or [])
+        if n:
+            add("gold_found", "high",
+                f"охота нашла {n} закономерностей (см. паттерны в досье)")
+        else:
+            st_lab["hunt_clean"] = int(st_lab.get("hunt_clean", 0)) + 1
+            if st_lab["hunt_clean"] >= 3:
+                st_lab["hunt_clean"] = 0
+                add("hunt_sterile", "medium",
+                    "три охоты подряд без находок — пересмотреть пороги/окна")
+
+    rc = (extra.get("real_check") or {}) if isinstance(extra, dict) else {}
+    rsum = rc.get("summary") or (rc if rc.get("updated") else None)
+    if rsum and int(rsum.get("trades") or 0) >= 5:
+        bias = float(rsum.get("realism_bias") or 0)
+        mism = int(rsum.get("kind_mismatch") or 0)
+        if bias <= -1.0:
+            add("realism_drift", "critical",
+                f"комиссии/проскальзывание съедают {bias} — овервью стратегий")
+        if mism >= 3:
+            add("realism_mismatch", "high",
+                f"{mism} сделок не сходятся с реальными свечами")
+
+    pchk = _load_json(PAPER_CHECK_PATH, {}).get("summary")
+    if pchk and int(pchk.get("trades") or 0) >= 3:
+        lbias = float(pchk.get("realism_bias") or 0)
+        if lbias <= -0.8:
+            add("lab_paper_drift", "critical",
+                f"lab-paper: реальность хуже записи на {lbias}")
+
+    ps = _load_json(PAPER_STATE_PATH, {})
+    if ps:
+        eq = float(ps.get("equity") or 1000.0)
+        if eq < 950.0 and eq < float(ps.get("day_start_equity") or 1000.0) * 0.97:
+            add("lab_paper_drawdown", "critical",
+                f"lab-paper equity {eq:.2f} — конфиг лабы теряет")
+
+    ds = st_lab.get("deep_scan") or {}
+    if ds.get("verdict") == "fail" and not seen.get("deep_scan_fail"):
+        add("deep_scan_fail", "medium",
+            f"прогон устойчивости провален ({ds.get('days')}д) — пересобрать")
+
+    if _fail_streak() >= 4:
+        add("exp_failures", "medium", "4+ эксперимента подряд провалены")
+
+    out.sort(key=lambda t: TRIG_PRIO[t["prio"]])
+    return out
+
+
+def _run_ai_action(action, st_lab, deadline):
+    """ИИ заказал детерминированное действие — система исполняет сама."""
+    if action == "retrain_ml" and time.time() < deadline - 30:
+        try:
+            r = subprocess.run([sys.executable, "-m", "src.train"],
+                               cwd=HERE, capture_output=True, text=True,
+                               timeout=180)
+            data = ai_advisor._parse_json(r.stdout or "") or {}
+            ml = _ml_snapshot()
+            journal("ml_retrained", trained=bool(data.get("trained")),
+                    auc=ml and ml.get("auc"), acc=ml and ml.get("acc"),
+                    detail=("ML-гейт переобучен по заказу ИИ, "
+                            f"n={ml and ml.get('n')}"))
+            st_lab["ml_seen_ts"] = (ml or {}).get("ts", 0)
+        except Exception as e:
+            journal("ml_retrain_error", detail=f"{type(e).__name__}: {str(e)[:140]}")
+
+
 # ------------------------------------------------------------ LLM план
 def _llm_call(prompt):
     tok = os.environ.get("WAI_TOKEN")
@@ -292,7 +437,7 @@ def _llm_call(prompt):
     return None, "; ".join(errs)
 
 
-def _dossier(st_lab, baseline, extra):
+def _dossier(st_lab, baseline, extra, escalation=None):
     tail = []
     if os.path.exists(JOURNAL_PATH):
         with open(JOURNAL_PATH, encoding="utf-8") as f:
@@ -305,27 +450,41 @@ def _dossier(st_lab, baseline, extra):
                 tail.append(r[:120])
     data_cfg = _main_cfg({})
     bounds = {k: [b[0], b[1]] for k, b in merged_bounds().items()}
+    pats = _load_json(PATTERNS_PATH, {})
+    ps = _load_json(PAPER_STATE_PATH, {})
+    pchk = _load_json(PAPER_CHECK_PATH, {})
+    evo = _load_json(os.path.join(RESULTS, "evo.json"), {})
     return json.dumps({
         "цель": "обогнать оригинал по score при PF>1 и глубине трейдов",
+        "эскалация": escalation and {k: escalation.get(k)
+                                     for k in ("kind", "prio", "detail")},
         "оригинал_baseline": {k: baseline.get(k) for k in
                               ("name", "score", "trades", "pnl") if k in baseline},
         "лаборатория_лучшая": st_lab.get("best"),
         "внедрено_в_оригинал": st_lab.get("promoted", [])[-4:],
+        "паттерны_охоты": pats,
+        "deep_scan": st_lab.get("deep_scan"),
+        "lab_paper": ps and {"equity": ps.get("equity"), "stats": ps.get("stats"),
+                             "open": len(ps.get("positions") or [])},
+        "lab_paper_сверка": (pchk.get("summary") if isinstance(pchk, dict) else None),
+        "evo": evo and {"generations": evo.get("generations"),
+                        "best": evo.get("best")},
         "журнал_недавнее": tail,
         "параметры_сейчас": {k: data_cfg.get(k) for k in list(bounds)[:12]},
         "границы": bounds,
-        "ml": extra.get("ml"),
-        "real_check": extra.get("real_check"),
+        "ml": _ml_snapshot(),
+        "real_check": (extra or {}).get("real_check"),
         "universe": _eval_symbols(),
     }, ensure_ascii=False)
 
 
-def _plan(st_lab, baseline, extra, deadline):
+def _plan(st_lab, baseline, extra, deadline, escalation=None):
     st_lab["llm_used"] = (st_lab.get("llm_used", 0) + 1
                           if st_lab.get("llm_day") == _day_key() else 1)
     st_lab["llm_day"] = _day_key()
     st_lab["last_plan_ts"] = _now_ms()
-    text, err = _llm_call(_dossier(st_lab, baseline, extra))
+    text, err = _llm_call(_dossier(st_lab, baseline, extra, escalation))
+    st_lab["last_escalation"] = escalation and escalation.get("kind")
     if text is None:
         journal("plan_failed", detail=err or "llm недоступен")
         return False
@@ -358,7 +517,10 @@ def _plan(st_lab, baseline, extra, deadline):
     st_lab["q_idx"] = 0
     st_lab["phase"] = "evaluate"
     save_state(st_lab)
-    journal("plan", detail=thoughts, queued=len(queue))
+    for act in (data.get("run") or [])[:2]:
+        _run_ai_action(str(act), st_lab, deadline)
+    journal("plan", detail=thoughts, queued=len(queue),
+            trigger=escalation and escalation.get("kind"))
     return True
 
 
@@ -415,7 +577,7 @@ def _step(st_lab, deadline, summary, extra=None):
 
     queue = st_lab.get("queue") or []
     q_idx = int(st_lab.get("q_idx", 0))
-    llm_ok = (st_lab.get("llm_used", 0) < LLM_DAY_LIMIT
+    llm_ok = (st_lab.get("llm_used", 0) < LLM_DAY_LIMIT - 1
               and _now_ms() - st_lab.get("last_plan_ts", 0) > PLAN_INTERVAL_S * 1000)
 
     pend = st_lab.get("pending")
@@ -435,8 +597,28 @@ def _step(st_lab, deadline, summary, extra=None):
                         detail="второе окно не подтвердило, вариант отброшен")
         st_lab["pending"] = None
 
-    if queue[q_idx:] and time.time() < deadline - 50:
+    trig = []
+    if time.time() < deadline - 20:
+        trig = _check_triggers(st_lab, extra)
+    esc_budget = st_lab.get("llm_used", 0) < LLM_DAY_LIMIT
+    critical = [t for t in trig if t["prio"] == "critical"]
+
+    if critical and esc_budget and time.time() < deadline - 60:
+        st_lab["phase"] = "ai_escalation"
+        save_state(st_lab)
+        done = _plan(st_lab, st_lab.get("baseline") or {}, extra, deadline,
+                     escalation=critical[0])
+        summary["escalation"] = critical[0]["kind"]
+        summary["planned"] = done
+    elif queue[q_idx:] and time.time() < deadline - 50:
         summary.update(_evaluate(st_lab, deadline))
+    elif trig and esc_budget and time.time() < deadline - 60:
+        st_lab["phase"] = "ai_escalation"
+        save_state(st_lab)
+        done = _plan(st_lab, st_lab.get("baseline") or {}, extra, deadline,
+                     escalation=trig[0])
+        summary["escalation"] = trig[0]["kind"]
+        summary["planned"] = done
     elif llm_ok and time.time() < deadline - 60:
         st_lab["phase"] = "plan"
         save_state(st_lab)
@@ -704,7 +886,7 @@ def _pattern_module(pid, tags, side, mean_ret, n):
     """Вето-модуль по найденной контр-закономерности (детерминированный)."""
     tag_list = ", ".join(f'"{t}"' for t in tags)
     return f'''"""Лаб-модуль: вето по опасному контексту {pid} (охота без LLM).
-    NOTE: math/statistics в песочнице aidev уже доступны как глобалы."""
+math/statistics в песочнице уже доступны как глобалы."""
 NAME = "lab_pat_{pid}"
 SIDE_BLOCK = "{side}"
 BLACK = {{{tag_list}}}
@@ -906,6 +1088,8 @@ def paper_tick(bars_map, st_lab, now_ms, deadline):
     pstate = _load_json(PAPER_STATE_PATH, None)
     if pstate is None:
         pstate = sim_mod.fresh_state()
+    for k, v in sim_mod.fresh_state().items():
+        pstate.setdefault(k, v)
     trades = _load_paper_trades()
     best = st_lab.get("best") or {}
     pcfg = _main_cfg(best.get("params") or {})
@@ -1066,6 +1250,9 @@ def _write_report(st_lab, summary):
         rep["paper_realcheck"] = {k: pchk.get(k) for k in
                                   ("updated", "trades", "real_total",
                                    "recorded_total", "avg_bias")}
+    if st_lab.get("last_escalation"):
+        rep["escalation"] = {"kind": st_lab.get("last_escalation"),
+                             "llm_used": st_lab.get("llm_used", 0)}
     _save_json(REPORT_PATH, rep)
     return rep
 
