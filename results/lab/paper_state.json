@@ -1,57 +1,57 @@
 {
- "equity": 994.59761933189,
+ "equity": 993.9410436043499,
  "day_key": 20775,
  "day_start_equity": 1000.0,
- "consec_losses": 0,
+ "consec_losses": 1,
  "paused_until": 1794992965099,
  "halted_until": 0,
  "positions": [
   {
-   "id": "SNDKUSDT-1794995150731",
-   "symbol": "SNDKUSDT",
-   "side": "short",
-   "entry": 828.8,
-   "dist": 5.36,
+   "id": "NVDAUSDT-1794996164304",
+   "symbol": "NVDAUSDT",
+   "side": "long",
+   "entry": 161.68,
+   "dist": 0.715429,
    "rr": 1.5,
-   "tp": 820.76,
-   "sl": 834.16,
-   "qty": 0.17,
+   "tp": 162.753143,
+   "sl": 160.964571,
+   "qty": 1.23,
    "risk": 1.0,
    "ttl": 900,
-   "opened_ts": 1794995150731,
-   "expires_ts": 1794996050731,
+   "opened_ts": 1794996164304,
+   "expires_ts": 1794997064304,
    "status": "open",
    "source": "lab-paper",
    "strategy": "baseline",
    "regime": "range",
    "features": {
-    "close": 828.8,
-    "ema_fast": 831.262222,
-    "ema_slow": 832.592208,
-    "momentum": -4.5,
-    "vol_spike": 1.711,
-    "atr15": 6.7,
-    "rsi14": 28.91,
-    "bb_z": -2.585,
-    "don_hi": 836.7,
-    "don_lo": 811.7,
+    "close": 161.68,
+    "ema_fast": 161.640889,
+    "ema_slow": 161.595584,
+    "momentum": 0.11,
+    "vol_spike": 2.121,
+    "atr15": 0.894286,
+    "rsi14": 62.41,
+    "bb_z": 0.75,
+    "don_hi": 161.8,
+    "don_lo": 157.17,
     "adx15": null,
-    "atr_pct": 0.444,
-    "ts": 1794995040000
+    "atr_pct": 0.0,
+    "ts": 1794996060000
    }
   }
  ],
  "adapt": {
   "baseline|range": {
-   "n": 6,
-   "ewma": -0.5046
+   "n": 7,
+   "ewma": -0.5274
   }
  },
  "stats": {
-  "trades": 6,
+  "trades": 7,
   "wins": 1,
-  "losses": 5,
-  "pnl": -5.402380668110027
+  "losses": 6,
+  "pnl": -6.05895639565005
  },
- "updated": 1794995814641
+ "updated": 1794996164304
 }
