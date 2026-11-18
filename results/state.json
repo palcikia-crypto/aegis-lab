@@ -1,53 +1,87 @@
 {
- "equity": 997.2797100159049,
+ "equity": 997.8441357418703,
  "day_key": 20775,
  "day_start_equity": 1002.1763368597619,
- "consec_losses": 2,
+ "consec_losses": 0,
  "paused_until": 0,
  "halted_until": 0,
  "positions": [
   {
-   "id": "NVDAUSDT-1795015518245",
-   "symbol": "NVDAUSDT",
+   "id": "BTCUSDT-1795016626450",
+   "symbol": "BTCUSDT",
    "side": "short",
-   "entry": 153.3,
-   "dist": 1.318286,
+   "entry": 63216.8,
+   "dist": 253.028571,
    "rr": 1.5,
-   "tp": 151.322571,
-   "sl": 154.618286,
-   "qty": 0.709,
+   "tp": 62837.257143,
+   "sl": 63469.828571,
+   "qty": 0.003,
    "risk": 1.0,
    "ttl": 900,
-   "opened_ts": 1795015518245,
-   "expires_ts": 1795016418245,
+   "opened_ts": 1795016626450,
+   "expires_ts": 1795017526450,
    "status": "open",
    "source": "okx",
    "strategy": "baseline",
    "regime": "volatile",
    "features": {
-    "close": 153.3,
-    "ema_fast": 154.249333,
-    "ema_slow": 154.680087,
-    "momentum": -1.79,
-    "vol_spike": 2.174,
-    "atr15": 1.647857,
-    "rsi14": 31.39,
-    "bb_z": -2.714,
-    "don_hi": 161.57,
-    "don_lo": 153.55,
+    "close": 63216.8,
+    "ema_fast": 63400.053333,
+    "ema_slow": 63455.873593,
+    "momentum": -273.2,
+    "vol_spike": 4.047,
+    "atr15": 316.285714,
+    "rsi14": 23.76,
+    "bb_z": -2.385,
+    "don_hi": 64423.8,
+    "don_lo": 63038.8,
     "adx15": null,
-    "atr_pct": 0.947,
-    "ts": 1795015440000
+    "atr_pct": 0.895,
+    "ts": 1795016520000
+   }
+  },
+  {
+   "id": "NVDAUSDT-1795016626450",
+   "symbol": "NVDAUSDT",
+   "side": "short",
+   "entry": 152.04,
+   "dist": 1.404,
+   "rr": 1.5,
+   "tp": 149.934,
+   "sl": 153.444,
+   "qty": 0.668,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1795016626450,
+   "expires_ts": 1795017526450,
+   "status": "open",
+   "source": "okx",
+   "strategy": "baseline",
+   "regime": "volatile",
+   "features": {
+    "close": 152.04,
+    "ema_fast": 152.975111,
+    "ema_slow": 153.395411,
+    "momentum": -1.63,
+    "vol_spike": 2.82,
+    "atr15": 1.755,
+    "rsi14": 17.37,
+    "bb_z": -2.263,
+    "don_hi": 161.57,
+    "don_lo": 152.87,
+    "adx15": null,
+    "atr_pct": 0.895,
+    "ts": 1795016520000
    }
   }
  ],
  "stats": {
-  "trades": 27,
-  "wins": 13,
+  "trades": 28,
+  "wins": 14,
   "losses": 14,
-  "pnl": -2.7202899840952233
+  "pnl": -2.1558642581298173
  },
- "updated": 1795016312237,
+ "updated": 1795016640458,
  "adapt": {
   "mean_reversion|range": {
    "n": 10,
@@ -56,7 +90,7 @@
   "baseline|range": {
    "n": 22,
    "ewma": -0.4487,
-   "blocked": 33
+   "blocked": 34
   },
   "trend_follow|trend_down": {
    "n": 11,
@@ -75,8 +109,8 @@
    "ewma": -0.0
   },
   "baseline|volatile": {
-   "n": 22,
-   "ewma": -0.1235
+   "n": 23,
+   "ewma": -0.0203
   },
   "breakout|volatile": {
    "n": 12,

@@ -1,43 +1,43 @@
 {
- "equity": 991.9184555902712,
+ "equity": 992.3700655463396,
  "day_key": 20775,
  "day_start_equity": 1000.0,
- "consec_losses": 2,
+ "consec_losses": 0,
  "paused_until": 1795004012542,
  "halted_until": 0,
  "positions": [
   {
-   "id": "NVDAUSDT-1795015658686",
-   "symbol": "NVDAUSDT",
+   "id": "BTCUSDT-1795016647821",
+   "symbol": "BTCUSDT",
    "side": "short",
-   "entry": 153.23,
-   "dist": 1.338286,
+   "entry": 63172.9,
+   "dist": 253.805714,
    "rr": 1.5,
-   "tp": 151.222571,
-   "sl": 154.568286,
-   "qty": 0.6990000000000001,
+   "tp": 62792.191429,
+   "sl": 63426.705714,
+   "qty": 0.003,
    "risk": 1.0,
    "ttl": 900,
-   "opened_ts": 1795015658686,
-   "expires_ts": 1795016558686,
+   "opened_ts": 1795016647821,
+   "expires_ts": 1795017547821,
    "status": "open",
    "source": "lab-paper",
    "strategy": "baseline",
    "regime": "volatile",
    "features": {
-    "close": 153.23,
-    "ema_fast": 154.062889,
-    "ema_slow": 154.582381,
-    "momentum": -2.01,
-    "vol_spike": 2.42,
-    "atr15": 1.672857,
-    "rsi14": 27.22,
-    "bb_z": -2.317,
-    "don_hi": 161.57,
-    "don_lo": 153.55,
+    "close": 63172.9,
+    "ema_fast": 63360.171111,
+    "ema_slow": 63436.415152,
+    "momentum": -393.8,
+    "vol_spike": 2.046,
+    "atr15": 317.257143,
+    "rsi14": 20.07,
+    "bb_z": -2.282,
+    "don_hi": 64423.8,
+    "don_lo": 63038.8,
     "adx15": null,
-    "atr_pct": 0.947,
-    "ts": 1795015500000
+    "atr_pct": 0.895,
+    "ts": 1795016580000
    }
   }
  ],
@@ -45,11 +45,11 @@
   "baseline|range": {
    "n": 10,
    "ewma": -0.7077,
-   "blocked": 17
+   "blocked": 18
   },
   "baseline|volatile": {
-   "n": 6,
-   "ewma": 0.1784
+   "n": 7,
+   "ewma": 0.2194
   },
   "breakout|volatile": {
    "n": 4,
@@ -57,10 +57,10 @@
   }
  },
  "stats": {
-  "trades": 20,
-  "wins": 6,
+  "trades": 21,
+  "wins": 7,
   "losses": 14,
-  "pnl": -8.081544409728926
+  "pnl": -7.629934453660522
  },
- "updated": 1795016312994
+ "updated": 1795016647821
 }
