@@ -126,13 +126,14 @@ Cloudflare-IP, в отличие от веб-интерфейса AI Studio). AP
 
 ## VLESS VPN (Workers)
 `cloudflare/vless-vpn/worker.js` — VLESS over WebSocket + TLS на Cloudflare Workers (TCP + DNS).
-Два узла — основной `vless-vpn` и запасной `aegis-vpn` (одинаковый код, оба прошли E2E). Плюс универсальный узел `vpn-uni` для Google AI Studio и прочего. UUID задан в коде (константа `UUID`).
+Два узла — основной `vless-vpn` и запасной `aegis-vpn` (одинаковый код, оба прошли E2E). Плюс универсальный узел `vpn-uni` для Google AI Studio и прочего, и телефонный узел `vpn-phone` для постоянного VPN (Always-on) на Android. UUID задан в коде (константа `UUID`).
 
 Импорт клиента (v2rayNG / Hiddify / v2rayN): добавить по ссылке или вручную:
 ```
 vless://f30d23f3-92c3-4147-86de-b76f36f718ed@vless-vpn.apigemenipp.workers.dev:443?encryption=none&security=tls&sni=vless-vpn.apigemenipp.workers.dev&fp=chrome&type=ws&host=vless-vpn.apigemenipp.workers.dev&path=%2F#AegisVPN-1
 vless://f30d23f3-92c3-4147-86de-b76f36f718ed@aegis-vpn.apigemenipp.workers.dev:443?encryption=none&security=tls&sni=aegis-vpn.apigemenipp.workers.dev&fp=chrome&type=ws&host=aegis-vpn.apigemenipp.workers.dev&path=%2F#AegisVPN-2
 vless://f30d23f3-92c3-4147-86de-b76f36f718ed@vpn-uni.apigemenipp.workers.dev:80?encryption=none&security=none&type=ws&host=vpn-uni.apigemenipp.workers.dev&path=%2F#Aegis-UNI
+vless://f30d23f3-92c3-4147-86de-b76f36f718ed@vpn-phone.apigemenipp.workers.dev:80?encryption=none&security=none&type=ws&host=vpn-phone.apigemenipp.workers.dev&path=%2F#Aegis-PH
 ```
 Для РФ: `*.workers.dev` часто блокируется провайдерами — в v2rayNG включить фрагментацию (Настройки → Фрагментация / TLS Fragment), маршрутизация «Глобальный», проверка — «Тест реальной задержки» долгим нажатием на конфиг. Надёжное решение — собственный домен в Cloudflare (Workers Custom Domain).
 Проверка живости: `GET https://vless-vpn.apigemenipp.workers.dev/` или `GET https://aegis-vpn.apigemenipp.workers.dev/` → JSON со UUID.
