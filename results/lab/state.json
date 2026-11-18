@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 83,
+ "steps": 84,
  "llm_used": 6,
  "llm_day": "20261118",
  "last_plan_ts": 1795000413120,
@@ -47,7 +47,7 @@
    "rejected": []
   }
  ],
- "q_idx": 0,
+ "q_idx": 1,
  "best": null,
  "promoted": [],
  "ckpts": 0,
