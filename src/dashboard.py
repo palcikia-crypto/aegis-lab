@@ -1,6 +1,7 @@
 import json
 import os
 import statistics
+import time
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RESULTS = os.path.join(HERE, "results")
@@ -68,6 +69,115 @@ def esc(s):
     return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
+def _ago(ms):
+    if not ms:
+        return "—"
+    m = int(max(0, (time.time() * 1000 - ms) / 60000))
+    if m < 1:
+        return "только что"
+    if m < 60:
+        return f"{m} мин назад"
+    h = m // 60
+    return f"{h} ч {m % 60} мин назад" if h < 24 else f"{h // 24} д {h % 24} ч назад"
+
+
+def pulse_panel():
+    b = _read(os.path.join(RESULTS, "beat.json"))
+    if not isinstance(b, dict):
+        return ""
+    sym_rows = ""
+    total_bars = 0
+    for sym, info in (b.get("symbols") or {}).items():
+        if not isinstance(info, dict):
+            continue
+        la = info.get("last_ago_m", -1)
+        la_s = "нет свежих" if (la is None or la < 0) else f"{la} мин назад"
+        nb = info.get("bars", 0) or 0
+        total_bars += nb
+        fresh = "up" if (la is not None and la >= 0 and la <= 6) else ""
+        sym_rows += (f"<tr><td class='mono'>{esc(sym)}</td>"
+                     f"<td class='muted'>{esc(info.get('src') or '—')}</td>"
+                     f"<td class='mono'>{nb}</td>"
+                     f"<td class='mono small {fresh}'>{esc(la_s)}</td></tr>")
+    opened = b.get("opened") or []
+    op_txt = esc(", ".join(opened[-5:])) if opened else "<span class='muted'>нет новых</span>"
+    br = b.get("breakers") or {}
+    br_ok = br.get("ok", True)
+    br_txt = " зелёный" if br_ok else esc(f" стоп: {br.get('reason')}")
+    return (f"<div class='chiprow'>"
+            f"<span class='chip'>📡 цикл: {esc(b.get('ts', ''))}</span>"
+            f"<span class='chip'>свечей в живом буфере: {total_bars}</span>"
+            f"<span class='chip'>открыто: {op_txt}</span>"
+            f"<span class='chip'>ML-гейт отсеял: {b.get('ml_gated', 0)}</span>"
+            f"<span class='chip'>спред-гейт отсеял: {b.get('book_gated', 0)}</span>"
+            f"<span class='chip {'chip-ok' if br_ok else 'chip-bad'}'>предохранитель:{br_txt}</span></div>"
+            f"<div class='sub' style='margin-top:6px'>это пульс каждого 5-минутного цикла воркера: он проверяет рынок, "
+            "ML-гейт пропускает только качественные сигналы, спред-гейт не входит при широком стакане</div>"
+            f"<table style='margin-top:8px'><tr><th>Символ</th><th>Источник</th><th>Свечей</th><th>Свежесть бара</th></tr>{sym_rows}</table>")
+
+
+def data_panel(model):
+    cache = os.path.join(RESULTS, "lab", "cache")
+    rows = ""
+    total_bytes = 0
+    total_bars = 0
+    if os.path.isdir(cache):
+        for fn in sorted(os.listdir(cache)):
+            if not fn.endswith(".json"):
+                continue
+            p = os.path.join(cache, fn)
+            try:
+                sz = os.path.getsize(p)
+            except OSError:
+                continue
+            total_bytes += sz
+            info_s = ""
+            if sz < 12_000_000:
+                try:
+                    with open(p) as f:
+                        d = json.load(f)
+                    w = d.get("windows") or {}
+                    nb = sum(len(v) for v in w.values() if isinstance(v, list))
+                    syms = d.get("symbols") or list(w.keys())
+                    total_bars += nb
+                    info_s = (f"{nb} бар · {esc(', '.join(syms))} · "
+                              f"{esc(d.get('days', '—'))} д · скачан {esc(_ago(d.get('ts')))}")
+                except Exception:
+                    info_s = "—"
+            rows += (f"<tr><td class='mono'>{esc(fn)}</td><td class='mono'>{info_s or '—'}</td>"
+                     f"<td class='mono muted'>{sz / 1_000_000:.1f} МБ</td></tr>")
+    if not rows:
+        rows = "<tr><td colspan='3' class='muted'>скачанной истории пока нет — лаба подпишет её при первом бэктесте</td></tr>"
+    ml_n = (model or {}).get("n_trades", 0)
+    sim_n = "—"
+    ss = _read(SIM_STATE_PATH)
+    if isinstance(ss, dict):
+        sim_n = (ss.get("stats") or {}).get("trades", "—")
+    return (f"<table><tr><th>ML-датасет</th><th>Sim-обучение</th><th>История лаборатории</th></tr>"
+            f"<tr><td class='mono'>{ml_n} сделок</td><td class='mono'>{sim_n} сделок</td>"
+            f"<td class='mono'>{total_bars} бар · {total_bytes / 1_000_000:.1f} МБ</td></tr></table>"
+            f"<table style='margin-top:8px'><tr><th>Файл</th><th>Содержимое</th><th>Размер</th></tr>{rows}</table>")
+
+
+def lab_progress_panel():
+    st_lab = _read(os.path.join(RESULTS, "lab", "state.json"))
+    if not isinstance(st_lab, dict):
+        return ""
+    hunt = st_lab.get("hunt_ts")
+    deep = st_lab.get("deep_ts")
+    q, qi = st_lab.get("queue") or [], st_lab.get("q_idx", 0)
+    q_left = max(0, len(q) - qi)
+    hunt_s = f"ещё не запускалась" if not hunt else f"{_ago(hunt)} · порог edge 0.0008 · без LLM"
+    deep_s = f"ещё не запускался (90 д на 15m каждые 6 ч)" if not deep else f"{_ago(deep)} · 90 д / 15m"
+    escd = st_lab.get("last_escalation")
+    esc_s = esc(f"последняя: {escd}") if escd else "триггеры чисты — LLM молчит, детерминер работает сам"
+    return (f"<table><tr><th>Где ищет</th><th>Статус</th></tr>"
+            f"<tr><td>🏹 Охота за паттернами</td><td class='small'>{hunt_s}</td></tr>"
+            f"<tr><td>⏳ Deep-scan устойчивости</td><td class='small'>{esc(deep_s)}</td></tr>"
+            f"<tr><td>🧬 Очередь вариантов</td><td class='mono'>{q_left} шт (по 1 за цикл)</td></tr>"
+            f"<tr><td>⚡ AI-эскалация</td><td class='small'>{esc_s}</td></tr></table>")
+
+
 def equity_svg(rows, w=760, h=190):
     if len(rows) < 2:
         return '<div class="empty">Недостаточно данных для графика</div>'
@@ -97,7 +207,9 @@ def trade_row(t):
     pnl = t.get("pnl")
     pnl_s = f"{pnl:+.2f}" if pnl is not None else "—"
     strat = t.get("strategy") or ""
+    when = _ago(t.get('closed_ts'))
     return (f"<tr><td class='mono'>{esc(t.get('symbol'))}</td>"
+            f"<td class='muted small'>{esc(when)}</td>"
             f"<td><span class='pill {'p-up' if t.get('side')=='long' else 'p-down'}'>{esc(t.get('side','')).upper()}</span></td>"
             f"<td class='mono'>{t.get('entry')}</td><td class='mono'>{t.get('ttl')}s</td>"
             f"<td><span class='pill {'p-up' if t.get('status')=='win' else 'p-down' if t.get('status')=='loss' else ''}'>{esc(t.get('status'))}</span></td>"
@@ -154,6 +266,7 @@ def generate(st, trades, cfg):
 
     pos_rows = "".join(
         f"<tr><td class='mono'>{esc(p['symbol'])}</td>"
+        f"<td class='muted small'>{esc(_ago(p.get('opened_ts')))}</td>"
         f"<td><span class='pill {'p-up' if p['side']=='long' else 'p-down'}'>{p['side'].upper()}</span></td>"
         f"<td class='mono'>{p['entry']}</td><td class='mono'>{p['tp']}</td><td class='mono'>{p['sl']}</td>"
         f"<td class='mono'>{p['ttl']}s</td><td class='mono'>{p['qty']}</td>"
@@ -451,6 +564,18 @@ def generate(st, trades, cfg):
 <table style="margin-top:8px"><tr><th>Символ</th><th>Открыта</th><th>Реальный итог</th><th>Записано</th><th>Реально</th><th>Сходится</th><th></th></tr>
 {vrows}{vrows_tot}</table></div>"""
 
+    pulse = pulse_panel()
+    if pulse:
+        pulse = ('<div class="panel"><div class="ph"><span class="ico">📡</span>Пульс системы '
+                 '<span class="muted small">· цикл воркера</span></div>' + pulse + '</div>')
+    data_p = data_panel(model)
+    if data_p:
+        data_p = ('<div class="panel"><div class="ph"><span class="ico">🗄️</span>Данные '
+                  '<span class="muted small">· что скачано и на чём обучается</span></div>' + data_p + '</div>')
+    lprog = lab_progress_panel()
+    if lprog:
+        lprog = ('<div class="panel"><div class="ph"><span class="ico">🔎</span>Лаборатория · где ищет прямо сейчас</div>'
+                 + lprog + '</div>')
     html = f"""<!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -552,7 +677,7 @@ th,td{{padding:5px 6px}}
 {stale_txt}
 </header>
 <nav class="nav">
-<a href="#top">Обзор</a><a href="#lab">🧪 Лаборатория</a><a href="#ai">🤖 AI-оператор</a><a href="#dev">🏗 Архитектор</a><a href="#vcheck">🔍 Реал-проверка</a><a href="#charts">📈 Эквити</a><a href="#positions">🎯 Позиции</a><a href="#trades">💰 Сделки</a><a href="#wfo">⚙ WFO</a><a href="#uni">🪙 Монеты</a><a href="#train">🎓 ML</a><a href="#adapt">🧠 Адаптация</a>
+<a href="#top">Обзор</a><a href="#pulse">📡 Пульс</a><a href="#data">🗄 Данные</a><a href="#lab">🧪 Лаборатория</a><a href="#lprog">🔎 Где ищет</a><a href="#ai">🤖 AI-оператор</a><a href="#dev">🏗 Архитектор</a><a href="#vcheck">🔍 Реал-проверка</a><a href="#charts">📈 Эквити</a><a href="#positions">🎯 Позиции</a><a href="#trades">💰 Сделки</a><a href="#wfo">⚙ WFO</a><a href="#uni">🪙 Монеты</a><a href="#train">🎓 ML</a><a href="#adapt">🧠 Адаптация</a>
 </nav>
 <div class="hero" id="top">
 <div class="eq">Equity (paper)<b>${st['equity']:.2f}</b></div>
@@ -568,16 +693,17 @@ th,td{{padding:5px 6px}}
 <div class="card"><div class="k">Серия убытков</div><div class="v {'down' if st['consec_losses'] > 0 else ''}">{st['consec_losses']} / {cfg['loss_streak_pause']}</div><div class="d">стоп-лимит</div></div>
 {ml_card}{sim_cards}
 </div>
-<div id="ai">{ai_panel}</div><div id="dev">{dev_panel}</div><div id="lab">{lab_panel}</div><div id="vcheck">{vcheck_panel}</div>
+<div id="pulse">{pulse}</div><div id="data">{data_p}</div>
+<div id="ai">{ai_panel}</div><div id="dev">{dev_panel}</div><div id="lab">{lab_panel}{lprog}</div><div id="vcheck">{vcheck_panel}</div>
 <div id="charts"><div class="panel"><div class="ph"><span class="ico">📈</span>Кривая эквити</div>{equity_svg(eq_rows)}</div></div>
 <div id="sim">{sim_panel}</div>
 <div id="positions"><div class="panel"><div class="ph"><span class="ico">🎯</span>Открытые позиции ({len(st['positions'])}/{cfg['max_concurrent']})</div>
 <div class="sub">движок проверяет рынок каждые 5 минут; сигнал приходит в среднем раз в 30–90 минут — когда условия совпадут, сделка появится здесь автоматически</div>
-<table style="margin-top:8px"><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TP</th><th>SL</th><th>TTL</th><th>Qty</th><th>Стратегия · режим</th></tr>
-{pos_rows or '<tr><td colspan="8" class="muted">Позиций нет — ждём сигнал (проверка каждые 5 мин)</td></tr>'}</table></div></div>
+<table style="margin-top:8px"><tr><th>Символ</th><th>Открыта</th><th>Сторона</th><th>Вход</th><th>TP</th><th>SL</th><th>TTL</th><th>Qty</th><th>Стратегия · режим</th></tr>
+{pos_rows or '<tr><td colspan="9" class="muted">Позиций нет — ждём сигнал (проверка каждые 5 мин)</td></tr>'}</table></div></div>
 <div id="trades"><div class="panel"><div class="ph"><span class="ico">💰</span>Последние сделки</div>
-<table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TTL</th><th>Итог</th><th>PnL $</th><th>Стратегия</th></tr>
-{tr_rows or '<tr><td colspan="7" class="muted">Сделок пока нет — воркер собирает сигналы</td></tr>'}</table></div></div>
+<table><tr><th>Символ</th><th>Когда</th><th>Сторона</th><th>Вход</th><th>TTL</th><th>Итог</th><th>PnL $</th><th>Стратегия</th></tr>
+{tr_rows or '<tr><td colspan="8" class="muted">Сделок пока нет — воркер собирает сигналы</td></tr>'}</table></div></div>
 <div id="wfo">{strat_panel}</div><div id="uni">{uni_panel}</div><div id="train">{train_panel}</div><div id="adapt">{adapt_panel}</div>
 <details class="panel"><summary>❔ как читать панель — коротко о каждом блоке</summary>
 <div class="small muted" style="margin-top:10px;line-height:1.9">
@@ -586,6 +712,7 @@ th,td{{padding:5px 6px}}
 <b>🏗 AI-архитектор</b> — модули-фильтры и эксперименты, написанные ИИ ·
 <b>🧪 Лаборатория</b> — «вторая реальность»: копия системы ищет и проверяет улучшения, стабильно лучшие внедряются в оригинал ·
 <b>⚡ Эскалация</b> — детерминированные триггеры (просадка, смещение ML, золото) будят ИИ в нужный момент ·
+<b>📡 Пульс / 🗄 Данные</b> — что происходит в цикле, что скачано и на чём обучение ·
 <b>🔍 Реал-проверка</b> — пересчёт сделок по реальным свечам с комиссиями и проскальзыванием ·
 <b>⚙ WFO / 🧠 Адаптация</b> — оптимизация параметров и автоприостановка убыточных связок ·
 <b>🎓 ML-гейт</b> — модель пропускает только качественные сигналы</div></details>

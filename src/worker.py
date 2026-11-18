@@ -161,6 +161,22 @@ def run_cycle():
     engine.save_state(st)
     engine.save_trades(trades)
     engine.append_equity(now_ms, st["equity"])
+    try:
+        beat = {
+            "ts": time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime(now_ms / 1000)),
+            "ts_ms": now_ms,
+            "symbols": {s: {"src": sources.get(s), "bars": len(symbol_bars.get(s) or []),
+                            "last_ago_m": max(0, int((now_ms - (symbol_bars[s][-1]["ts"] if symbol_bars.get(s) else 0)) / 60000)) if symbol_bars.get(s) else -1}
+                        for s in symbols},
+            "opened": opened,
+            "ml_gated": gated,
+            "book_gated": book_gated,
+            "breakers": {"ok": bool(ok), "reason": reason},
+        }
+        with open(os.path.join(engine.RESULTS, "beat.json"), "w") as f:
+            json.dump(beat, f)
+    except Exception:
+        pass
     dashboard.generate(st, trades, CFG)
 
     ai_rep = {"ok": False, "error": "not run"}
