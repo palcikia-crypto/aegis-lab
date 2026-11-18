@@ -118,15 +118,22 @@ POST https://gemini-proxy.apigemenipp.workers.dev/v1beta/models/gemini-2.0-flash
 
 Деплой из репозитория (локально): `npx wrangler@3 deploy cloudflare/gemini-proxy/worker.js --name gemini-proxy --compatibility-date 2024-12-01`
 
-## AI-оператор (Workers AI)
+## AI-мозг: оператор + архитектор (Workers AI)
 После каждого торгового цикла `src/ai_advisor.py` отправляет компактный слепок состояния
 в **Workers AI** (`@cf/meta/llama-3.3-70b-instruct-fp8-fast`, бесплатно 10 000 Neurons/день)
 и получает разбор на русском: вердикт (ok / warn / bad), summary, риски. Модель может
-предложить правки параметров — применяются только из белого списка с жёсткими границами:
-`fee_edge_mult` [2.0–4.0], `ttl_min` [180–600], `ttl_max` [600–1800], `max_concurrent` [1–3],
-`risk_per_trade` [0.5–1.5], `loss_streak_pause` [4–8]. Всё остальное отклоняется.
+предложить правки параметров — применяются только из белого списка с жёсткими границами.
 Приоритет конфига: settings.json → opt.json → **results/ai_cfg.json (AI, высший)**.
-Отчёты: `results/ai_report.json` (панель «🤖 AI-оператор» в дашборде), `results/ai_journal.jsonl`.
+
+Раз в час запускается **AI-архитектор** (`src/ai_dev.py`, «бог-режим»):
+- строит досье всей системы (структура кода, сигнатуры, конфиг, результаты) — ИИ видит систему целиком;
+- ставит бэктест-**эксперименты**: 7 дней истории через движок в песочнице, варианты параметров от ИИ,
+  робастный score; победитель внедряется (только в границах безопасных диапазонов);
+- **пишет свои модули-фильтры** (`ai_modules/*.py`): запрет опасных конструкций → compile →
+  exec в изоляции → smoke-тест на мок-фичах; модуль умеет только ВЕТО на сделку,
+  авто-отключается после 2 сбоев или при глушении >70% сигналов (лимит 3 активных).
+Отчёты: results/ai_report.json, results/ai_dev_report.json, results/ai_modules.json,
+results/ai_*_journal.jsonl — всё видно в панелях «🤖 AI-оператор» и «🏗 AI-архитектор» дашборда.
 Env для воркера: `WAI_TOKEN`, `WAI_ACCOUNT` (секреты `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`) —
 без них AI-разбор пропускается, торговля не прерывается.
 

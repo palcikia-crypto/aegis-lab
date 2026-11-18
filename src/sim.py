@@ -16,6 +16,7 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, HERE)
 
 from src import market, features, strategies, universe  # noqa: E402
+from src import ai_dev  # noqa: E402
 import src.engine as engine  # noqa: E402
 
 with open(os.path.join(HERE, "config", "settings.json")) as f:
@@ -117,9 +118,11 @@ def replay(wins, cfg, start_ts=None, end_ts=None, collect_trades=True,
                 feat = features.features(w[-WARMUP_BARS:], cfg)
                 decision = strategies.decide(feat, cfg, st.get("adapt"))
                 if decision:
-                    side, strat, reg = decision
-                    engine.open_positions(st, cfg, sym, feat, side, now_ms,
-                                          "sim", strategy=strat, regime=reg)
+                    allow_m, _why = ai_dev.filter_decision(feat, cfg, decision)
+                    if allow_m:
+                        side, strat, reg = decision
+                        engine.open_positions(st, cfg, sym, feat, side, now_ms,
+                                              "sim", strategy=strat, regime=reg)
         if now_ms - last_eq >= 30 * 60_000:
             eq_rows.append((now_ms, st["equity"]))
             last_eq = now_ms

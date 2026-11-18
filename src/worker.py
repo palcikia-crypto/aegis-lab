@@ -12,6 +12,7 @@ sys.path.insert(0, HERE)
 from src import market, features, engine, dashboard  # noqa: E402
 from src import strategies, universe  # noqa: E402
 from src import ai_advisor  # noqa: E402
+from src import ai_dev  # noqa: E402
 
 OPT_PATH = os.path.join(HERE, "results", "opt.json")
 MODEL_PATH = os.path.join(HERE, "results", "model.json")
@@ -117,6 +118,10 @@ def run_cycle():
             feat = features.features(bars, CFG)
             decision = strategies.decide(feat, CFG, st.get("adapt"))
             if decision:
+                allow_m, why = ai_dev.filter_decision(feat, CFG, decision)
+                if not allow_m:
+                    gated += 1
+                    continue
                 side, strat, reg = decision
                 regimes[sym] = reg
                 allow, p = gate(model, feat, side)
@@ -136,8 +141,8 @@ def run_cycle():
     dashboard.generate(st, trades, CFG)
 
     ai_rep = {"ok": False, "error": "not run"}
+    ml_wfo = (model or {}).get("wfo", {})
     try:
-        ml_wfo = (model or {}).get("wfo", {})
         ai_rep = ai_advisor.maybe_run(st, trades, CFG, {
             "sources": sources,
             "ml_gated": gated,
@@ -147,6 +152,18 @@ def run_cycle():
     except Exception:
         log_crash(sys.exc_info()[1])
         ai_rep = {"ok": False, "error": "ai crash (см. crash.log)"}
+
+    ai_dev_rep = {"ok": False, "error": "not run"}
+    try:
+        ai_dev_rep = ai_dev.maybe_run(st, trades, CFG, {
+            "sources": sources,
+            "ml_gated": gated,
+            "ml": {"auc": ml_wfo.get("val_auc"), "accuracy": ml_wfo.get("val_accuracy")} if model else None,
+            "sim": st.get("sim_summary"),
+        })
+    except Exception:
+        log_crash(sys.exc_info()[1])
+        ai_dev_rep = {"ok": False, "error": "ai_dev crash (см. crash.log)"}
 
     result = {
         "now": now_ms,
@@ -161,6 +178,9 @@ def run_cycle():
         "breaker": reason,
         "stats": st["stats"],
         "ai": {"ok": ai_rep.get("ok"), "verdict": ai_rep.get("verdict")},
+        "ai_dev": {"ok": ai_dev_rep.get("ok"),
+                   "thoughts": (ai_dev_rep.get("thoughts") or "")[:1] and len(ai_dev_rep.get("thoughts") or "") > 0,
+                   "modules_active": ai_dev_rep.get("modules_active")},
     }
     print(json.dumps(result))
     return result
