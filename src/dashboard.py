@@ -190,6 +190,8 @@ def generate(st, trades, cfg):
 
     upd_ago = max(0, int((_t.time() * 1000 - st.get("updated", 0)) / 60000))
     upd_s = f"обновлено {upd_ago} мин назад" if st.get("updated") else ""
+    stale_txt = ("<div class='live' style='color:#fbbf24;border-color:rgba(251,191,36,.4)'>"
+                 "⚠ данные устарели</div>" if upd_ago >= 15 else "")
 
     train_panel = ""
     if model:
@@ -403,6 +405,8 @@ def generate(st, trades, cfg):
         if escd and escd.get("kind"):
             esc_txt = (f"<div class='chip chip-warn'>⚡ AI-эскалация: {escd.get('kind')} "
                        f"(LLM {escd.get('llm_used', 0)}/{lab_rep.get('llm_day_limit', 6)} сегодня)</div>")
+        else:
+            esc_txt = "<div class='chip chip-ok'>⚡ ИИ на дежурстве — триггеры чисты</div>"
         lab_panel = f"""
 <div class="panel dev"><div class="ph"><span class="ico">🧪</span>Лаборатория · Вторая реальность <span class="muted small">· {esc(lab_rep.get('ts',''))}</span></div>
 <div class="sub">копия системы живёт своей жизнью: строит гипотезы, пишет модули-фильтры, качает данные с бирж, гоняет бэктесты; всё, что стабильно обгоняет оригинал, переносится сюда (авто-откат к лучшему чекпоинту)</div>
@@ -520,6 +524,13 @@ background:var(--card2);border:1px solid var(--line2)}}
 .p-up{{color:var(--up);border-color:rgba(52,211,153,.4)}}
 .p-down{{color:var(--down);border-color:rgba(251,113,133,.4)}}
 .empty{{color:var(--muted);font-size:13px;padding:8px 0}}
+.nav{{display:flex;gap:8px;overflow-x:auto;white-space:nowrap;padding:12px 2px 0;scrollbar-width:none}}
+.nav::-webkit-scrollbar{{display:none}}
+.nav a{{flex:0 0 auto;font-size:12.5px;font-weight:600;color:var(--muted);background:var(--card);\nborder:1px solid var(--line);border-radius:99px;padding:6px 13px;text-decoration:none}}
+.nav a:hover{{color:var(--txt);border-color:var(--line2);text-decoration:none}}
+html{{scroll-behavior:smooth}}
+[id]{{scroll-margin-top:74px}}
+summary{{cursor:pointer;font-weight:600;font-size:13px}}
 .small{{font-size:12.5px}}.sub{{color:var(--muted);font-size:12.5px}}
 footer{{color:var(--muted);font-size:12px;margin-top:26px;text-align:center;line-height:1.8}}
 a{{color:var(--acc2);text-decoration:none}}a:hover{{text-decoration:underline}}
@@ -538,8 +549,12 @@ th,td{{padding:5px 6px}}
 <div class="brand">AEGIS<small>PAPER TRADING LAB</small></div>
 <div class="live"><span class="dot"></span><span class="timer" id="tm">120s</span></div>
 <div class="live muted">{trading}</div>
+{stale_txt}
 </header>
-<div class="hero">
+<nav class="nav">
+<a href="#top">Обзор</a><a href="#lab">🧪 Лаборатория</a><a href="#ai">🤖 AI-оператор</a><a href="#dev">🏗 Архитектор</a><a href="#vcheck">🔍 Реал-проверка</a><a href="#charts">📈 Эквити</a><a href="#positions">🎯 Позиции</a><a href="#trades">💰 Сделки</a><a href="#wfo">⚙ WFO</a><a href="#uni">🪙 Монеты</a><a href="#train">🎓 ML</a><a href="#adapt">🧠 Адаптация</a>
+</nav>
+<div class="hero" id="top">
 <div class="eq">Equity (paper)<b>${st['equity']:.2f}</b></div>
 <div class="eq" style="text-align:right">Binance → Bybit → OKX<br>
 <span class="muted small">риск {cfg['risk_per_trade']} USDT · RR 1:{cfg.get('rr', 1.0)} · Fee-Edge ×{cfg.get('fee_edge_mult', 3.0)} · TTL {cfg.get('ttl_min', 300)}–{cfg.get('ttl_max', 900)}с · {upd_s}</span></div>
@@ -548,25 +563,36 @@ th,td{{padding:5px 6px}}
 <div class="card hl"><div class="k">Win Rate</div><div class="v {'up' if wr >= 50 else ''}">{wr:.1f}%</div><div class="d">{s['wins']}W / {s['losses']}L</div></div>
 <div class="card"><div class="k">Profit Factor</div><div class="v">{'∞' if pf == float('inf') else f'{pf:.2f}'}</div><div class="d">прибыль/убыток</div></div>
 <div class="card"><div class="k">Сделок</div><div class="v">{s['trades']}</div><div class="d">paper-циклы 5 мин</div></div>
+<div class="card"><div class="k">PnL (paper)</div><div class="v {'up' if s['pnl'] >= 0 else 'down'}">{s['pnl']:+.2f}</div><div class="d">суммарно по сделкам</div></div>
 <div class="card"><div class="k">Sharpe</div><div class="v">{sharpe:.2f}</div><div class="d">paper</div></div>
 <div class="card"><div class="k">Серия убытков</div><div class="v {'down' if st['consec_losses'] > 0 else ''}">{st['consec_losses']} / {cfg['loss_streak_pause']}</div><div class="d">стоп-лимит</div></div>
 {ml_card}{sim_cards}
 </div>
-{ai_panel}{dev_panel}{lab_panel}{vcheck_panel}
-<div class="panel"><div class="ph"><span class="ico">📈</span>Кривая эквити</div>{equity_svg(eq_rows)}</div>
-{sim_panel}
-<div class="panel"><div class="ph"><span class="ico">🎯</span>Открытые позиции ({len(st['positions'])}/{cfg['max_concurrent']})</div>
+<div id="ai">{ai_panel}</div><div id="dev">{dev_panel}</div><div id="lab">{lab_panel}</div><div id="vcheck">{vcheck_panel}</div>
+<div id="charts"><div class="panel"><div class="ph"><span class="ico">📈</span>Кривая эквити</div>{equity_svg(eq_rows)}</div></div>
+<div id="sim">{sim_panel}</div>
+<div id="positions"><div class="panel"><div class="ph"><span class="ico">🎯</span>Открытые позиции ({len(st['positions'])}/{cfg['max_concurrent']})</div>
 <div class="sub">движок проверяет рынок каждые 5 минут; сигнал приходит в среднем раз в 30–90 минут — когда условия совпадут, сделка появится здесь автоматически</div>
 <table style="margin-top:8px"><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TP</th><th>SL</th><th>TTL</th><th>Qty</th><th>Стратегия · режим</th></tr>
-{pos_rows or '<tr><td colspan="8" class="muted">Позиций нет — ждём сигнал (проверка каждые 5 мин)</td></tr>'}</table></div>
-<div class="panel"><div class="ph"><span class="ico">💰</span>Последние сделки</div>
+{pos_rows or '<tr><td colspan="8" class="muted">Позиций нет — ждём сигнал (проверка каждые 5 мин)</td></tr>'}</table></div></div>
+<div id="trades"><div class="panel"><div class="ph"><span class="ico">💰</span>Последние сделки</div>
 <table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TTL</th><th>Итог</th><th>PnL $</th><th>Стратегия</th></tr>
-{tr_rows or '<tr><td colspan="7" class="muted">Сделок пока нет — воркер собирает сигналы</td></tr>'}</table></div>
-{strat_panel}{uni_panel}{train_panel}{adapt_panel}
-<footer>Breaker: {esc(breaker)} · paper-only, не реальные деньги ·
+{tr_rows or '<tr><td colspan="7" class="muted">Сделок пока нет — воркер собирает сигналы</td></tr>'}</table></div></div>
+<div id="wfo">{strat_panel}</div><div id="uni">{uni_panel}</div><div id="train">{train_panel}</div><div id="adapt">{adapt_panel}</div>
+<details class="panel"><summary>❔ как читать панель — коротко о каждом блоке</summary>
+<div class="small muted" style="margin-top:10px;line-height:1.9">
+<b>Обзор</b> — equity, винрейт, профит-фактор, серии убытков, ML-гейт ·
+<b>🤖 AI-оператор</b> — что ИИ решил и поменял в последнем цикле (лимит 6 LLM/день) ·
+<b>🏗 AI-архитектор</b> — модули-фильтры и эксперименты, написанные ИИ ·
+<b>🧪 Лаборатория</b> — «вторая реальность»: копия системы ищет и проверяет улучшения, стабильно лучшие внедряются в оригинал ·
+<b>⚡ Эскалация</b> — детерминированные триггеры (просадка, смещение ML, золото) будят ИИ в нужный момент ·
+<b>🔍 Реал-проверка</b> — пересчёт сделок по реальным свечам с комиссиями и проскальзыванием ·
+<b>⚙ WFO / 🧠 Адаптация</b> — оптимизация параметров и автоприостановка убыточных связок ·
+<b>🎓 ML-гейт</b> — модель пропускает только качественные сигналы</div></details>
+<footer>Предохранитель: {esc(breaker)} · paper-only, не реальные деньги ·
 <a href="https://github.com/palcikia-crypto/aegis-lab">репозиторий</a> ·
 зеркало: <a href="https://aegis-lab.pages.dev">aegis-lab.pages.dev</a> · AI-мозги: Cloudflare Workers AI</footer>
-<script>var __t=120;setInterval(function(){{__t=Math.max(0,__t-1);var e=document.getElementById('tm');if(e)e.textContent=__t+'s';}},1000);</script>
+<script>var __t=120;setInterval(function(){{__t-=1;if(__t<=0){{location.reload();return;}}var e=document.getElementById('tm');if(e)e.textContent=__t+'s';}},1000);</script>
 </div></body></html>"""
     for name in ("index.html", "pro.html"):
         with open(os.path.join(DOCS, name), "w") as f:
