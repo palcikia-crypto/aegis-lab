@@ -1,121 +1,18 @@
 {
- "equity": 998.359681771429,
+ "equity": 999.452897132842,
  "day_key": 20775,
  "day_start_equity": 1002.1763368597619,
- "consec_losses": 1,
+ "consec_losses": 0,
  "paused_until": 0,
  "halted_until": 0,
- "positions": [
-  {
-   "id": "ETHUSDT-1795012782916",
-   "symbol": "ETHUSDT",
-   "side": "short",
-   "entry": 1766.3,
-   "dist": 6.732571,
-   "rr": 1.5,
-   "tp": 1756.201143,
-   "sl": 1773.032571,
-   "qty": 0.12,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795012782916,
-   "expires_ts": 1795013682916,
-   "status": "open",
-   "source": "okx",
-   "strategy": "baseline",
-   "regime": "volatile",
-   "features": {
-    "close": 1766.3,
-    "ema_fast": 1780.964889,
-    "ema_slow": 1786.567965,
-    "momentum": -25.82,
-    "vol_spike": 4.086,
-    "atr15": 8.415714,
-    "rsi14": 17.69,
-    "bb_z": -2.596,
-    "don_hi": 1813.69,
-    "don_lo": 1787.57,
-    "adx15": null,
-    "atr_pct": 1.0,
-    "ts": 1795012680000
-   }
-  },
-  {
-   "id": "SOXLUSDT-1795012782916",
-   "symbol": "SOXLUSDT",
-   "side": "short",
-   "entry": 47.45,
-   "dist": 0.792571,
-   "rr": 1.5,
-   "tp": 46.261143,
-   "sl": 48.242571,
-   "qty": 1.217,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795012782916,
-   "expires_ts": 1795013682916,
-   "status": "open",
-   "source": "okx",
-   "strategy": "baseline",
-   "regime": "volatile",
-   "features": {
-    "close": 47.45,
-    "ema_fast": 49.526444,
-    "ema_slow": 50.394589,
-    "momentum": -3.72,
-    "vol_spike": 2.522,
-    "atr15": 0.990714,
-    "rsi14": 14.56,
-    "bb_z": -2.525,
-    "don_hi": 53.62,
-    "don_lo": 50.82,
-    "adx15": null,
-    "atr_pct": 1.0,
-    "ts": 1795012680000
-   }
-  },
-  {
-   "id": "NVDAUSDT-1795012782916",
-   "symbol": "NVDAUSDT",
-   "side": "short",
-   "entry": 156.83,
-   "dist": 1.064,
-   "rr": 1.5,
-   "tp": 155.234,
-   "sl": 157.894,
-   "qty": 0.863,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795012782916,
-   "expires_ts": 1795013682916,
-   "status": "open",
-   "source": "okx",
-   "strategy": "breakout",
-   "regime": "volatile",
-   "features": {
-    "close": 156.83,
-    "ema_fast": 158.083333,
-    "ema_slow": 158.826537,
-    "momentum": -2.73,
-    "vol_spike": 1.522,
-    "atr15": 1.33,
-    "rsi14": 30.0,
-    "bb_z": -1.896,
-    "don_hi": 162.0,
-    "don_lo": 158.58,
-    "adx15": null,
-    "atr_pct": 1.0,
-    "ts": 1795012680000
-   }
-  }
- ],
+ "positions": [],
  "stats": {
-  "trades": 22,
-  "wins": 11,
-  "losses": 11,
-  "pnl": -1.6403182285710356
+  "trades": 25,
+  "wins": 13,
+  "losses": 12,
+  "pnl": -0.5471028671580518
  },
- "updated": 1795012797537,
+ "updated": 1795013147721,
  "adapt": {
   "mean_reversion|range": {
    "n": 10,
@@ -143,12 +40,12 @@
    "ewma": -0.0
   },
   "baseline|volatile": {
-   "n": 19,
-   "ewma": 0.1188
+   "n": 21,
+   "ewma": 0.0484
   },
   "breakout|volatile": {
-   "n": 10,
-   "ewma": -0.2183
+   "n": 11,
+   "ewma": -0.0052
   },
   "breakout|trend_down": {
    "n": 10,
