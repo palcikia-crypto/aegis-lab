@@ -334,6 +334,52 @@ def generate(st, trades, cfg):
 <p class="lead">{esc(dev.get("thoughts",""))}</p>
 {params_ai}{exp_applied}{exp_block}{mods_block}</div>"""
 
+    lab_rep = _read(os.path.join(RESULTS, "lab", "report.json")) or {}
+    lab_journal_tail = []
+    lp = os.path.join(RESULTS, "lab", "journal.jsonl")
+    if os.path.exists(lp):
+        try:
+            with open(lp) as f:
+                for line in f.readlines()[-5:]:
+                    d = json.loads(line)
+                    det = str(d.get("detail", ""))[:100]
+                    pill = "p-down" if d.get("event") == "failed" else ("p-up" if d.get("event") in ("promoted", "checkpoint") else "")
+                    lab_journal_tail.append(
+                        f"<tr><td class='mono small'>{esc(d.get('ts',''))}</td>"
+                        f"<td><span class='pill {pill}'>{esc(d.get('event',''))}</span></td>"
+                        f"<td class='small'>{esc(det)}</td></tr>")
+        except Exception:
+            pass
+    lab_panel = ""
+    if lab_rep:
+        base = lab_rep.get("baseline") or {}
+        best = lab_rep.get("best") or {}
+        promo = lab_rep.get("promoted") or []
+        promo_txt = ""
+        if promo:
+            last_p = promo[-1]
+            if isinstance(last_p, dict):
+                if last_p.get("module"):
+                    promo_txt = f"<div class='good-p'>🏆 лаборатория внедрила свой модуль: {esc(last_p['module'])}</div>"
+                elif last_p.get("params"):
+                    pp = ", ".join(f"{k}={v}" for k, v in last_p["params"].items())
+                    promo_txt = f"<div class='good-p'>🏆 лаборатория внедрила параметры: {esc(pp)} (score {last_p.get('score')})</div>"
+        lab_panel = f"""
+<div class="panel dev"><div class="ph"><span class="ico">🧪</span>Лаборатория · Вторая реальность <span class="muted small">· {esc(lab_rep.get('ts',''))}</span></div>
+<div class="sub">копия системы живёт своей жизнью: строит гипотезы, пишет модули-фильтры, качает данные с бирж, гоняет бэктесты; всё, что стабильно обгоняет оригинал, переносится сюда (авто-откат к лучшему чекпоинту)</div>
+<table style="margin-top:8px"><tr><th>Фаза</th><th>Шагов</th><th>LLM сегодня</th><th>В очереди</th><th>Чекпоинты</th></tr>
+<tr><td class='mono'>{esc(lab_rep.get('phase','—'))}</td><td class='mono'>{lab_rep.get('steps',0)}</td>
+<td class='mono'>{lab_rep.get('llm_used_today',0)}/{lab_rep.get('llm_day_limit',6)}</td>
+<td class='mono'>{lab_rep.get('queue_left',0)}</td><td class='mono'>{lab_rep.get('checkpoints',0)}</td></tr></table>
+<table style="margin-top:6px"><tr><th>Вариант</th><th>Score</th><th>Сделок</th><th>PnL $</th></tr>
+<tr><td>оригинал (baseline)</td><td class='mono'>{base.get('score','—')}</td><td class='mono'>{base.get('trades','—')}</td>
+<td class='mono {'up' if (base.get('pnl') or 0) > 0 else 'down'}'>{base.get('pnl','—')}</td></tr>
+<tr><td>{esc(best.get('name') or 'лучшая мутация')}</td><td class='mono'>{best.get('score','—')}</td><td class='mono'>{best.get('trades','—')}</td>
+<td class='mono {'up' if (best.get('pnl') or 0) > 0 else 'down'}'>{best.get('pnl','—')}</td></tr></table>
+{promo_txt}
+<div class="sub" style="margin:10px 0 4px">журнал шагов:</div>
+<table><tr><th>Время</th><th>Событие</th><th>Детали</th></tr>{''.join(lab_journal_tail)}</table></div>"""
+
     vcheck = _read(os.path.join(RESULTS, "real_check.json"))
     vcheck_panel = ""
     if isinstance(vcheck, dict) and vcheck.get("trades"):
@@ -467,7 +513,7 @@ th,td{{padding:5px 6px}}
 <div class="card"><div class="k">Серия убытков</div><div class="v {'down' if st['consec_losses'] > 0 else ''}">{st['consec_losses']} / {cfg['loss_streak_pause']}</div><div class="d">стоп-лимит</div></div>
 {ml_card}{sim_cards}
 </div>
-{ai_panel}{dev_panel}{vcheck_panel}
+{ai_panel}{dev_panel}{lab_panel}{vcheck_panel}
 <div class="panel"><div class="ph"><span class="ico">📈</span>Кривая эквити</div>{equity_svg(eq_rows)}</div>
 {sim_panel}
 <div class="panel"><div class="ph"><span class="ico">🎯</span>Открытые позиции ({len(st['positions'])}/{cfg['max_concurrent']})</div>

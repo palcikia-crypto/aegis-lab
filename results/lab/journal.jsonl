@@ -1,0 +1,9 @@
+{"ts": "2026-11-18 04:17 UTC", "event": "baseline", "score": -1000000000.0, "pnl": -22.07, "trades": 160}
+{"ts": "2026-11-18 04:17 UTC", "event": "plan_failed", "detail": "нет WAI_TOKEN/WAI_ACCOUNT"}
+{"ts": "2026-11-18 04:18 UTC", "event": "baseline", "score": -1000000000.0, "pnl": -24.49, "trades": 163}
+{"ts": "2026-11-18 04:18 UTC", "event": "baseline", "score": -1000000000.0, "pnl": -34.31, "trades": 137}
+{"ts": "2026-11-18 04:19 UTC", "event": "baseline", "score": -1000000000.0, "pnl": -20.69, "trades": 85}
+{"ts": "2026-11-18 04:19 UTC", "event": "baseline", "score": -1000000000.0, "pnl": -20.69, "trades": 85}
+{"ts": "2026-11-18 04:20 UTC", "event": "baseline", "score": -1000000000.0, "pnl": -20.69, "trades": 85}
+{"ts": "2026-11-18 04:20 UTC", "event": "failed", "name": "tight_atr", "detail": "недостаточно трейдов или противоречивые чанки", "score": -1000000000.0, "pnl": -23.18}
+{"ts": "2026-11-18 04:20 UTC", "event": "failed", "name": "bad_variant", "detail": "недостаточно трейдов или противоречивые чанки", "score": -1000000000.0, "pnl": -12.47}

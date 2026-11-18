@@ -16,6 +16,7 @@ from src import ai_dev  # noqa: E402
 from src import verify  # noqa: E402
 from src import evo  # noqa: E402
 from src import book  # noqa: E402
+from src import lab as lab_mod  # noqa: E402
 
 OPT_PATH = os.path.join(HERE, "results", "opt.json")
 MODEL_PATH = os.path.join(HERE, "results", "model.json")
@@ -31,6 +32,7 @@ if os.path.exists(OPT_PATH):
         pass
 CFG.update(ai_advisor.load_ai_overrides())
 CFG.update(evo.load_evo_overrides())
+CFG.update(lab_mod.load_recommend_overrides())
 
 
 def load_opt():
@@ -184,6 +186,11 @@ def run_cycle():
     except Exception:
         log_crash(sys.exc_info()[1])
         ai_dev_rep = {"ok": False, "error": "ai_dev crash (см. crash.log)"}
+    try:
+        lab_rep = lab_mod.maybe_step(st, trades, CFG, extra)
+    except Exception:
+        log_crash(sys.exc_info()[1])
+        lab_rep = {"ok": False, "error": "lab crash (см. crash.log)"}
 
     result = {
         "now": now_ms,
@@ -200,6 +207,8 @@ def run_cycle():
         "stats": st["stats"],
         "ai": {"ok": ai_rep.get("ok"), "verdict": ai_rep.get("verdict")},
         "ai_dev": {"ok": ai_dev_rep.get("ok"), "modules_active": ai_dev_rep.get("modules_active")},
+        "lab": {"ok": lab_rep.get("ok"), "phase": lab_rep.get("phase"),
+                "evaluated": lab_rep.get("evaluated"), "planned": lab_rep.get("planned")},
         "verify": verify_sum,
     }
     print(json.dumps(result))

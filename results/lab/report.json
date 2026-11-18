@@ -1,0 +1,20 @@
+{
+ "ts": "2026-11-18 04:20 UTC",
+ "phase": "plan",
+ "steps": 7,
+ "llm_used_today": 0,
+ "llm_day_limit": 6,
+ "queue_left": 0,
+ "checkpoints": 0,
+ "baseline": {
+  "score": -1000000000.0,
+  "trades": 85,
+  "wins": 27,
+  "pnl": -20.69
+ },
+ "best": null,
+ "promoted": [],
+ "last": {
+  "evaluated": 1
+ }
+}
