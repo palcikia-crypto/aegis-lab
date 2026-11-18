@@ -1,68 +1,103 @@
 {
- "equity": 911.6527917413691,
- "day_key": 20774,
- "day_start_equity": 912.9847766502264,
+ "equity": 919.8724894897737,
+ "day_key": 20775,
+ "day_start_equity": 917.4605681959896,
  "consec_losses": 2,
- "paused_until": 1794850800000,
+ "paused_until": 1794510540000,
  "halted_until": 0,
- "positions": [],
+ "positions": [
+  {
+   "id": "NVDAUSDT-1794976140000",
+   "symbol": "NVDAUSDT",
+   "side": "long",
+   "entry": 158.14,
+   "dist": 1.125714,
+   "rr": 1.5,
+   "tp": 159.828571,
+   "sl": 157.014286,
+   "qty": 0.8190000000000001,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1794976140000,
+   "expires_ts": 1794977040000,
+   "status": "open",
+   "source": "sim",
+   "strategy": "baseline",
+   "regime": "trend_up",
+   "features": {
+    "close": 158.14,
+    "ema_fast": 157.949778,
+    "ema_slow": 157.867706,
+    "momentum": 0.22,
+    "vol_spike": 2.268,
+    "atr15": 1.407143,
+    "rsi14": 52.21,
+    "bb_z": 1.257,
+    "don_hi": 163.97,
+    "don_lo": 155.61,
+    "adx15": 26.05,
+    "atr_pct": 0.021,
+    "ts": 1794976140000
+   }
+  }
+ ],
  "adapt": {
-  "baseline|trend_up": {
-   "n": 79,
-   "ewma": -0.4602,
-   "blocked": 30
-  },
-  "trend_follow|trend_up": {
-   "n": 137,
-   "ewma": -0.4225,
-   "blocked": 29
+  "baseline|trend_down": {
+   "n": 29,
+   "ewma": 0.1725,
+   "blocked": 1
   },
   "trend_follow|trend_down": {
-   "n": 102,
-   "ewma": -0.5039,
-   "blocked": 39
+   "n": 27,
+   "ewma": -0.4436,
+   "blocked": 1
   },
-  "baseline|trend_down": {
-   "n": 76,
-   "ewma": -0.4413,
+  "trend_follow|trend_up": {
+   "n": 39,
+   "ewma": -0.4094,
    "blocked": 10
   },
+  "baseline|trend_up": {
+   "n": 81,
+   "ewma": -0.4787,
+   "blocked": 0
+  },
   "baseline|range": {
-   "n": 134,
-   "ewma": -0.4679,
+   "n": 124,
+   "ewma": -0.5675,
    "blocked": 2
   },
   "baseline|volatile": {
-   "n": 25,
-   "ewma": -0.4469,
-   "blocked": 7
-  },
-  "breakout|trend_up": {
-   "n": 13,
-   "ewma": -0.4119,
-   "blocked": 15
+   "n": 28,
+   "ewma": 0.0295,
+   "blocked": 1
   },
   "mean_reversion|range": {
-   "n": 77,
-   "ewma": -0.3777,
-   "blocked": 33
-  },
-  "breakout|trend_down": {
-   "n": 51,
-   "ewma": -0.5862,
-   "blocked": 17
+   "n": 26,
+   "ewma": -0.3866,
+   "blocked": 11
   },
   "breakout|volatile": {
-   "n": 24,
-   "ewma": -0.3548,
-   "blocked": 21
+   "n": 29,
+   "ewma": -0.4209,
+   "blocked": 1
+  },
+  "breakout|trend_down": {
+   "n": 18,
+   "ewma": -0.4018,
+   "blocked": 24
+  },
+  "breakout|trend_up": {
+   "n": 17,
+   "ewma": -0.4641,
+   "blocked": 25
   }
  },
  "stats": {
-  "trades": 718,
-  "wins": 318,
-  "losses": 400,
-  "pnl": -88.34720825863083
+  "trades": 418,
+  "wins": 158,
+  "losses": 260,
+  "pnl": -80.12751051022522
  },
- "updated": 1794956673464
+ "updated": 1794976692640
 }
