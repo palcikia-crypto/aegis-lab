@@ -126,7 +126,7 @@ Cloudflare-IP, в отличие от веб-интерфейса AI Studio). AP
 
 ## VLESS VPN (Workers)
 `cloudflare/vless-vpn/worker.js` — VLESS over WebSocket + TLS на Cloudflare Workers (TCP + DNS).
-Два узла — основной `vless-vpn` и запасной `aegis-vpn` (одинаковый код, оба прошли E2E). Плюс универсальный узел `vpn-uni` для Google AI Studio и прочего, и телефонный узел `vpn-phone` для постоянного VPN (Always-on) на Android. UUID задан в коде (константа `UUID`).
+Два узла — основной `vless-vpn` и запасной `aegis-vpn` (одинаковый код, оба прошли E2E). Плюс универсальный узел `vpn-uni` для Google AI Studio и прочего, телефонный узел `vpn-phone` для постоянного VPN (Always-on) на Android и турбо-узел `vless-turbo` (0-RTT early-data, ответ без ожидания записи) в `cloudflare/vless-turbo/`. UUID задан в коде (константа `UUID`).
 
 Импорт клиента (v2rayNG / Hiddify / v2rayN): добавить по ссылке или вручную:
 ```

@@ -71,6 +71,27 @@ a{color:#7dd3fc}
 </div>
 
 <div class="card">
+<h2>⚡ Турбо-узел (vless-turbo) — максимальная скорость</h2>
+<p>Тот же сервер, ускоренный: ответ без ожидания записи и 0-RTT early-data (минус один round-trip на подключении). Втыкать так же — <b>«+ → Импорт из буфера»</b>:</p>
+<pre id="cfg7"></pre>
+<button class="btn" onclick="copy7()">📋 Скопировать (порт 80)</button>
+<button class="btn" onclick="copy8()">📋 Скопировать (с TLS)</button>
+<p class="small">Для скорости: <b>фрагментация выключена</b> (сильно режет скорость), <b>Mux выключен</b>, маршрутизация «Глобальный». Путь <code>/?ed=2048</code> уже вписан — это 0-RTT, не меняй его.</p>
+</div>
+
+<div class="card">
+<h2>🚀 Правила скорости (важнее сервера)</h2>
+<ol>
+<li>В v2rayNG для узла: <b>Mux = выкл</b>, <b>фрагментация = выкл</b> (у порта 80 они не нужны), DNS = «Удалённый».</li>
+<li>Русские сайты, банки и маркетплейсы — не пускать через VPN: v2rayNG → Настройки → «Режим VPN» → Все приложения → выбрать только YouTube, Google, Chrome/браузер (магазин приложений). Остальное ходит напрямую и не тормозит.</li>
+<li>Выбери <b>ближайший</b> узел: «Тест реальной задержки» — кто меньше (<100 мс на Wi-Fi — отлично).</li>
+<li>Скорость Wi-Fi vs мобильный интернет может отличаться — тестируй в обеих сетях.</li>
+<li>Если скорость резко упала — переключись на другой узел: все взаимозаменяемые.</li>
+</ol>
+<p class="small">Замер через туннель: ~115–130 Мбит/с (5 МБ за 0.3–0.7 c) — упор скоростью обычно в канал провайдера и фильтрацию, а не в сервер.</p>
+</div>
+
+<div class="card">
 <h2>📱 Узел для телефона (vpn-phone) — «встроить в настройки»</h2>
 <p>Тот же VLESS, но настроенный на постоянную работу: после импорта включи его в настройках телефона как постоянный VPN (см. шаги ниже на странице проверки). Вставляй через <b>«+ → Импорт из буфера»</b>:</p>
 <pre id="cfg5"></pre>
@@ -106,8 +127,13 @@ function linkn(host,port,tls,name){
 }
 document.getElementById("cfg5").textContent=linkn(HOST4,80,false,"Aegis-PH");
 document.getElementById("cfg6").textContent=linkn(HOST4,443,true,"Aegis-PH-TLS");
+const HOST5="vless-turbo.apigemenipp.workers.dev";
+document.getElementById("cfg7").textContent=linkn(HOST5,80,false,"Aegis-TURBO").replace("path=%2F","path=%2F%3Fed%3D2048");
+document.getElementById("cfg8").textContent=linkn(HOST5,443,true,"Aegis-TURBO-TLS").replace("path=%2F","path=%2F%3Fed%3D2048");
 function copy5(){navigator.clipboard.writeText(document.getElementById("cfg5").textContent).then(()=>alert("Скопировано"))}
 function copy6(){navigator.clipboard.writeText(document.getElementById("cfg6").textContent).then(()=>alert("Скопировано"))}
+function copy7(){navigator.clipboard.writeText(document.getElementById("cfg7").textContent).then(()=>alert("Скопировано"))}
+function copy8(){navigator.clipboard.writeText(document.getElementById("cfg8").textContent).then(()=>alert("Скопировано"))}
 document.getElementById("cfg3").textContent=link(HOST3,80,false);
 document.getElementById("cfg4").textContent=link(HOST3,443,true);
 function copy3(){navigator.clipboard.writeText(document.getElementById("cfg3").textContent).then(()=>alert("Скопировано"))}
