@@ -29,3 +29,7 @@
 {"ts": "2026-11-18 07:34 UTC", "event": "paper_realcheck_error", "symbol": "SNDKUSDT", "detail": "no real bars for SNDKUSDT: HTTP Error 403: Forbidden"}
 {"ts": "2026-11-18 07:34 UTC", "event": "data_request", "symbol": "BTCUSDT", "days": 30, "detail": "скачано при следующем бэктесте"}
 {"ts": "2026-11-18 07:34 UTC", "event": "plan", "detail": "Для улучшения оригинальной системы необходимо сосредоточиться на параметрах, которые напрямую влияют на прибыльность и глубину трейдов. Можно попробовать увеличить значение 'fee_edge_mult' для улучшен", "queued": 1, "trigger": null}
+{"ts": "2026-11-18 07:39 UTC", "event": "paper_open", "symbol": "SOXLUSDT", "side": "short", "strategy": "baseline", "detail": "equity 997.78"}
+{"ts": "2026-11-18 07:39 UTC", "event": "paper_realcheck_error", "symbol": "SOXLUSDT", "detail": "no real bars for SOXLUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 07:39 UTC", "event": "paper_realcheck_error", "symbol": "SNDKUSDT", "detail": "no real bars for SNDKUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 07:40 UTC", "event": "failed", "name": "test1", "detail": "недостаточно трейдов или противоречивые чанки", "score": -1000000000.0, "pnl": -13.28}
