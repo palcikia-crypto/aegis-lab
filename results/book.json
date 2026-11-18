@@ -1,15 +1,15 @@
 {
- "ts": "2026-11-18 04:24 UTC",
+ "ts": "2026-11-18 05:03 UTC",
  "books": {
   "SNDKUSDT": {
    "symbol": "SNDKUSDT",
-   "bid": 821.7,
-   "ask": 821.8,
-   "spread_bps": 1.22,
-   "imbalance": 0.483,
-   "depth_bid_usd": 807843,
-   "depth_ask_usd": 282160,
-   "ts": 1794975892117
+   "bid": 813.7,
+   "ask": 813.8,
+   "spread_bps": 1.23,
+   "imbalance": -0.222,
+   "depth_bid_usd": 442440,
+   "depth_ask_usd": 696058,
+   "ts": 1794978239964
   }
  }
 }
