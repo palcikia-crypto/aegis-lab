@@ -24,3 +24,5 @@
 {"ts": "2026-11-18 07:12 UTC", "event": "paper_realcheck_error", "symbol": "SNDKUSDT", "detail": "no real bars for SNDKUSDT: HTTP Error 403: Forbidden"}
 {"ts": "2026-11-18 07:18 UTC", "event": "paper_realcheck_error", "symbol": "SNDKUSDT", "detail": "no real bars for SNDKUSDT: HTTP Error 403: Forbidden"}
 {"ts": "2026-11-18 07:23 UTC", "event": "paper_realcheck_error", "symbol": "SNDKUSDT", "detail": "no real bars for SNDKUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 07:29 UTC", "event": "paper_open", "symbol": "SOXLUSDT", "side": "long", "strategy": "baseline", "detail": "equity 998.85"}
+{"ts": "2026-11-18 07:29 UTC", "event": "paper_realcheck_error", "symbol": "SNDKUSDT", "detail": "no real bars for SNDKUSDT: HTTP Error 403: Forbidden"}
