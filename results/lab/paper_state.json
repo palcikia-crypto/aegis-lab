@@ -9,7 +9,8 @@
  "adapt": {
   "baseline|range": {
    "n": 10,
-   "ewma": -0.7077
+   "ewma": -0.7077,
+   "blocked": 2
   }
  },
  "stats": {
@@ -18,5 +19,5 @@
   "losses": 9,
   "pnl": -8.970948236400346
  },
- "updated": 1795004831190
+ "updated": 1795005170028
 }
