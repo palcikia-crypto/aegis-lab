@@ -39,6 +39,74 @@
     "atr_pct": 0.0,
     "ts": 1794974460000
    }
+  },
+  {
+   "id": "SOXLUSDT-1794975348298",
+   "symbol": "SOXLUSDT",
+   "side": "long",
+   "entry": 51.83,
+   "dist": 0.947429,
+   "rr": 1.5,
+   "tp": 53.251143,
+   "sl": 50.882571,
+   "qty": 1.0210000000000001,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1794975348298,
+   "expires_ts": 1794976248298,
+   "status": "open",
+   "source": "okx",
+   "strategy": "baseline",
+   "regime": "range",
+   "features": {
+    "close": 51.83,
+    "ema_fast": 51.320667,
+    "ema_slow": 51.185844,
+    "momentum": 0.71,
+    "vol_spike": 2.859,
+    "atr15": 1.184286,
+    "rsi14": 71.01,
+    "bb_z": 2.269,
+    "don_hi": 55.42,
+    "don_lo": 49.75,
+    "adx15": null,
+    "atr_pct": 0.667,
+    "ts": 1794975240000
+   }
+  },
+  {
+   "id": "NVDAUSDT-1794975348298",
+   "symbol": "NVDAUSDT",
+   "side": "long",
+   "entry": 157.92,
+   "dist": 1.161714,
+   "rr": 1.5,
+   "tp": 159.662571,
+   "sl": 156.758286,
+   "qty": 0.795,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1794975348298,
+   "expires_ts": 1794976248298,
+   "status": "open",
+   "source": "okx",
+   "strategy": "baseline",
+   "regime": "range",
+   "features": {
+    "close": 157.92,
+    "ema_fast": 157.557333,
+    "ema_slow": 157.482771,
+    "momentum": 0.58,
+    "vol_spike": 1.39,
+    "atr15": 1.452143,
+    "rsi14": 70.43,
+    "bb_z": 2.003,
+    "don_hi": 163.54,
+    "don_lo": 155.61,
+    "adx15": null,
+    "atr_pct": 0.389,
+    "ts": 1794975240000
+   }
   }
  ],
  "stats": {
@@ -47,7 +115,7 @@
   "losses": 2,
   "pnl": 1.5902162595811005
  },
- "updated": 1794975095371,
+ "updated": 1794975361082,
  "adapt": {
   "mean_reversion|range": {
    "n": 10,
