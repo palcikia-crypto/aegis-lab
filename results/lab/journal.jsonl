@@ -628,3 +628,18 @@
 {"ts": "2026-11-18 14:28 UTC", "event": "paper_realcheck_error", "symbol": "SOXLUSDT", "detail": "no real bars for SOXLUSDT: HTTP Error 403: Forbidden"}
 {"ts": "2026-11-18 14:28 UTC", "event": "paper_realcheck_error", "symbol": "SOXLUSDT", "detail": "no real bars for SOXLUSDT: HTTP Error 403: Forbidden"}
 {"ts": "2026-11-18 14:28 UTC", "event": "paper_realcheck_error", "symbol": "SNDKUSDT", "detail": "no real bars for SNDKUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 14:34 UTC", "event": "paper_open", "symbol": "SOXLUSDT", "side": "short", "strategy": "baseline", "detail": "equity 989.11"}
+{"ts": "2026-11-18 14:34 UTC", "event": "paper_open", "symbol": "SNDKUSDT", "side": "short", "strategy": "baseline", "detail": "equity 989.11"}
+{"ts": "2026-11-18 14:34 UTC", "event": "paper_open", "symbol": "NVDAUSDT", "side": "long", "strategy": "baseline", "detail": "equity 989.11"}
+{"ts": "2026-11-18 14:34 UTC", "event": "paper_realcheck_error", "symbol": "NVDAUSDT", "detail": "no real bars for NVDAUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 14:34 UTC", "event": "paper_realcheck_error", "symbol": "SOXLUSDT", "detail": "no real bars for SOXLUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 14:34 UTC", "event": "paper_realcheck_error", "symbol": "SNDKUSDT", "detail": "no real bars for SNDKUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 14:34 UTC", "event": "paper_realcheck_error", "symbol": "NVDAUSDT", "detail": "no real bars for NVDAUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 14:34 UTC", "event": "paper_realcheck_error", "symbol": "NVDAUSDT", "detail": "no real bars for NVDAUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 14:34 UTC", "event": "paper_realcheck_error", "symbol": "SNDKUSDT", "detail": "no real bars for SNDKUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 14:34 UTC", "event": "paper_realcheck_error", "symbol": "NVDAUSDT", "detail": "no real bars for NVDAUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 14:34 UTC", "event": "paper_realcheck_error", "symbol": "NVDAUSDT", "detail": "no real bars for NVDAUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 14:34 UTC", "event": "paper_realcheck_error", "symbol": "SOXLUSDT", "detail": "no real bars for SOXLUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 14:34 UTC", "event": "paper_realcheck_error", "symbol": "SOXLUSDT", "detail": "no real bars for SOXLUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 14:34 UTC", "event": "paper_realcheck_error", "symbol": "SOXLUSDT", "detail": "no real bars for SOXLUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 14:34 UTC", "event": "paper_realcheck_error", "symbol": "SNDKUSDT", "detail": "no real bars for SNDKUSDT: HTTP Error 403: Forbidden"}
