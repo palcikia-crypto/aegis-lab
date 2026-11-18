@@ -1,7 +1,7 @@
 {
- "ts": "2026-11-18 11:24 UTC",
- "phase": "evaluate",
- "steps": 85,
+ "ts": "2026-11-18 11:30 UTC",
+ "phase": "deep_scan",
+ "steps": 86,
  "llm_used_today": 6,
  "llm_day_limit": 6,
  "queue_left": 0,
@@ -14,9 +14,7 @@
  },
  "best": null,
  "promoted": [],
- "last": {
-  "evaluated": 1
- },
+ "last": {},
  "patterns": {
   "count": 0,
   "ts": null,
@@ -32,7 +30,7 @@
   "active_pack": null
  },
  "paper_realcheck": {
-  "updated": "2026-11-18 11:23 UTC",
+  "updated": "2026-11-18 11:29 UTC",
   "trades": 0,
   "real_total": null,
   "recorded_total": null,

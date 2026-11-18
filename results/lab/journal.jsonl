@@ -273,3 +273,13 @@
 {"ts": "2026-11-18 11:23 UTC", "event": "paper_realcheck_error", "symbol": "SOXLUSDT", "detail": "no real bars for SOXLUSDT: HTTP Error 403: Forbidden"}
 {"ts": "2026-11-18 11:23 UTC", "event": "paper_realcheck_error", "symbol": "SNDKUSDT", "detail": "no real bars for SNDKUSDT: HTTP Error 403: Forbidden"}
 {"ts": "2026-11-18 11:24 UTC", "event": "failed", "name": "коррекция_real_check", "detail": "недостаточно трейдов или противоречивые чанки", "score": -1000000000.0, "pnl": -11.76}
+{"ts": "2026-11-18 11:29 UTC", "event": "paper_realcheck_error", "symbol": "SNDKUSDT", "detail": "no real bars for SNDKUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 11:29 UTC", "event": "paper_realcheck_error", "symbol": "NVDAUSDT", "detail": "no real bars for NVDAUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 11:29 UTC", "event": "paper_realcheck_error", "symbol": "NVDAUSDT", "detail": "no real bars for NVDAUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 11:29 UTC", "event": "paper_realcheck_error", "symbol": "SNDKUSDT", "detail": "no real bars for SNDKUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 11:29 UTC", "event": "paper_realcheck_error", "symbol": "NVDAUSDT", "detail": "no real bars for NVDAUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 11:29 UTC", "event": "paper_realcheck_error", "symbol": "NVDAUSDT", "detail": "no real bars for NVDAUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 11:29 UTC", "event": "paper_realcheck_error", "symbol": "SOXLUSDT", "detail": "no real bars for SOXLUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 11:29 UTC", "event": "paper_realcheck_error", "symbol": "SOXLUSDT", "detail": "no real bars for SOXLUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 11:29 UTC", "event": "paper_realcheck_error", "symbol": "SOXLUSDT", "detail": "no real bars for SOXLUSDT: HTTP Error 403: Forbidden"}
+{"ts": "2026-11-18 11:29 UTC", "event": "paper_realcheck_error", "symbol": "SNDKUSDT", "detail": "no real bars for SNDKUSDT: HTTP Error 403: Forbidden"}
