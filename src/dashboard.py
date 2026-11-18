@@ -233,6 +233,36 @@ def generate(st, trades, cfg):
         ml_card = """
 <div class="card"><div class="k">ML-гейт (Этап 3)</div><div class="v muted">OFF</div></div>"""
 
+    ai_panel = ""
+    ai_path = os.path.join(RESULTS, "ai_report.json")
+    if os.path.exists(ai_path):
+        try:
+            with open(ai_path) as f:
+                rep = json.load(f)
+        except Exception:
+            rep = {}
+        journal_n = 0
+        aj = os.path.join(RESULTS, "ai_journal.jsonl")
+        if os.path.exists(aj):
+            with open(aj) as f:
+                journal_n = sum(1 for l in f if l.strip())
+        if rep.get("ok"):
+            acts = ", ".join(f"{a['param']} = {a['value']}" for a in rep.get("actions_applied", [])) or "нет правок"
+            color = {"ok": "up", "warn": "muted", "bad": "down"}.get(rep.get("verdict"), "muted")
+            risks = "".join(
+                f"<div class='small' style='color:var(--down)'>⚠ {esc(str(r))}</div>"
+                for r in rep.get("risks", [])[:4])
+            ai_panel = f"""
+<div class="panel"><h2>🤖 AI-оператор · {esc(rep.get("model", ""))} · {esc(rep.get("ts", ""))}</h2>
+<div class="{color}" style="font-size:16px;font-weight:600;margin-bottom:6px">вердикт: {esc(rep.get("verdict", "?"))}</div>
+<p style="font-size:14px;line-height:1.5">{esc(rep.get("summary", ""))}</p>
+{risks}
+<div class="small">правки параметров: {esc(acts)} · циклов разбора: {journal_n} · белый список: fee_edge_mult, ttl, max_concurrent, risk, loss_streak_pause</div>
+</div>"""
+        else:
+            ai_panel = f"""
+<div class="panel"><h2>🤖 AI-оператор</h2><div class="small">отчёта нет ({esc(str(rep.get("error", "?")))}) — обновится в следующем цикле</div></div>"""
+
     html = f"""<!doctype html>
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -286,7 +316,7 @@ table{{font-size:11.5px}}th,td{{padding:4px 6px}}
 {ml_card}{sim_cards}
 </div>
 <div class="panel"><h2>Кривая эквити</h2>{equity_svg(eq_rows)}</div>
-{sim_panel}{strat_panel}{uni_panel}{train_panel}{adapt_panel}
+{ai_panel}{sim_panel}{strat_panel}{uni_panel}{train_panel}{adapt_panel}
 <div class="panel"><h2>Открытые позиции ({len(st['positions'])}/{cfg['max_concurrent']})</h2>
 <div class="sub">движок проверяет рынок каждые 5 минут; сигнал приходит в среднем раз в 30–90 минут — когда условия совпадут, сделка появится здесь автоматически</div>
 <table><tr><th>Символ</th><th>Сторона</th><th>Вход</th><th>TP</th><th>SL</th><th>TTL</th><th>Qty</th><th>Стратегия · режим</th></tr>

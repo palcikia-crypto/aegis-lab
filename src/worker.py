@@ -11,6 +11,7 @@ sys.path.insert(0, HERE)
 
 from src import market, features, engine, dashboard  # noqa: E402
 from src import strategies, universe  # noqa: E402
+from src import ai_advisor  # noqa: E402
 
 OPT_PATH = os.path.join(HERE, "results", "opt.json")
 MODEL_PATH = os.path.join(HERE, "results", "model.json")
@@ -24,6 +25,7 @@ if os.path.exists(OPT_PATH):
             CFG.update(json.load(f).get("cfg_overrides", {}))
     except Exception:
         pass
+CFG.update(ai_advisor.load_ai_overrides())
 
 
 def load_opt():
@@ -133,6 +135,19 @@ def run_cycle():
     engine.append_equity(now_ms, st["equity"])
     dashboard.generate(st, trades, CFG)
 
+    ai_rep = {"ok": False, "error": "not run"}
+    try:
+        ml_wfo = (model or {}).get("wfo", {})
+        ai_rep = ai_advisor.maybe_run(st, trades, CFG, {
+            "sources": sources,
+            "ml_gated": gated,
+            "ml": {"auc": ml_wfo.get("val_auc"), "accuracy": ml_wfo.get("val_accuracy")} if model else None,
+            "sim": st.get("sim_summary"),
+        })
+    except Exception:
+        log_crash(sys.exc_info()[1])
+        ai_rep = {"ok": False, "error": "ai crash (см. crash.log)"}
+
     result = {
         "now": now_ms,
         "sources": sources,
@@ -145,6 +160,7 @@ def run_cycle():
         "equity": round(st["equity"], 2),
         "breaker": reason,
         "stats": st["stats"],
+        "ai": {"ok": ai_rep.get("ok"), "verdict": ai_rep.get("verdict")},
     }
     print(json.dumps(result))
     return result

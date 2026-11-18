@@ -118,6 +118,18 @@ POST https://gemini-proxy.apigemenipp.workers.dev/v1beta/models/gemini-2.0-flash
 
 Деплой из репозитория (локально): `npx wrangler@3 deploy cloudflare/gemini-proxy/worker.js --name gemini-proxy --compatibility-date 2024-12-01`
 
+## AI-оператор (Workers AI)
+После каждого торгового цикла `src/ai_advisor.py` отправляет компактный слепок состояния
+в **Workers AI** (`@cf/meta/llama-3.3-70b-instruct-fp8-fast`, бесплатно 10 000 Neurons/день)
+и получает разбор на русском: вердикт (ok / warn / bad), summary, риски. Модель может
+предложить правки параметров — применяются только из белого списка с жёсткими границами:
+`fee_edge_mult` [2.0–4.0], `ttl_min` [180–600], `ttl_max` [600–1800], `max_concurrent` [1–3],
+`risk_per_trade` [0.5–1.5], `loss_streak_pause` [4–8]. Всё остальное отклоняется.
+Приоритет конфига: settings.json → opt.json → **results/ai_cfg.json (AI, высший)**.
+Отчёты: `results/ai_report.json` (панель «🤖 AI-оператор» в дашборде), `results/ai_journal.jsonl`.
+Env для воркера: `WAI_TOKEN`, `WAI_ACCOUNT` (секреты `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`) —
+без них AI-разбор пропускается, торговля не прерывается.
+
 ## VPN Guard (самолечение узлов)
 `.github/workflows/vpn-guard.yml` — cron каждые 15 минут: health-check всех воркеров
 (vless-vpn, aegis-vpn, vpn-uni, vpn-phone, vless-auto, vless-turbo, gemini-api);
