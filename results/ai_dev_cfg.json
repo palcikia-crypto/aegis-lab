@@ -1,4 +1,4 @@
 {
- "fee_edge_mult": 3.0,
+ "fee_edge_mult": 2.5,
  "vol_spike_min": 1.6
 }
