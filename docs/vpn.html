@@ -92,6 +92,24 @@ a{color:#7dd3fc}
 </div>
 
 <div class="card">
+<h2>🤖 АВТО-узел (vless-auto) — самолечение + авто-маршрутизация</h2>
+<p>Главный режим «всё само»: Россия/банки — напрямую (выбирать приложения не нужно), всё зарубежное — через VPN. Самолечение тоже внутри: каждые 15 минут робот проверяет все узлы и сам перекатывает зависший.</p>
+<p><b>Шаг 1.</b> Импортируй <b>полный конфиг с авто-маршрутизацией</b> через «+ → <b>Импорт конфигурации из буфера</b>» (не «Импорт из буфера»!):</p>
+<pre id="acfg">Файл: vpn/auto-config.json</pre>
+<button class="btn" onclick="copyAutoCfg()">📋 Скопировать АВТО-конфиг</button>
+<p><b>Шаг 2.</b> Запасной простой ключ (без авто-маршрутизации) — обычный «+ → Импорт из буфера»:</p>
+<pre id="cfg9"></pre>
+<button class="btn" onclick="copy9()">📋 Скопировать (порт 80)</button>
+<button class="btn" onclick="copy10()">📋 Скопировать (с TLS)</button>
+<p class="small">Внутри конфига уже: путь <code>/?ed=2048</code> (0-RTT), русские сайты и банки (Госуслуги, Сбер, Т-Банк, Ozon, WB, Авито, операторы связи…) — напрямую, остальное — через VPN.</p>
+</div>
+
+<div class="card">
+<h2>🔥 Самолечение (автоматический «врач»)</h2>
+<p>В репозитории работает воркфлоу <b>vpn-guard</b>: каждые 15 минут проверяет все узлы. Если какой-то перестал отвечать — робот сам удаляет и пересоздаёт его из кода в репо (это лечит известную «залипшую» проблему аккаунта). Если хочешь проверить вручную: вкладка Actions → vpn-guard → Run workflow.</p>
+</div>
+
+<div class="card">
 <h2>📱 Узел для телефона (vpn-phone) — «встроить в настройки»</h2>
 <p>Тот же VLESS, но настроенный на постоянную работу: после импорта включи его в настройках телефона как постоянный VPN (см. шаги ниже на странице проверки). Вставляй через <b>«+ → Импорт из буфера»</b>:</p>
 <pre id="cfg5"></pre>
@@ -112,6 +130,13 @@ const HOST2="aegis-vpn.apigemenipp.workers.dev";
 fetch("vpn/xray-fragment.json").then(r=>r.text()).then(t=>{document.getElementById("cfg").textContent=t;});
 document.getElementById("cfg2").textContent=
 "vless://"+uuid+"@"+HOST+":80?encryption=none&security=none&type=ws&host="+HOST+"&path=%2F#AegisVPN-noTLS";
+const HOST6="vless-auto.apigemenipp.workers.dev";
+document.getElementById("cfg9").textContent=linkn(HOST6,80,false,"Aegis-AUTO");
+document.getElementById("cfg10").textContent=linkn(HOST6,443,true,"Aegis-AUTO-TLS");
+function copy9(){navigator.clipboard.writeText(document.getElementById("cfg9").textContent).then(()=>alert("Скопировано"))}
+function copy10(){navigator.clipboard.writeText(document.getElementById("cfg10").textContent).then(()=>alert("Скопировано"))}
+fetch("vpn/auto-config.json").then(r=>r.text()).then(t=>{document.getElementById("acfg").textContent=t;});
+function copyAutoCfg(){navigator.clipboard.writeText(document.getElementById("acfg").textContent).then(()=>alert("Скопировано"))}
 function copyCfg(){navigator.clipboard.writeText(document.getElementById("cfg").textContent).then(()=>alert("Скопировано"))}
 function copy2(){navigator.clipboard.writeText(document.getElementById("cfg2").textContent).then(()=>alert("Скопировано"))}
 function copy2b(){navigator.clipboard.writeText("vless://"+uuid+"@"+HOST2+":80?encryption=none&security=none&type=ws&host="+HOST2+"&path=%2F#AegisVPN-2noTLS").then(()=>alert("Скопировано"))}

@@ -118,6 +118,17 @@ POST https://gemini-proxy.apigemenipp.workers.dev/v1beta/models/gemini-2.0-flash
 
 Деплой из репозитория (локально): `npx wrangler@3 deploy cloudflare/gemini-proxy/worker.js --name gemini-proxy --compatibility-date 2024-12-01`
 
+## VPN Guard (самолечение узлов)
+`.github/workflows/vpn-guard.yml` — cron каждые 15 минут: health-check всех воркеров
+(vless-vpn, aegis-vpn, vpn-uni, vpn-phone, vless-auto, vless-turbo, gemini-api);
+зависший воркер автоматически удаляется и пересоздаётся из кода в репозитории
+(лечит известную проблему «залипания» воркеров аккаунта). Результат — в job summary.
+
+## АВТО-узел (vless-auto)
+`cloudflare/vless-auto/` + `docs/vpn/auto-config.json` — полный Xray-конфиг для v2rayNG
+(импорт конфигурации из буфера): geoip/geosite RU + банки/Госуслуги/маркетплейсы — напрямую,
+остальное — через vless-auto (порт 80, `ed=2048`). Ручной выбор приложений не нужен.
+
 ## Gemini Чат (замена AI Studio)
 `docs/chat.html` — веб-чат с Gemini на Cloudflare Pages, работает из РФ без VPN:
 запросы идут через прокси-воркер `gemini-api` на Google API (API-эндпоинт не блокирует
