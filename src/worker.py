@@ -177,6 +177,29 @@ def run_cycle():
             json.dump(beat, f)
     except Exception:
         pass
+    try:
+        lab_cache = os.path.join(engine.RESULTS, "lab", "cache")
+        inv = {"ts": time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime(now_ms / 1000)), "files": {}}
+        if os.path.isdir(lab_cache):
+            for fn in sorted(os.listdir(lab_cache)):
+                if not fn.endswith(".json"):
+                    continue
+                p = os.path.join(lab_cache, fn)
+                try:
+                    fsz = os.path.getsize(p)
+                    with open(p) as f:
+                        dj = json.load(f)
+                    win = dj.get("windows") or {}
+                    nb = sum(len(v) for v in win.values() if isinstance(v, list))
+                    inv["files"][fn] = {"bars": nb, "symbols": dj.get("symbols") or [],
+                                        "days": dj.get("days"), "mb": round(fsz / 1_000_000, 1),
+                                        "dl_ts": dj.get("ts")}
+                except Exception:
+                    continue
+        with open(os.path.join(engine.RESULTS, "lab_data.json"), "w") as f:
+            json.dump(inv, f)
+    except Exception:
+        pass
     dashboard.generate(st, trades, CFG)
 
     ai_rep = {"ok": False, "error": "not run"}

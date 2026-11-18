@@ -146,8 +146,21 @@ def data_panel(model):
                     info_s = "—"
             rows += (f"<tr><td class='mono'>{esc(fn)}</td><td class='mono'>{info_s or '—'}</td>"
                      f"<td class='mono muted'>{sz / 1_000_000:.1f} МБ</td></tr>")
+    note = ""
     if not rows:
-        rows = "<tr><td colspan='3' class='muted'>скачанной истории пока нет — лаба подпишет её при первом бэктесте</td></tr>"
+        m = _read(os.path.join(RESULTS, "lab_data.json"))
+        if isinstance(m, dict) and m.get("files"):
+            note = "<div class='sub' style='margin-top:6px'>история уже скачана ранее и перезаливается при первом бэктесте — ниже последняя известная выгрузка</div>"
+            for fn, fi in (m.get("files") or {}).items():
+                syms = ', '.join(fi.get('symbols') or [])
+                total_bars += fi.get("bars", 0) or 0
+                total_bytes += (fi.get("mb", 0) or 0) * 1_000_000
+                rows += (f"<tr><td class='mono'>{esc(fn)}</td>"
+                         f"<td class='mono'>{fi.get('bars', 0)} бар · {esc(syms)} · "
+                         f"{esc(fi.get('days', '—'))} д · скачан {_ago(fi.get('dl_ts'))}</td>"
+                         f"<td class='mono muted'>{fi.get('mb', 0)} МБ</td></tr>")
+        if not rows:
+            rows = "<tr><td colspan='3' class='muted'>скачанной истории пока нет — лаба подпишет её при первом бэктесте</td></tr>"
     ml_n = (model or {}).get("n_trades", 0)
     sim_n = "—"
     ss = _read(SIM_STATE_PATH)
@@ -156,7 +169,7 @@ def data_panel(model):
     return (f"<table><tr><th>ML-датасет</th><th>Sim-обучение</th><th>История лаборатории</th></tr>"
             f"<tr><td class='mono'>{ml_n} сделок</td><td class='mono'>{sim_n} сделок</td>"
             f"<td class='mono'>{total_bars} бар · {total_bytes / 1_000_000:.1f} МБ</td></tr></table>"
-            f"<table style='margin-top:8px'><tr><th>Файл</th><th>Содержимое</th><th>Размер</th></tr>{rows}</table>")
+            f"{note}<table style='margin-top:8px'><tr><th>Файл</th><th>Содержимое</th><th>Размер</th></tr>{rows}</table>")
 
 
 def lab_progress_panel():
