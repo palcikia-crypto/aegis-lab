@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 84,
+ "steps": 85,
  "llm_used": 6,
  "llm_day": "20261118",
  "last_plan_ts": 1795000413120,
@@ -25,29 +25,8 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [
-  {
-   "name": "коррекция_филтра",
-   "params": {
-    "fee_edge_mult": 2.5,
-    "vol_spike_min": 1.8
-   },
-   "module": null,
-   "note": "Увеличение fee_edge_mult и vol_spike_min для более строгой фильтрации сигналов",
-   "rejected": []
-  },
-  {
-   "name": "коррекция_real_check",
-   "params": {
-    "risk_per_trade": 0.8,
-    "loss_streak_pause": 6
-   },
-   "module": null,
-   "note": "Уменьшение risk_per_trade и увеличение loss_streak_pause для более осторожной оценки реальности сделок",
-   "rejected": []
-  }
- ],
- "q_idx": 1,
+ "queue": [],
+ "q_idx": 0,
  "best": null,
  "promoted": [],
  "ckpts": 0,
