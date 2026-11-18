@@ -14,6 +14,8 @@ from src import strategies, universe  # noqa: E402
 from src import ai_advisor  # noqa: E402
 from src import ai_dev  # noqa: E402
 from src import verify  # noqa: E402
+from src import evo  # noqa: E402
+from src import book  # noqa: E402
 
 OPT_PATH = os.path.join(HERE, "results", "opt.json")
 MODEL_PATH = os.path.join(HERE, "results", "model.json")
@@ -28,6 +30,7 @@ if os.path.exists(OPT_PATH):
     except Exception:
         pass
 CFG.update(ai_advisor.load_ai_overrides())
+CFG.update(evo.load_evo_overrides())
 
 
 def load_opt():
@@ -105,6 +108,8 @@ def run_cycle():
 
     opened = []
     gated = 0
+    book_gated = 0
+    book_map = {}
     model = load_model()
     regimes = {}
     if ok:
@@ -129,6 +134,15 @@ def run_cycle():
                     continue
                 side, strat, reg = decision
                 regimes[sym] = reg
+                try:
+                    snap = book.snapshot(sym)
+                    book_map[sym] = snap
+                    if not book.spread_gate(CFG, snap):
+                        gated += 1
+                        book_gated += 1
+                        continue
+                except Exception:
+                    pass
                 allow, p = gate(model, feat, side)
                 if not allow:
                     gated += 1
@@ -140,6 +154,8 @@ def run_cycle():
                     opened.append(f"{pos['id']}:{strat}")
 
     # 3) persist
+    if book_map:
+        book.save(book_map)
     engine.save_state(st)
     engine.save_trades(trades)
     engine.append_equity(now_ms, st["equity"])
@@ -152,6 +168,8 @@ def run_cycle():
     extra = {
         "sources": sources,
         "ml_gated": gated,
+        "book_gated": book_gated,
+        "book": book.summary(book_map),
         "ml": {"auc": ml_wfo.get("val_auc"), "accuracy": ml_wfo.get("val_accuracy")} if model else None,
         "sim": st.get("sim_summary"),
         "real_check": verify_sum,
@@ -173,6 +191,7 @@ def run_cycle():
         "regimes": regimes,
         "opened": opened,
         "ml_gated": gated,
+        "book_gated": book_gated,
         "ml_active": model is not None,
         "adapt_combos": len(st.get("adapt", {})),
         "open_positions": len(st["positions"]),

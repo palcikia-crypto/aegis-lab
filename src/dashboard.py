@@ -224,19 +224,35 @@ def generate(st, trades, cfg):
     uni_panel = ""
     if uni:
         syms = ", ".join(uni.get("symbols", []))
+        bk = _read(os.path.join(RESULTS, "book.json")) or {}
+        book_html = ""
+        for bsym, b in (bk.get("books") or {}).items():
+            okb = b.get("spread_bps", 99) <= 8
+            book_html += (f"<div class='mono' style='font-size:12px'>"
+                          f"{esc(bsym)} · спред {b.get('spread_bps')}bps · "
+                          f"{'✓ ок' if okb else '⚠ широ́кий'}</div>")
         uni_panel = f"""
 <div class="panel"><div class="ph"><span class="ico">🪐</span>Авто-вселенная монет</div>
-<div class="sub">система сама скачивает топ-ликвидные инструменты с Binance (включая золото XAUUSDT, когда оно в топе) и их торговые спецификации</div>
-<p style="font-size:14px;margin-top:8px" class="mono">{esc(syms)}</p></div>"""
+<div class="sub">система сама скачивает топ-ликвидные инструменты с Binance (включая золото XAUUSDT, когда оно в топе) и их торговые спецификации · &nbsp;📊 стакан в реальном времени (OKX): вход только если спред узак порога</div>
+<p style="font-size:14px;margin-top:8px" class="mono">{esc(syms)}</p>{book_html}</div>"""
 
     strat_panel = ""
     if opt:
         best_p = opt.get("best", {}).get("params", {})
         rows = leaderboard_rows(opt)
         n_combos = len(opt.get("combo_stats", {}))
+        ev = _read(os.path.join(RESULTS, "evo.json")) or {}
+        evo_html = ""
+        if ev.get("best"):
+            eb = ev["best"]
+            evo_html = (f"<div class='sub' style='margin-top:8px'>🧬 Эволюция "
+                        f"({ev.get('generations')} поколений, {ev.get('evaluations')} оценок): "
+                        f"score {eb.get('score')} · pnl {eb.get('pnl')}$ · "
+                        f"{'✓ внедрено' if ev.get('robust') else '— неубедительно, не внедряю'} · "
+                        f"{esc(', '.join(f'{k}={v}' for k, v in (eb.get('params') or {}).items()))}</div>")
         strat_panel = f"""
 <div class="panel"><div class="ph"><span class="ico">⚙️</span>Оптимизатор WFO · лидерборд</div>
-<div class="sub">лучшие: ATR {best_p.get('atr_k')} · vol {best_p.get('vol_spike_min')} · адаптивных связок: {n_combos}</div>
+<div class="sub">лучшие: ATR {best_p.get('atr_k')} · vol {best_p.get('vol_spike_min')} · адаптивных связок: {n_combos}</div>{evo_html}
 <table><tr><th>Параметры</th><th>Сделок</th><th>WR</th><th>PF</th><th>PnL $</th><th>Худший чанк</th></tr>
 {rows}</table></div>"""
 
@@ -335,9 +351,8 @@ def generate(st, trades, cfg):
                       f"<td class='mono {'up' if pr >= 0 else 'down'}'>{pr:+.3f}</td>"
                       f"<td class='mono {mcls}'>{mtxt}</td><td class='muted small'>{amb}</td></tr>")
         sm = vcheck.get("summary") or {}
-        n_total = s.get("trades", 0)
         n_checked = sm.get("trades", 0)
-        vrows_tot = (f"<tr><td><b>TOTAL</b></td><td></td><td class='mono'><b>{n_checked}/{n_total}</b> проверено</td>"
+        vrows_tot = (f"<tr><td><b>TOTAL</b></td><td></td><td class='mono'><b>{n_checked}</b> проверено</td>"
                      f"<td class='mono {'up' if sm.get('recorded_total', 0) >= 0 else 'down'}'><b>{sm.get('recorded_total', 0):+.2f}</b></td>"
                      f"<td class='mono {'up' if sm.get('real_total', 0) >= 0 else 'down'}'><b>{sm.get('real_total', 0):+.2f}</b></td>"
                      f"<td class='mono muted'>{sm.get('realism_bias', 0):+.2f} (смещение)</td><td></td></tr>")

@@ -1,0 +1,21 @@
+{
+ "ts": "2026-11-18 03:45 UTC",
+ "generations": 3,
+ "evaluations": 8,
+ "robust": false,
+ "best": {
+  "params": {
+   "atr_k": 0.9101784762977813,
+   "rr": 1.4632067029520905,
+   "vol_spike_min": 1.4,
+   "fee_edge_mult": 3.0,
+   "ttl_min": 300,
+   "ttl_max": 788
+  },
+  "score": -1000000000.0,
+  "trades": 186,
+  "wr": 51,
+  "pnl": -59.1
+ },
+ "window_days": 30
+}

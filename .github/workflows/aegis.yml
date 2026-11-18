@@ -74,9 +74,10 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Optimize (WFO grid) + sandbox replay + train ML gate
+      - name: Optimize (WFO grid) + evolution + sandbox replay + train ML gate
         run: |
           python -m src.optimize --days 30
+          python -m src.evo --minutes 12 --days 30
           python -m src.sim --days 30
           python -m src.train
 
