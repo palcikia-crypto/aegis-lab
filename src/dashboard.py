@@ -364,6 +364,40 @@ def generate(st, trades, cfg):
                 elif last_p.get("params"):
                     pp = ", ".join(f"{k}={v}" for k, v in last_p["params"].items())
                     promo_txt = f"<div class='good-p'>🏆 лаборатория внедрила параметры: {esc(pp)} (score {last_p.get('score')})</div>"
+        pats = lab_rep.get("patterns") or {}
+        pat_txt = ""
+        pat_rows = ""
+        for p in (pats.get("top") or []):
+            mr = p.get("mean_ret") or 0
+            pat_rows += (f"<tr><td class='mono'>{esc(p.get('id',''))}</td>"
+                         f"<td class='muted'>{'вверх' if p.get('side')=='long' else 'вниз'}</td>"
+                         f"<td class='mono {'up' if mr > 0 else 'down'}'>{mr:+.4%}</td>"
+                         f"<td class='mono'>{p.get('n','—')}</td>"
+                         f"<td class='mono muted'>{esc(p.get('chunks_ok',''))}</td></tr>")
+        if pat_rows:
+            pat_txt = (f"<div class='sub' style='margin:10px 0 4px'>золотые закономерности (охота без LLM, "
+                       f"{pats.get('count', 0)} шт · {esc(pats.get('ts') or '')}):</div>"
+                       f"<table><tr><th>Контекст</th><th>Куда идёт</th><th>Edge/15бар</th><th>n</th><th>Чанки</th></tr>{pat_rows}</table>")
+        paper = lab_rep.get("paper")
+        paper_txt = ""
+        if paper:
+            eq = paper.get("equity") or 0
+            prc = lab_rep.get("paper_realcheck") or {}
+            paper_txt = (f"<table style='margin-top:6px'><tr><th>🤖 Lab-paper (реальные свечи)</th><th>Equity</th>"
+                         f"<th>Сделок</th><th>Побед</th><th>PnL</th><th>Реальная сверка</th></tr>"
+                         f"<tr><td>{esc(paper.get('active_pack') or 'лучший вариант лабы')}</td>"
+                         f"<td class='mono {'up' if eq >= 1000 else 'down'}'>{eq:,.2f}</td>"
+                         f"<td class='mono'>{paper.get('trades', 0)}</td>"
+                         f"<td class='mono'>{paper.get('wins', 0)}</td>"
+                         f"<td class='mono {'up' if (paper.get('pnl') or 0) >= 0 else 'down'}'>{(paper.get('pnl') or 0):+.2f}</td>"
+                         f"<td class='mono muted'>{prc.get('trades', '—')} шт · смещение {prc.get('avg_bias', '—')}</td></tr></table>")
+        ds = lab_rep.get("deep_scan")
+        ds_txt = ""
+        if ds:
+            v = ds.get("verdict") or "—"
+            ds_txt = (f"<div class='{'good-p' if v == 'pass' else 'risk'}'>⏳ Прогон устойчивости: {esc(str(ds.get('days','')))}д/{esc(str(ds.get('tf','')))} — "
+                      f"{'устойчив' if v == 'pass' else 'НЕ устойчив'} · baseline {ds.get('score_base','—')}/{ds.get('trades_base','—')} · "
+                      f"best {ds.get('score_best','—')}/{ds.get('trades_best','—')} · {esc(str(ds.get('ts','')))}</div>")
         lab_panel = f"""
 <div class="panel dev"><div class="ph"><span class="ico">🧪</span>Лаборатория · Вторая реальность <span class="muted small">· {esc(lab_rep.get('ts',''))}</span></div>
 <div class="sub">копия системы живёт своей жизнью: строит гипотезы, пишет модули-фильтры, качает данные с бирж, гоняет бэктесты; всё, что стабильно обгоняет оригинал, переносится сюда (авто-откат к лучшему чекпоинту)</div>
@@ -376,7 +410,7 @@ def generate(st, trades, cfg):
 <td class='mono {'up' if (base.get('pnl') or 0) > 0 else 'down'}'>{base.get('pnl','—')}</td></tr>
 <tr><td>{esc(best.get('name') or 'лучшая мутация')}</td><td class='mono'>{best.get('score','—')}</td><td class='mono'>{best.get('trades','—')}</td>
 <td class='mono {'up' if (best.get('pnl') or 0) > 0 else 'down'}'>{best.get('pnl','—')}</td></tr></table>
-{promo_txt}
+{promo_txt}{ds_txt}{pat_txt}{paper_txt}
 <div class="sub" style="margin:10px 0 4px">журнал шагов:</div>
 <table><tr><th>Время</th><th>Событие</th><th>Детали</th></tr>{''.join(lab_journal_tail)}</table></div>"""
 

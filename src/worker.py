@@ -175,6 +175,7 @@ def run_cycle():
         "ml": {"auc": ml_wfo.get("val_auc"), "accuracy": ml_wfo.get("val_accuracy")} if model else None,
         "sim": st.get("sim_summary"),
         "real_check": verify_sum,
+        "bars": symbol_bars,
     }
     try:
         ai_rep = ai_advisor.maybe_run(st, trades, CFG, extra)

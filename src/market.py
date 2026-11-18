@@ -92,11 +92,11 @@ def fetch_klines(symbol, limit=200):
     raise RuntimeError(f"all sources failed for {symbol}: " + " | ".join(errors))
 
 
-def fetch_klines_binance_range(symbol, days, interval="1m"):
+def fetch_klines_binance_range(symbol, days, interval="1m", bars_per_day=1440):
     """Paginated Binance futures history walk backwards via endTime."""
     by_ts = {}
     end_ms = int(time.time() * 1000)
-    need = days * 1440
+    need = days * bars_per_day
     empty_streak = 0
     while len(by_ts) < need:
         url = (f"https://fapi.binance.com/fapi/v1/klines?symbol={symbol}"
@@ -133,11 +133,11 @@ def _bars_from_bybit_list(lst):
     return bars
 
 
-def fetch_klines_bybit_range(symbol, days, interval="1"):
+def fetch_klines_bybit_range(symbol, days, interval="1", bars_per_day=1440):
     """Paginated history walk backwards: ~days of 1m bars, ascending."""
     by_ts = {}
     end_ms = int(time.time() * 1000)
-    need = days * 1440
+    need = days * bars_per_day
     last_err = None
     for host in ("api.bytick.com", "api.bybit.com"):
         by_ts.clear()
@@ -170,15 +170,15 @@ def fetch_klines_bybit_range(symbol, days, interval="1"):
     raise RuntimeError(f"bybit range failed for {symbol}: {last_err}")
 
 
-def fetch_klines_okx_range(symbol, days):
+def fetch_klines_okx_range(symbol, days, bar="1m", bars_per_day=1440):
     """OKX history-candles pagination (100 bars/page)."""
     inst = symbol.replace("USDT", "-USDT-SWAP")
     by_ts = {}
     after = ""
-    need = days * 1440
+    need = days * bars_per_day
     while len(by_ts) < need:
         url = (f"https://www.okx.com/api/v5/market/history-candles"
-               f"?instId={inst}&bar=1m&limit=100{after}")
+               f"?instId={inst}&bar={bar}&limit=100{after}")
         rows = _get_json(url).get("data") or []
         if not rows:
             break
@@ -196,17 +196,34 @@ def fetch_klines_okx_range(symbol, days):
     return bars, "okx"
 
 
-def fetch_history(symbol, days):
-    """Historical range for the sandbox; same source order as live."""
+TF_MAP = {"1m": ("1m", "1", "1m"), "15m": ("15m", "15", "15m"),
+          "1h": ("1h", "60", "1H"), "4h": ("4h", "240", "4H")}
+
+
+def tf_bars_per_day(tf):
+    return {"1m": 1440, "15m": 96, "1h": 24, "4h": 6}.get(tf, 1440)
+
+
+def fetch_history(symbol, days, tf="1m"):
+    """Historical range for the sandbox; same source order as live.
+
+    Поддержанные ТФ: 1m/15m/1h/4h — лаборатория качает длинные окна
+    на старших ТФ, чтобы проверить устойчивость стратегии за годы.
+    """
+    iv_binance, iv_bybit, iv_okx = TF_MAP[tf]
+    bpd = tf_bars_per_day(tf)
     errors = []
     for src in CFG["data_sources"]:
         try:
             if src == "binance":
-                return fetch_klines_binance_range(symbol, days)
+                return fetch_klines_binance_range(symbol, days, interval=iv_binance,
+                                                  bars_per_day=bpd)
             if src in ("bytick", "bybit"):
-                return fetch_klines_bybit_range(symbol, days)
+                return fetch_klines_bybit_range(symbol, days, interval=iv_bybit,
+                                                bars_per_day=bpd)
             if src == "okx":
-                return fetch_klines_okx_range(symbol, days)
+                return fetch_klines_okx_range(symbol, days, bar=iv_okx,
+                                              bars_per_day=bpd)
         except Exception as e:
             errors.append(str(e))
             time.sleep(0.5)

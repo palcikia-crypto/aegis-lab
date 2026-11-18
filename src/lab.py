@@ -20,10 +20,15 @@ import re
 import time
 
 from src import engine
+from src import market
 from src import sim as sim_mod
 from src import optimize as opt_mod
 from src import ai_advisor
 from src import ai_dev
+from src import lab_strats
+from src import features
+from src import strategies
+from src import verify
 
 RESULTS = engine.RESULTS
 LAB_DIR = os.path.join(RESULTS, "lab")
@@ -43,16 +48,40 @@ EVAL_DAYS = int(os.environ.get("AEGIS_LAB_DAYS", "5"))
 MAX_SYMBOLS = 2
 CACHE_DIR = os.path.join(LAB_DIR, "cache")
 CACHE_TTL_S = 12 * 3600
+PAPER_STATE_PATH = os.path.join(LAB_DIR, "paper_state.json")
+PAPER_TRADES_PATH = os.path.join(LAB_DIR, "paper_trades.jsonl")
+PAPER_EQ_PATH = os.path.join(LAB_DIR, "paper_equity.csv")
+PAPER_CHECK_PATH = os.path.join(LAB_DIR, "paper_check.json")
+DEEP_SCAN_INTERVAL_S = 6 * 3600
+DEEP_SCAN_TF = "15m"
+DEEP_SCAN_DAYS = int(os.environ.get("AEGIS_LAB_DEEP_DAYS", "90"))
+PAPER_CHECK_INTERVAL_S = 3600
+PATTERNS_PATH = os.path.join(LAB_DIR, "patterns.json")
+HUNT_INTERVAL_S = int(os.environ.get("AEGIS_LAB_HUNT_INTERVAL_S", str(3 * 3600)))
+HUNT_FWD_BARS = 15
+HUNT_MIN_BARS = 150
+HUNT_MIN_EDGE = float(os.environ.get("AEGIS_LAB_MIN_EDGE", "0.0008"))
 MAX_VARIANTS_PER_STEP = 1
 MAX_CHECKPOINTS = 12
 MIN_PROMOTE_TRADES = 25
 BASELINE_REFRESH_S = 4 * 3600
 
 def merged_bounds():
-    from src import evo as evo_mod
+    from src import evo as evo_mod, lab_strats
     b = dict(ai_dev.DEV_BOUNDS)
     for k, v in evo_mod.BOUNDS.items():
         b[k] = v
+    for name in lab_strats.LAB_REGISTRY:
+        b[f"s_{name}"] = (0, 1, int)
+    for name, ps in lab_strats.PARAM_HINTS.items():
+        for k, (lo, hi) in ps.items():
+            b[k] = (lo, hi, float)
+    b["pump_spike_min"] = (2.5, 6.0, float)
+    b["pump_move_atr"] = (1.2, 4.0, float)
+    b["scalp_vol_max"] = (1.2, 2.5, float)
+    b["scalp_tilt_min"] = (0.0001, 0.002, float)
+    b["squeeze_width_max"] = (0.002, 0.01, float)
+    b["squeeze_vol_min"] = (1.1, 2.5, float)
     return b
 
 
@@ -146,22 +175,30 @@ def _clamp_params(params):
 
 
 # ------------------------------------------------------------ baseline cache
-def _cached_windows(symbols, days):
+def _cached_windows(symbols, days, tf="1m"):
     """История с бирж кэшируется на диск (вне git) — бэктесты в рамках
-    сессии не бьют повторно по API."""
+    сессии не бьют повторно по API. ТФ в ключе кэша: длинные окна
+    устойчивости качаются на 15m/1h до 2 лет."""
     os.makedirs(CACHE_DIR, exist_ok=True)
-    path = os.path.join(CACHE_DIR, f"hist_{days}d.json")
+    path = os.path.join(CACHE_DIR, f"hist_{days}d_{tf}.json")
     cache = _load_json(path, {})
     if (cache.get("symbols") == symbols and cache.get("days") == days
+            and cache.get("tf") == tf
             and _now_ms() - cache.get("ts", 0) < CACHE_TTL_S * 1000
             and cache.get("windows")):
         return {s: sim_mod.Window([
                     dict(zip(("ts", "o", "h", "l", "c", "v"), row))
                     for row in rows])
                 for s, rows in cache["windows"].items()}, cache.get("srcs", {})
-    wins, srcs = sim_mod.fetch_windows(days, symbols)
+    wins, srcs = {}, {}
+    for sym in symbols:
+        bars, src = market.fetch_history(sym, days + 1, tf=tf)
+        wins[sym] = sim_mod.Window(bars)
+        srcs[sym] = src
+        time.sleep(0.3)
     _save_json(path, {
-        "ts": _now_ms(), "symbols": symbols, "days": days, "srcs": srcs,
+        "ts": _now_ms(), "symbols": symbols, "days": days, "tf": tf,
+        "srcs": srcs,
         "windows": {s: [[b["ts"], b["o"], b["h"], b["l"], b["c"], b["v"]]
                         for b in w.bars] for s, w in wins.items()},
     })
@@ -331,7 +368,7 @@ def maybe_step(st, trades, cfg_main, extra=None, time_budget_s=STEP_TIME_S):
     st_lab = load_state()
     summary = {"ok": False, "phase": st_lab.get("phase")}
     try:
-        return _step(st_lab, deadline, summary)
+        return _step(st_lab, deadline, summary, extra)
     except Exception as e:
         journal("step_crash", detail=f"{type(e).__name__}: {str(e)[:160]}")
         summary["error"] = str(e)[:120]
@@ -339,10 +376,32 @@ def maybe_step(st, trades, cfg_main, extra=None, time_budget_s=STEP_TIME_S):
         return summary
 
 
-def _step(st_lab, deadline, summary):
+def _step(st_lab, deadline, summary, extra=None):
+    extra = extra or {}
     if st_lab.get("llm_day") != _day_key():
         st_lab["llm_used"] = 0
         st_lab["llm_day"] = _day_key()
+
+    # 0) живой лабораторный форвард-тест на реальных свечах этого цикла
+    bars_map = extra.get("bars")
+    if bars_map and time.time() < deadline - 45:
+        opened = paper_tick(bars_map, st_lab, _now_ms(), deadline)
+        if opened:
+            summary["paper_opened"] = opened
+        if (_now_ms() - int(st_lab.get("paper_last_check_ts", 0))
+                > PAPER_CHECK_INTERVAL_S * 1000
+                and time.time() < deadline - 60):
+            rc = _paper_realcheck(_main_cfg({}), deadline)
+            if rc:
+                summary["paper_checked"] = rc.get("trades")
+
+    if time.time() > deadline - 30:
+        st_lab["steps"] = st_lab.get("steps", 0) + 1
+        save_state(st_lab)
+        _write_report(st_lab, summary)
+        summary["ok"] = True
+        summary["phase"] = st_lab["phase"]
+        return summary
 
     if not st_lab.get("baseline") and time.time() < deadline - 40:
         base = ensure_baseline(deadline)
@@ -360,10 +419,13 @@ def _step(st_lab, deadline, summary):
               and _now_ms() - st_lab.get("last_plan_ts", 0) > PLAN_INTERVAL_S * 1000)
 
     pend = st_lab.get("pending")
-    if pend and time.time() < deadline - 60:
+    if pend and time.time() < deadline - 90:
         ck = _load_json(os.path.join(CKPT_DIR, f"{int(pend):03d}.json"), None)
         if ck:
-            if _confirm(ck, deadline):
+            if (st_lab.get("deep_scan") or {}).get("verdict") == "fail":
+                journal("promote_blocked", name=ck.get("name"),
+                        detail="deep_scan: вариант не устойчив на длинной истории")
+            elif _confirm(ck, deadline):
                 _promote(st_lab, ck, {"module": ck.get("module")})
                 journal("promoted", name=ck.get("name"),
                         params=ck.get("params"), score=ck.get("score"),
@@ -378,8 +440,21 @@ def _step(st_lab, deadline, summary):
     elif llm_ok and time.time() < deadline - 60:
         st_lab["phase"] = "plan"
         save_state(st_lab)
-        done = _plan(st_lab, st_lab.get("baseline") or {}, {}, deadline)
+        done = _plan(st_lab, st_lab.get("baseline") or {}, extra, deadline)
         summary["planned"] = done
+    elif time.time() < deadline - 120 and (
+            _now_ms() - int(st_lab.get("deep_ts", 0)) > DEEP_SCAN_INTERVAL_S * 1000):
+        ds = _deep_scan(st_lab, deadline)
+        if ds:
+            st_lab["deep_ts"] = _now_ms()
+            summary["deep_scan"] = ds.get("verdict")
+        st_lab["phase"] = "deep_scan"
+    elif time.time() < deadline - 100 and (
+            _now_ms() - int(st_lab.get("hunt_ts", 0)) > HUNT_INTERVAL_S * 1000):
+        st_lab["phase"] = "hunt"
+        save_state(st_lab)
+        _hunt(st_lab, deadline)
+        summary["hunt"] = len(st_lab.get("queue") or [])
     else:
         st_lab["phase"] = "cooldown" if not llm_ok else st_lab["phase"]
         summary["idle"] = True
@@ -411,6 +486,7 @@ def _evaluate(st_lab, deadline):
             continue
         symbols = _eval_symbols()
         cfg = _main_cfg(variant.get("params") or {})
+        lab_strats.activate(cfg)
         if variant.get("module"):
             reg = _lab_registry()
             exists = {m["name"] for m in reg}
@@ -433,6 +509,7 @@ def _evaluate(st_lab, deadline):
         res["module"] = (variant.get("module") or {}).get("name") \
             if variant.get("module") else None
         ok, why = _robust(res, base)
+        ds_fail = (st_lab.get("deep_scan") or {}).get("verdict") == "fail"
         if ok:
             st_lab["best"] = res
             st_lab["ckpts"] = st_lab.get("ckpts", 0) + 1
@@ -440,7 +517,11 @@ def _evaluate(st_lab, deadline):
                        {"ts": time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime()),
                         **res})
             _prune_checkpoints()
-            if time.time() < deadline - 60 and _confirm(res, deadline):
+            if ds_fail:
+                st_lab["pending"] = st_lab["ckpts"]
+                journal("promote_blocked", name=variant["name"],
+                        detail="deep_scan: устойчивость не подтверждена, промоушен заморожен")
+            elif time.time() < deadline - 60 and _confirm(res, deadline):
                 _promote(st_lab, res, variant)
                 journal("promoted", name=variant["name"],
                         params=res.get("params"), score=res.get("score"),
@@ -587,6 +668,364 @@ def _lab_registry():
     return _load_json(MODULES_REGISTRY, [])
 
 
+# ------------------------------------------------- охота за паттернами (без LLM)
+VOL_CUTS = (0.7, 1.3, 2.5)
+MOM_CUTS = (-0.01, 0.0, 0.01)
+ATR_CUTS = (0.002, 0.008)
+
+
+def _bar_tags(vol_spike, mom, atr_rel):
+    if vol_spike < VOL_CUTS[0]:
+        vz = "vz0"
+    elif vol_spike < VOL_CUTS[1]:
+        vz = "vz1"
+    elif vol_spike < VOL_CUTS[2]:
+        vz = "vz2"
+    else:
+        vz = "vz3"
+    if mom <= MOM_CUTS[0]:
+        mt = "m0"
+    elif mom < MOM_CUTS[1]:
+        mt = "m1"
+    elif mom < MOM_CUTS[2]:
+        mt = "m2"
+    else:
+        mt = "m3"
+    if atr_rel < ATR_CUTS[0]:
+        at = "a0"
+    elif atr_rel < ATR_CUTS[1]:
+        at = "a1"
+    else:
+        at = "a2"
+    return vz, mt, at
+
+
+def _pattern_module(pid, tags, side, mean_ret, n):
+    """Вето-модуль по найденной контр-закономерности (детерминированный)."""
+    tag_list = ", ".join(f'"{t}"' for t in tags)
+    return f'''"""Лаб-модуль: вето по опасному контексту {pid} (охота без LLM).
+    NOTE: math/statistics в песочнице aidev уже доступны как глобалы."""
+NAME = "lab_pat_{pid}"
+SIDE_BLOCK = "{side}"
+BLACK = {{{tag_list}}}
+
+
+def _vol_tag(vs):
+    if vs < 0.7:
+        return "vz0"
+    if vs < 1.3:
+        return "vz1"
+    if vs < 2.5:
+        return "vz2"
+    return "vz3"
+
+
+def _mom_tag(feat):
+    c = feat.get("close") or 0.0
+    m = (feat.get("momentum") or 0.0) / (c if abs(c) > 1e-9 else 1.0)
+    if m <= -0.01:
+        return "m0"
+    if m < 0.0:
+        return "m1"
+    if m < 0.01:
+        return "m2"
+    return "m3"
+
+
+def _atr_tag(feat):
+    c = feat.get("close") or 0.0
+    a = feat.get("atr15") or 0.0
+    at = a / (c if abs(c) > 1e-9 else 1.0)
+    if at < 0.002:
+        return "a0"
+    if at < 0.008:
+        return "a1"
+    return "a2"
+
+
+def filter_signal(feat, cfg):
+    tags = {{_vol_tag(feat.get("vol_spike") or 0.0), _mom_tag(feat), _atr_tag(feat)}}
+    if BLACK <= tags:
+        return False, "lab pattern: {pid}"
+    return True, "ok"
+'''
+
+
+def _hunt(st_lab, deadline):
+    """Детерминированная добыча: теги контекста -> форвард-исход -> эдж/чёрные
+    паттерны. Без LLM; результат = patterns.json + очередь pack-вариантов и
+    вето-модулей (проверяются тем же robust-гейтом)."""
+    symbols = _eval_symbols()
+    wins, _srcs = _cached_windows(symbols, EVAL_DAYS)
+    out_stats = {}
+    for sym, w in wins.items():
+        bars = w.bars
+        closes = [b["c"] for b in bars]
+        n_bars = len(bars)
+        if n_bars < 300 + HUNT_FWD_BARS:
+            continue
+        idx0 = max(240, n_bars - 4000)
+        for i in range(idx0, n_bars - HUNT_FWD_BARS):
+            vols = [b["v"] for b in bars[max(0, i - 20):i]]
+            vavg = sum(vols) / len(vols) if vols else 0.0
+            spike = bars[i]["v"] / vavg if vavg > 0 else 0.0
+            c0 = closes[i]
+            mom = (c0 - closes[max(0, i - 10)]) / (c0 if abs(c0) > 1e-9 else 1.0)
+            atr_rel = (bars[i]["h"] - bars[i]["l"]) / (c0 if abs(c0) > 1e-9 else 1.0)
+            tags = _bar_tags(spike, mom, atr_rel)
+            fwd = closes[i + HUNT_FWD_BARS] / c0 - 1.0
+            for key in ((tags[0],), (tags[1],), (tags[2],),
+                        (tags[0], tags[1]), (tags[0], tags[2]), (tags[1], tags[2])):
+                rec = out_stats.setdefault(key, [0, []])
+                rec[0] += 1
+                ci = i * 4 // n_bars
+                while len(rec[1]) < 4:
+                    rec[1].append([])
+                rec[1][ci].append(fwd)
+            if time.time() > deadline - 30:
+                break
+        if time.time() > deadline - 30:
+            break
+    patterns, blacks = [], []
+    for key, rec in out_stats.items():
+        n = rec[0]
+        if n < HUNT_MIN_BARS or len([ch for ch in rec[1] if ch]) < 4:
+            continue
+        mean = sum(sum(ch) for ch in rec[1]) / n
+        chunks = [sum(ch) / len(ch) for ch in rec[1] if ch]
+        sign = mean > 0
+        consistent = sum(1 for ch in chunks if (ch > 0) == sign)
+        if consistent < 3 or abs(mean) < HUNT_MIN_EDGE:
+            continue
+        pid = "_".join(key)
+        info = {"id": pid, "tags": list(key), "side": "long" if sign else "short",
+                "mean_ret": round(mean, 5), "n": n, "chunks_ok": f"{consistent}/4"}
+        patterns.append(info)
+        blacks.append((abs(mean), info, "long" if not sign else "short"))
+    patterns.sort(key=lambda p: p["mean_ret"], reverse=True)
+    _save_json(PATTERNS_PATH, {"ts": time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime()),
+                              "patterns": patterns[:12], "contexts": len(out_stats)})
+    blacks.sort(key=lambda b: (-b[0], -b[1]["n"]))
+    queue = [{"name": "pack_scalp", "params": {"s_scalp": 1, "ttl_min": 180, "ttl_max": 300},
+              "note": "охота: pack скальпинга на спокойном рынке"},
+             {"name": "pack_pump_fade", "params": {"s_pump_fade": 1},
+              "note": "охота: фейд пампов/дампов на аномальном объёме"},
+             {"name": "pack_squeeze_break", "params": {"s_squeeze_break": 1},
+              "note": "охота: пробой сжатого Donchian-канала"}]
+    for _strength, rec, block_side in blacks[:2]:
+        code = _pattern_module(rec["id"], rec["tags"], block_side,
+                               rec["mean_ret"], rec["n"])
+        ns, err = ai_dev.validate_module(code)
+        if ns:
+            queue.append({"name": f"pat_veto_{rec['id']}", "params": {},
+                          "module": {"name": ns["name"], "code": code},
+                          "note": f"вето: контекст {rec['id']} систематически бьёт {block_side} ({rec['mean_ret']})"})
+        else:
+            journal("hunt_module_rejected", detail=err[:120])
+    if blacks:
+        b0 = blacks[0]
+        code = _pattern_module(b0[1]["id"], b0[1]["tags"], b0[2],
+                               b0[1]["mean_ret"], b0[1]["n"])
+        queue.append({"name": f"combo_pat_{b0[1]['id']}",
+                      "params": {"s_scalp": 1, "ttl_min": 240, "ttl_max": 420},
+                      "module": {"name": f"lab_pat_{b0[1]['id']}", "code": code},
+                      "note": "охота: скальпинг + вето худшего контекста"})
+    st_lab["hunt_ts"] = _now_ms()
+    st_lab["queue"] = queue
+    st_lab["q_idx"] = 0
+    st_lab["phase"] = "evaluate"
+    journal("hunt", patterns=len(patterns), blacks=len(blacks),
+            queued=len(queue),
+            detail=("топ: " + patterns[0]["id"] + " " + str(patterns[0]["mean_ret"]))
+            if patterns else "чисто — закономерностей выше порога нет")
+
+
+def _deep_scan(st_lab, deadline):
+    """Прогон устойчивости: DEEP_SCAN_DAYS дней на 15m, baseline vs best.
+    verdict=fail блокирует дальнейшие промоушены до следующего скана."""
+    if time.time() > deadline - 120:
+        return None
+    symbols = _eval_symbols()
+    try:
+        wins, _srcs = _cached_windows(symbols, DEEP_SCAN_DAYS, tf=DEEP_SCAN_TF)
+        if time.time() > deadline - 100:
+            return None
+        base_cfg = _main_cfg({})
+        st1, tr1, _eq = sim_mod.replay(wins, base_cfg, step_ms=30 * 60_000,
+                                       symbols=symbols)
+        res_b = _pack(st1, tr1, base_cfg, "deep_baseline")
+        res_best = None
+        best = st_lab.get("best")
+        if best and best.get("params"):
+            bcfg = _main_cfg(best.get("params"))
+            lab_strats.activate(bcfg)
+            st2, tr2, _eq = sim_mod.replay(wins, bcfg, step_ms=30 * 60_000,
+                                           symbols=symbols)
+            _restore_main_modules()
+            res_best = _pack(st2, tr2, bcfg, "deep_best")
+        verdict = "pass"
+        if res_best is not None:
+            verdict = ("pass" if res_best["score"] > -1e8
+                       and res_best["pnl"] > min(0.0, res_b["pnl"]) else "fail")
+        st_lab["deep_scan"] = {"ts": time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime()),
+                               "days": DEEP_SCAN_DAYS, "tf": DEEP_SCAN_TF,
+                               "score_base": res_b["score"],
+                               "pnl_base": res_b["pnl"],
+                               "trades_base": res_b["trades"],
+                               "score_best": res_best and res_best["score"],
+                               "pnl_best": res_best and res_best["pnl"],
+                               "trades_best": res_best and res_best["trades"],
+                               "verdict": verdict}
+        journal("deep_scan", verdict=verdict, days=DEEP_SCAN_DAYS,
+                tf=DEEP_SCAN_TF, score_base=res_b["score"],
+                trades_base=res_b["trades"],
+                score_best=res_best and res_best["score"],
+                trades_best=res_best and res_best["trades"])
+        return st_lab["deep_scan"]
+    except Exception as e:
+        journal("deep_scan_error", detail=f"{type(e).__name__}: {str(e)[:160]}")
+        return None
+
+
+# ---------------------------------------------------- лабораторная paper-торговля
+def _load_paper_trades():
+    if not os.path.exists(PAPER_TRADES_PATH):
+        return []
+    try:
+        with open(PAPER_TRADES_PATH, encoding="utf-8") as f:
+            return [json.loads(line) for line in f if line.strip()]
+    except Exception:
+        return []
+
+
+def paper_tick(bars_map, st_lab, now_ms, deadline):
+    """Живой форвард-тест в лабе: лучшая её конфигурация торгует на реальных
+    свечах текущего цикла — своё состояние, свои сделки, своя кривая."""
+    if not bars_map:
+        return 0
+    pstate = _load_json(PAPER_STATE_PATH, None)
+    if pstate is None:
+        pstate = sim_mod.fresh_state()
+    trades = _load_paper_trades()
+    best = st_lab.get("best") or {}
+    pcfg = _main_cfg(best.get("params") or {})
+    if pstate.get("day_start_equity") is None:
+        pstate["day_start_equity"] = pstate.get("equity") or 1000.0
+    opened = 0
+    try:
+        engine.resolve_positions(pstate, trades, bars_map, pcfg, now_ms)
+        engine.roll_day(pstate, now_ms)
+        ok, _why = engine.breakers_ok(pstate, pcfg, now_ms)
+        if ok and time.time() < deadline - 20:
+            lab_strats.activate(pcfg)
+            _with_lab_modules()
+            try:
+                for sym, bars in bars_map.items():
+                    if len(pstate["positions"]) >= pcfg.get("max_concurrent", 3):
+                        break
+                    if any(p["symbol"] == sym for p in pstate["positions"]):
+                        continue
+                    if not bars or now_ms - bars[-1]["ts"] > 5 * 60_000:
+                        continue
+                    lb = bars[:-1] if (now_ms - bars[-1]["ts"] < 60_000
+                                       and len(bars) > 60) else bars
+                    feat = features.features(lb, pcfg)
+                    if feat is None:
+                        continue
+                    decision = strategies.decide(feat, pcfg, pstate.get("adapt"))
+                    if not decision:
+                        continue
+                    allow, _why2 = ai_dev.filter_decision(feat, pcfg, decision)
+                    if not allow:
+                        continue
+                    side, strat, reg = decision
+                    pos = engine.open_positions(pstate, pcfg, sym, feat, side,
+                                                now_ms, "lab-paper",
+                                                strategy=strat, regime=reg)
+                    if pos:
+                        opened += 1
+                        journal("paper_open", symbol=sym, side=side,
+                                strategy=strat,
+                                detail=f"equity {round(pstate['equity'], 2)}")
+            finally:
+                _restore_main_modules()
+    except Exception as e:
+        journal("paper_error", detail=f"{type(e).__name__}: {str(e)[:160]}")
+        return 0
+    with open(PAPER_TRADES_PATH, "w", encoding="utf-8") as f:
+        for t in trades[-400:]:
+            f.write(json.dumps(t, ensure_ascii=False) + "\n")
+    if not os.path.exists(PAPER_EQ_PATH):
+        with open(PAPER_EQ_PATH, "w", encoding="utf-8") as f:
+            f.write("ts,equity\n")
+    with open(PAPER_EQ_PATH, "a", encoding="utf-8") as f:
+        f.write(f"{now_ms},{pstate['equity']:.4f}\n")
+    pstate["updated"] = now_ms
+    _save_json(PAPER_STATE_PATH, pstate)
+    return opened
+
+
+def _paper_realcheck(cfg, deadline):
+    """Часовая реальная сверка закрытых лабораторных сделок: те же реальные
+    свечи, комиссии и проскальзывание, что у основного движка."""
+    if time.time() > deadline - 40:
+        return None
+    saved_path = verify.CHECK_PATH
+    try:
+        verify.CHECK_PATH = PAPER_CHECK_PATH
+        rows = verify._load_rows()
+        ids = {o.get("id") for o in rows}
+        trades = _load_paper_trades()
+        checked = 0
+        for t in reversed(trades):
+            if checked >= 2 or time.time() > deadline - 20:
+                break
+            if t.get("id") in ids:
+                continue
+            if t.get("status") not in ("win", "loss", "timeout"):
+                continue
+            end = t.get("closed_ts") or t.get("expires_ts")
+            if not end:
+                continue
+            try:
+                bars = verify._bars(t["symbol"], t["opened_ts"],
+                                    min(end + 60_000,
+                                        t["opened_ts"] + 3 * 3600_000))
+                kind, pnl_real, amb = verify._real_replay(
+                    t, bars, cfg, cfg.get("slip_entry_bps", 1.0),
+                    cfg.get("slip_stop_bps", 2.0))
+            except Exception as e:
+                journal("paper_realcheck_error", symbol=t.get("symbol"),
+                        detail=str(e)[:100])
+                continue
+            rows.append({"id": t.get("id"), "symbol": t.get("symbol"),
+                         "side": t.get("side"),
+                         "opened": time.strftime("%m-%d %H:%M",
+                                                 time.gmtime(t["opened_ts"] / 1000)),
+                         "status_recorded": t.get("status"), "kind_real": kind,
+                         "pnl_recorded": t.get("pnl"), "pnl_real": pnl_real,
+                         "ambiguous": amb,
+                         "match": kind == t.get("status")})
+            checked += 1
+            ids.add(t.get("id"))
+            time.sleep(0.15)
+        rows = rows[-300:]
+        summary = verify._summary(rows, [])
+        with open(PAPER_CHECK_PATH, "w", encoding="utf-8") as f:
+            json.dump({"summary": summary, "trades": rows}, f,
+                      ensure_ascii=False, indent=1)
+        if checked:
+            journal("paper_realcheck", checked=checked,
+                    match_rate=summary.get("match_rate"),
+                    detail=f"lab-paper real_total {summary.get('real_total')}")
+        st_lab = load_state()
+        st_lab["paper_last_check_ts"] = _now_ms()
+        save_state(st_lab)
+        return summary if checked else None
+    finally:
+        verify.CHECK_PATH = saved_path
+
+
 # ----------------------------------------------------------------- report
 def _write_report(st_lab, summary):
     rep = {
@@ -602,9 +1041,31 @@ def _write_report(st_lab, summary):
         "best": st_lab.get("best") and {
             k: st_lab["best"].get(k) for k in ("name", "score", "trades", "wins", "pnl", "note")},
         "promoted": (st_lab.get("promoted") or [])[-3:],
-        "last": {k: summary.get(k) for k in ("evaluated", "planned", "idle", "error")
+        "last": {k: summary.get(k) for k in ("evaluated", "planned", "idle", "error", "hunt", "deep_scan", "paper_opened")
                  if k in summary},
     }
+    pats = _load_json(PATTERNS_PATH, {})
+    rep["patterns"] = {"count": len(pats.get("patterns") or []),
+                       "ts": pats.get("ts"),
+                       "top": (pats.get("patterns") or [])[:3]}
+    rep["deep_scan"] = st_lab.get("deep_scan") and {
+        k: st_lab["deep_scan"].get(k) for k in
+        ("ts", "verdict", "days", "tf", "score_base", "score_best",
+         "trades_base", "trades_best")}
+    ps = _load_json(PAPER_STATE_PATH, {})
+    if ps:
+        s = ps.get("stats") or {}
+        rep["paper"] = {"equity": round(ps.get("equity") or 0, 2),
+                        "trades": s.get("trades", 0),
+                        "wins": s.get("wins", 0),
+                        "pnl": round(s.get("pnl", 0.0), 2),
+                        "open": len(ps.get("positions") or []),
+                        "active_pack": (st_lab.get("best") or {}).get("name")}
+    pchk = _load_json(PAPER_CHECK_PATH, {}).get("summary")
+    if pchk:
+        rep["paper_realcheck"] = {k: pchk.get(k) for k in
+                                  ("updated", "trades", "real_total",
+                                   "recorded_total", "avg_bias")}
     _save_json(REPORT_PATH, rep)
     return rep
 
