@@ -1,18 +1,18 @@
 {
- "ts": "2026-11-18 02:53:08 UTC",
- "latency_s": 2.2,
+ "ts": "2026-11-18 02:57:38 UTC",
+ "latency_s": 2.0,
  "ok": true,
  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
  "verdict": "ok",
- "summary": "Торговля идёт стабильно, 4 выигрыша из 5 сделок",
+ "summary": "Торговля идёт стабильно, 4 выигрыша и 1 проигрыш из 5 сделок",
  "risks": [
-  "низкий AUC в ML-гейте"
+  "низкая AUC ML-гейта"
  ],
  "actions_applied": [
   {
    "param": "fee_edge_mult",
    "value": 3.5,
-   "reason": "увеличить фильтр для снижения риска"
+   "reason": "увеличить фильтр комиссий для снижения риска"
   }
  ],
  "actions_rejected": []
