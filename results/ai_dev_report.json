@@ -1,19 +1,19 @@
 {
- "ts": "2026-11-18 13:17:24 UTC",
+ "ts": "2026-11-18 14:20:40 UTC",
  "ok": true,
- "latency_s": 5.3,
+ "latency_s": 8.7,
  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
  "thoughts": "Торговля идёт с небольшими убытками, последние сделки показывают нестабильность. Нужно проанализировать параметры и результаты, чтобы найти причину нестабильности и оптимизировать торговую систему.",
  "params_applied": [
   {
    "param": "fee_edge_mult",
-   "value": 2.2,
-   "reason": "Уменьшить комиссию для увеличения прибыли"
+   "value": 2.5,
+   "reason": "увеличить fee_edge_mult для уменьшения количества сделок с низкой прибылью"
   },
   {
    "param": "vol_spike_min",
-   "value": 1.5,
-   "reason": "Увеличить минимальный объём для фильтрации шума"
+   "value": 1.6,
+   "reason": "увеличить vol_spike_min для фильтрации слабых сигналов"
   }
  ],
  "experiments": [
@@ -21,34 +21,49 @@
    "name": "baseline (текущий)",
    "params": {},
    "score": -1000000000.0,
-   "trades": 93,
-   "wr": 32.3,
-   "pnl": -16.49
+   "trades": 116,
+   "wr": 26.7,
+   "pnl": -41.76
   },
   {
    "name": "exp1",
    "params": {
-    "fee_edge_mult": 2.2,
-    "vol_spike_min": 1.5
+    "fee_edge_mult": 2.5,
+    "vol_spike_min": 1.6
    },
    "score": -1000000000.0,
-   "trades": 122,
-   "wr": 36.9,
-   "pnl": -26.38
+   "trades": 123,
+   "wr": 29.3,
+   "pnl": -35.06
   },
   {
    "name": "exp2",
    "params": {
-    "atr_k": 0.9,
-    "rr": 1.8
+    "ttl_min": 420,
+    "ttl_max": 1200
    },
    "score": -1000000000.0,
-   "trades": 132,
-   "wr": 30.3,
-   "pnl": -29.22
+   "trades": 122,
+   "wr": 32.8,
+   "pnl": -33.26
+  },
+  {
+   "name": "exp3",
+   "params": {
+    "risk_per_trade": 1.2,
+    "loss_streak_pause": 6
+   },
+   "score": -1000000000.0,
+   "trades": 117,
+   "wr": 28.2,
+   "pnl": -44.07
   }
  ],
  "experiment_applied": [],
- "module": null,
+ "module": {
+  "ok": false,
+  "error": "не исполняется: __import__ not found",
+  "purpose": "фильтрация сигналов на основе волатильности и тренда"
+ },
  "modules_active": 0
 }
