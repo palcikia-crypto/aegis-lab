@@ -1,35 +1,35 @@
 {
- "ts": "2026-11-18 14:34 UTC",
+ "ts": "2026-11-18 14:39 UTC",
  "books": {
+  "ETHUSDT": {
+   "symbol": "ETHUSDT",
+   "bid": 1770.36,
+   "ask": 1770.37,
+   "spread_bps": 0.06,
+   "imbalance": 0.324,
+   "depth_bid_usd": 1156098,
+   "depth_ask_usd": 590793,
+   "ts": 1795012797091
+  },
   "SOXLUSDT": {
    "symbol": "SOXLUSDT",
-   "bid": 50.15,
-   "ask": 50.16,
-   "spread_bps": 1.99,
-   "imbalance": 0.067,
-   "depth_bid_usd": 35042,
-   "depth_ask_usd": 30686,
-   "ts": 1795012458821
-  },
-  "SNDKUSDT": {
-   "symbol": "SNDKUSDT",
-   "bid": 791.2,
-   "ask": 791.3,
-   "spread_bps": 1.26,
-   "imbalance": 0.06,
-   "depth_bid_usd": 51276,
-   "depth_ask_usd": 45554,
-   "ts": 1795012458971
+   "bid": 48.27,
+   "ask": 48.28,
+   "spread_bps": 2.07,
+   "imbalance": -0.251,
+   "depth_bid_usd": 32611,
+   "depth_ask_usd": 54526,
+   "ts": 1795012797315
   },
   "NVDAUSDT": {
    "symbol": "NVDAUSDT",
-   "bid": 159.59,
-   "ask": 159.6,
-   "spread_bps": 0.63,
-   "imbalance": 0.275,
-   "depth_bid_usd": 29301,
-   "depth_ask_usd": 16676,
-   "ts": 1795012459160
+   "bid": 156.91,
+   "ask": 156.92,
+   "spread_bps": 0.64,
+   "imbalance": -0.131,
+   "depth_bid_usd": 22037,
+   "depth_ask_usd": 28693,
+   "ts": 1795012797537
   }
  }
 }
