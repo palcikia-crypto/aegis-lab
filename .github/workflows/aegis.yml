@@ -6,7 +6,7 @@ on:
     - cron: "25 2 * * *"
   push:
     branches: [main]
-    paths: ["src/**", "config/**", ".github/workflows/aegis.yml"]
+    paths: ["src/**", "config/**", "results/**", "docs/**", ".github/workflows/aegis.yml"]
   workflow_dispatch:
 
 permissions:
@@ -15,12 +15,16 @@ permissions:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 12
     concurrency:
       group: aegis-worker-run
       cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
+
+      - name: Pace cycle
+        if: github.event_name == 'push'
+        run: sleep 240
 
       - uses: actions/setup-python@v5
         with:
@@ -43,7 +47,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "no changes"
           else
-            git commit -m "worker: cycle update [skip ci]"
+            git commit -m "worker: cycle update"
             for i in 1 2 3; do
               git pull --rebase origin main && git push && break
               echo "push retry $i" && sleep 5
@@ -78,7 +82,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "no changes"
           else
-            git commit -m "sandbox: replay + train [skip ci]"
+            git commit -m "sandbox: replay + train"
             for i in 1 2 3; do
               git pull --rebase origin main && git push && break
               echo "push retry $i" && sleep 5

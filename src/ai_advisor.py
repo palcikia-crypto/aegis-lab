@@ -9,7 +9,8 @@ import urllib.request
 from src import engine
 
 RESULTS = engine.RESULTS
-AI_CFG_PATH = os.path.join(RESULTS, "ai_cfg.json")
+AI_CFG_PATH = os.path.join(RESULTS, "ai_op_cfg.json")
+AI_DEV_CFG_PATH = os.path.join(RESULTS, "ai_dev_cfg.json")
 AI_REPORT_PATH = os.path.join(RESULTS, "ai_report.json")
 AI_JOURNAL_PATH = os.path.join(RESULTS, "ai_journal.jsonl")
 
@@ -78,13 +79,15 @@ def _ask_llm(digest):
 
 
 def load_ai_overrides():
-    if not os.path.exists(AI_CFG_PATH):
-        return {}
-    try:
-        with open(AI_CFG_PATH) as f:
-            return json.load(f)
-    except Exception:
-        return {}
+    merged = {}
+    for name in ("ai_op_cfg.json", "ai_dev_cfg.json"):
+        path = os.path.join(RESULTS, name)
+        try:
+            with open(path) as f:
+                merged.update(json.load(f))
+        except Exception:
+            pass
+    return merged
 
 
 def _digest(st, trades, cfg, extra):
@@ -178,11 +181,16 @@ def maybe_run(st, trades, cfg, extra):
         else:
             applied, rejected = _whitelist_validation(parsed.get("actions"))
             if applied:
-                merged = load_ai_overrides()
-                merged.update({a["param"]: a["value"] for a in applied})
+                own = {}
+                try:
+                    with open(AI_CFG_PATH) as f:
+                        own = json.load(f)
+                except Exception:
+                    own = {}
+                own.update({a["param"]: a["value"] for a in applied})
                 os.makedirs(RESULTS, exist_ok=True)
                 with open(AI_CFG_PATH, "w") as f:
-                    json.dump(merged, f, indent=1)
+                    json.dump(own, f, indent=1)
             report.update({
                 "ok": True,
                 "model": answer["model"],

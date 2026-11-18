@@ -440,10 +440,16 @@ def run_experiments(variants, cfg_base, days=7, max_symbols=4):
 
 
 def _apply_params(applied):
-    merged = load_ai_overrides()
+    path = os.path.join(RESULTS, "ai_dev_cfg.json")
+    merged = {}
+    try:
+        with open(path) as f:
+            merged = json.load(f)
+    except Exception:
+        merged = {}
     merged.update({a["param"]: a["value"] for a in applied})
     os.makedirs(RESULTS, exist_ok=True)
-    with open(os.path.join(RESULTS, "ai_cfg.json"), "w") as f:
+    with open(path, "w") as f:
         json.dump(merged, f, indent=1)
 
 

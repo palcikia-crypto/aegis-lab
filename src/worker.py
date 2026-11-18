@@ -115,7 +115,11 @@ def run_cycle():
                 continue
             bars = symbol_bars[sym]
             if not bars or now_ms - bars[-1]["ts"] > 5 * 60_000:
-                continue  # stale data, skip
+                continue
+            if now_ms - bars[-1]["ts"] < 60_000 and len(bars) > 60:
+                bars = bars[:-1]
+            if len(bars) < 60:
+                continue
             feat = features.features(bars, CFG)
             decision = strategies.decide(feat, CFG, st.get("adapt"))
             if decision:
