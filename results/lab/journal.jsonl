@@ -19,3 +19,4 @@
 {"ts": "2026-11-18 06:48 UTC", "event": "paper_open", "symbol": "SNDKUSDT", "side": "long", "strategy": "baseline", "detail": "equity 1000.0"}
 {"ts": "2026-11-18 06:48 UTC", "event": "data_request", "symbol": "BTCUSDT", "days": 10, "detail": "скачано при следующем бэктесте"}
 {"ts": "2026-11-18 06:48 UTC", "event": "plan", "detail": "Для улучшения оригинальной системы необходимо сосредоточиться на параметрах, которые напрямую влияют на прибыльность и глубину трейдов. Буду искать улучшение в параметрах fee_edge_mult, ttl_min, ttl_m", "queued": 1, "trigger": null}
+{"ts": "2026-11-18 06:54 UTC", "event": "failed", "name": "параметр_фии", "detail": "недостаточно трейдов или противоречивые чанки", "score": -1000000000.0, "pnl": -5.02}
