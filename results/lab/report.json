@@ -1,10 +1,10 @@
 {
- "ts": "2026-11-18 05:08 UTC",
- "phase": "cooldown",
- "steps": 17,
- "llm_used_today": 1,
+ "ts": "2026-11-18 05:12 UTC",
+ "phase": "evaluate",
+ "steps": 18,
+ "llm_used_today": 2,
  "llm_day_limit": 6,
- "queue_left": 0,
+ "queue_left": 1,
  "checkpoints": 0,
  "baseline": {
   "score": -1000000000.0,
@@ -15,6 +15,6 @@
  "best": null,
  "promoted": [],
  "last": {
-  "idle": true
+  "planned": true
  }
 }

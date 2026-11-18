@@ -1,9 +1,9 @@
 {
- "phase": "cooldown",
- "steps": 17,
- "llm_used": 1,
+ "phase": "evaluate",
+ "steps": 18,
+ "llm_used": 2,
  "llm_day": "20261118",
- "last_plan_ts": 1794975892308,
+ "last_plan_ts": 1794978773800,
  "baseline_ts": 1794975621027,
  "baseline": {
   "name": "baseline-оригинал",
@@ -25,7 +25,18 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [],
+ "queue": [
+  {
+   "name": "попытка_1",
+   "params": {
+    "fee_edge_mult": 3.2,
+    "ttl_min": 420
+   },
+   "module": null,
+   "note": "Попробовать увеличить fee_edge_mult и уменьшить ttl_min, чтобы увидеть, как это повлияет на результаты",
+   "rejected": []
+  }
+ ],
  "q_idx": 0,
  "best": null,
  "promoted": [],
