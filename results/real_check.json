@@ -1,6 +1,6 @@
 {
  "summary": {
-  "updated": "2026-11-18 14:51 UTC",
+  "updated": "2026-11-18 14:57 UTC",
   "trades": 6,
   "recorded_total": 1.374,
   "real_total": 2.414,
@@ -8,7 +8,7 @@
   "avg_bias": 0.173,
   "ambiguous": 0,
   "kind_mismatch": 0,
-  "errors": 19
+  "errors": 21
  },
  "trades": [
   {
