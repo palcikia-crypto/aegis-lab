@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 28,
+ "steps": 29,
  "llm_used": 3,
  "llm_day": "20261118",
  "last_plan_ts": 1794981647563,
@@ -25,20 +25,16 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [
-  {
-   "name": "понижение_fee_edge_mult",
-   "params": {
-    "fee_edge_mult": 2.5
-   },
-   "module": null,
-   "note": "Понижение fee_edge_mult для увеличения количества трейдов",
-   "rejected": []
-  }
- ],
+ "queue": [],
  "q_idx": 0,
  "best": null,
  "promoted": [],
  "ckpts": 0,
- "pending": null
+ "pending": null,
+ "triggers": {},
+ "ml_seen_ts": 1794976692938,
+ "ml_last_auc": 0.599,
+ "patterns_seen_ts": "",
+ "hunt_clean": 0,
+ "last_escalation": null
 }
