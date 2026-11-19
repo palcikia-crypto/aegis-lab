@@ -1,45 +1,11 @@
 {
- "equity": 999.0672713990909,
+ "equity": 998.307991794021,
  "day_key": 20776,
  "day_start_equity": 997.0934031817965,
- "consec_losses": 0,
+ "consec_losses": 1,
  "paused_until": 1795084901333,
  "halted_until": 0,
  "positions": [
-  {
-   "id": "ETHUSDT-1795112555859",
-   "symbol": "ETHUSDT",
-   "side": "short",
-   "entry": 1779.29,
-   "dist": 11.958286,
-   "rr": 1.5,
-   "tp": 1761.352571,
-   "sl": 1791.248286,
-   "qty": 0.07,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795112555859,
-   "expires_ts": 1795113455859,
-   "status": "open",
-   "source": "okx",
-   "strategy": "mean_reversion",
-   "regime": "range",
-   "features": {
-    "close": 1779.29,
-    "ema_fast": 1774.818,
-    "ema_slow": 1772.769654,
-    "momentum": 8.68,
-    "vol_spike": 1.481,
-    "atr15": 14.947857,
-    "rsi14": 72.77,
-    "bb_z": 2.359,
-    "don_hi": 1816.82,
-    "don_lo": 1748.87,
-    "adx15": null,
-    "atr_pct": 0.421,
-    "ts": 1795112460000
-   }
-  },
   {
    "id": "NVDAUSDT-1795112824511",
    "symbol": "NVDAUSDT",
@@ -76,16 +42,16 @@
   }
  ],
  "stats": {
-  "trades": 64,
+  "trades": 65,
   "wins": 34,
-  "losses": 30,
-  "pnl": -0.9327286009093959
+  "losses": 31,
+  "pnl": -1.692008205979402
  },
- "updated": 1795113377022,
+ "updated": 1795113720467,
  "adapt": {
   "mean_reversion|range": {
-   "n": 21,
-   "ewma": 0.0158
+   "n": 22,
+   "ewma": -0.1005
   },
   "baseline|range": {
    "n": 24,
