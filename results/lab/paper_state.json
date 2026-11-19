@@ -1,127 +1,24 @@
 {
- "equity": 993.9792505187964,
+ "equity": 991.038889675326,
  "day_key": 20776,
  "day_start_equity": 994.1083015131885,
- "consec_losses": 0,
+ "consec_losses": 3,
  "paused_until": 1795099679807,
  "halted_until": 0,
- "positions": [
-  {
-   "id": "ETHUSDT-1795102851292",
-   "symbol": "ETHUSDT",
-   "side": "short",
-   "entry": 1771.99,
-   "dist": 8.617714,
-   "rr": 1.5,
-   "tp": 1759.063429,
-   "sl": 1780.607714,
-   "qty": 0.1,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795102851292,
-   "expires_ts": 1795103751292,
-   "status": "open",
-   "source": "lab-paper",
-   "strategy": "breakout",
-   "regime": "volatile",
-   "features": {
-    "close": 1771.99,
-    "ema_fast": 1777.390889,
-    "ema_slow": 1783.620303,
-    "momentum": -16.76,
-    "vol_spike": 1.332,
-    "atr15": 10.772143,
-    "rsi14": 28.0,
-    "bb_z": -1.75,
-    "don_hi": 1816.82,
-    "don_lo": 1784.44,
-    "adx15": null,
-    "atr_pct": 1.0,
-    "ts": 1795102740000
-   }
-  },
-  {
-   "id": "SOXLUSDT-1795102851292",
-   "symbol": "SOXLUSDT",
-   "side": "short",
-   "entry": 49.01,
-   "dist": 1.101714,
-   "rr": 1.5,
-   "tp": 47.357429,
-   "sl": 50.111714,
-   "qty": 0.884,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795102851292,
-   "expires_ts": 1795103751292,
-   "status": "open",
-   "source": "lab-paper",
-   "strategy": "baseline",
-   "regime": "volatile",
-   "features": {
-    "close": 49.01,
-    "ema_fast": 50.081111,
-    "ema_slow": 51.435108,
-    "momentum": -3.03,
-    "vol_spike": 2.943,
-    "atr15": 1.377143,
-    "rsi14": 9.75,
-    "bb_z": -1.779,
-    "don_hi": 56.46,
-    "don_lo": 51.9,
-    "adx15": null,
-    "atr_pct": 1.0,
-    "ts": 1795102740000
-   }
-  },
-  {
-   "id": "NVDAUSDT-1795102851292",
-   "symbol": "NVDAUSDT",
-   "side": "short",
-   "entry": 152.11,
-   "dist": 1.145714,
-   "rr": 1.5,
-   "tp": 150.391429,
-   "sl": 153.255714,
-   "qty": 0.808,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795102851292,
-   "expires_ts": 1795103751292,
-   "status": "open",
-   "source": "lab-paper",
-   "strategy": "breakout",
-   "regime": "volatile",
-   "features": {
-    "close": 152.11,
-    "ema_fast": 152.577556,
-    "ema_slow": 153.474069,
-    "momentum": -1.67,
-    "vol_spike": 1.364,
-    "atr15": 1.432143,
-    "rsi14": 25.66,
-    "bb_z": -1.541,
-    "don_hi": 158.34,
-    "don_lo": 152.69,
-    "adx15": null,
-    "atr_pct": 0.895,
-    "ts": 1795102740000
-   }
-  }
- ],
+ "positions": [],
  "adapt": {
   "baseline|range": {
    "n": 11,
    "ewma": -0.5546,
-   "blocked": 31
+   "blocked": 32
   },
   "baseline|volatile": {
-   "n": 14,
-   "ewma": 0.3016
+   "n": 15,
+   "ewma": 0.1252
   },
   "breakout|volatile": {
-   "n": 5,
-   "ewma": -0.2398
+   "n": 7,
+   "ewma": -0.46
   },
   "mean_reversion|range": {
    "n": 15,
@@ -129,10 +26,10 @@
   }
  },
  "stats": {
-  "trades": 45,
+  "trades": 48,
   "wins": 22,
-  "losses": 23,
-  "pnl": -6.020749481203846
+  "losses": 26,
+  "pnl": -8.961110324674237
  },
- "updated": 1795103598849
+ "updated": 1795103934321
 }
