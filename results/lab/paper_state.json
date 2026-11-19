@@ -1,5 +1,5 @@
 {
- "equity": 992.048979093743,
+ "equity": 992.059663484831,
  "day_key": 20776,
  "day_start_equity": 994.1083015131885,
  "consec_losses": 0,
@@ -7,37 +7,37 @@
  "halted_until": 0,
  "positions": [
   {
-   "id": "ETHUSDT-1795109147590",
-   "symbol": "ETHUSDT",
-   "side": "long",
-   "entry": 1775.37,
-   "dist": 11.662857,
+   "id": "NVDAUSDT-1795110240773",
+   "symbol": "NVDAUSDT",
+   "side": "short",
+   "entry": 149.5,
+   "dist": 1.674857,
    "rr": 1.5,
-   "tp": 1792.864286,
-   "sl": 1763.707143,
-   "qty": 0.07,
+   "tp": 146.987714,
+   "sl": 151.174857,
+   "qty": 0.5660000000000001,
    "risk": 1.0,
    "ttl": 900,
-   "opened_ts": 1795109147590,
-   "expires_ts": 1795110047590,
+   "opened_ts": 1795110240773,
+   "expires_ts": 1795111140773,
    "status": "open",
    "source": "lab-paper",
    "strategy": "baseline",
-   "regime": "volatile",
+   "regime": "range",
    "features": {
-    "close": 1775.37,
-    "ema_fast": 1761.769111,
-    "ema_slow": 1758.28645,
-    "momentum": 20.64,
-    "vol_spike": 2.336,
-    "atr15": 14.578571,
-    "rsi14": 78.91,
-    "bb_z": 2.658,
-    "don_hi": 1816.82,
-    "don_lo": 1751.21,
+    "close": 149.5,
+    "ema_fast": 150.023556,
+    "ema_slow": 150.258009,
+    "momentum": -1.2,
+    "vol_spike": 1.739,
+    "atr15": 2.093571,
+    "rsi14": 28.99,
+    "bb_z": -2.085,
+    "don_hi": 158.34,
+    "don_lo": 148.08,
     "adx15": null,
-    "atr_pct": 1.0,
-    "ts": 1795109040000
+    "atr_pct": 0.579,
+    "ts": 1795110180000
    }
   }
  ],
@@ -48,8 +48,8 @@
    "blocked": 0
   },
   "baseline|volatile": {
-   "n": 18,
-   "ewma": 0.2185
+   "n": 19,
+   "ewma": 0.1873
   },
   "breakout|volatile": {
    "n": 8,
@@ -61,10 +61,10 @@
   }
  },
  "stats": {
-  "trades": 55,
-  "wins": 26,
+  "trades": 56,
+  "wins": 27,
   "losses": 29,
-  "pnl": -7.951020906257265
+  "pnl": -7.940336515169264
  },
- "updated": 1795109963393
+ "updated": 1795110240773
 }
