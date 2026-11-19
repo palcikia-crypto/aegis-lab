@@ -1,9 +1,9 @@
 {
- "phase": "deep_scan",
- "steps": 248,
- "llm_used": 4,
+ "phase": "evaluate",
+ "steps": 249,
+ "llm_used": 5,
  "llm_day": "20261119",
- "last_plan_ts": 1795055152036,
+ "last_plan_ts": 1795057960544,
  "baseline_ts": 1794975621027,
  "baseline": {
   "name": "baseline-оригинал",
@@ -25,7 +25,29 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [],
+ "queue": [
+  {
+   "name": "коррекция_fee_edge_mult",
+   "params": {
+    "fee_edge_mult": 3.0
+   },
+   "module": null,
+   "note": "Попытка уменьшить комиссионные расходы",
+   "rejected": []
+  },
+  {
+   "name": "добавление_фильтра_vol_spike_min",
+   "params": {
+    "vol_spike_min": 1.8
+   },
+   "module": {
+    "name": "vol_spike_filter",
+    "error": "нет NAME (str, snake_case)"
+   },
+   "note": "Добавление фильтра для исключения сделок с низким объемом спайка",
+   "rejected": []
+  }
+ ],
  "q_idx": 0,
  "best": null,
  "promoted": [],
