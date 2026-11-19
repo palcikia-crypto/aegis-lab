@@ -73,6 +73,40 @@
     "atr_pct": 0.684,
     "ts": 1795121700000
    }
+  },
+  {
+   "id": "SOXLUSDT-1795122137610",
+   "symbol": "SOXLUSDT",
+   "side": "short",
+   "entry": 45.02,
+   "dist": 1.010286,
+   "rr": 1.5,
+   "tp": 43.504571,
+   "sl": 46.030286,
+   "qty": 0.964,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1795122137610,
+   "expires_ts": 1795123037610,
+   "status": "open",
+   "source": "okx",
+   "strategy": "baseline",
+   "regime": "range",
+   "features": {
+    "close": 45.02,
+    "ema_fast": 45.656444,
+    "ema_slow": 45.898788,
+    "momentum": -0.97,
+    "vol_spike": 2.513,
+    "atr15": 1.262857,
+    "rsi14": 32.25,
+    "bb_z": -2.339,
+    "don_hi": 52.25,
+    "don_lo": 45.02,
+    "adx15": null,
+    "atr_pct": 0.0,
+    "ts": 1795122060000
+   }
   }
  ],
  "stats": {
@@ -81,7 +115,7 @@
   "losses": 35,
   "pnl": -2.925937862734886
  },
- "updated": 1795121802630,
+ "updated": 1795122149859,
  "adapt": {
   "mean_reversion|range": {
    "n": 25,
