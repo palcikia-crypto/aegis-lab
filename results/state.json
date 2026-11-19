@@ -1,79 +1,11 @@
 {
- "equity": 998.6114787444621,
+ "equity": 997.9665915261268,
  "day_key": 20776,
  "day_start_equity": 997.0934031817965,
- "consec_losses": 0,
+ "consec_losses": 2,
  "paused_until": 1795084901333,
  "halted_until": 0,
  "positions": [
-  {
-   "id": "SOXLUSDT-1795126454387",
-   "symbol": "SOXLUSDT",
-   "side": "long",
-   "entry": 45.14,
-   "dist": 0.883429,
-   "rr": 1.5,
-   "tp": 46.465143,
-   "sl": 44.256571,
-   "qty": 1.098,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795126454387,
-   "expires_ts": 1795127354387,
-   "status": "open",
-   "source": "okx",
-   "strategy": "baseline",
-   "regime": "range",
-   "features": {
-    "close": 45.14,
-    "ema_fast": 45.055556,
-    "ema_slow": 44.948658,
-    "momentum": 0.01,
-    "vol_spike": 1.592,
-    "atr15": 1.104286,
-    "rsi14": 59.14,
-    "bb_z": 0.916,
-    "don_hi": 49.22,
-    "don_lo": 43.85,
-    "adx15": null,
-    "atr_pct": 0.0,
-    "ts": 1795126380000
-   }
-  },
-  {
-   "id": "NVDAUSDT-1795126454387",
-   "symbol": "NVDAUSDT",
-   "side": "long",
-   "entry": 146.83,
-   "dist": 0.845143,
-   "rr": 1.5,
-   "tp": 148.097714,
-   "sl": 145.984857,
-   "qty": 1.071,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795126454387,
-   "expires_ts": 1795127354387,
-   "status": "open",
-   "source": "okx",
-   "strategy": "baseline",
-   "regime": "range",
-   "features": {
-    "close": 146.83,
-    "ema_fast": 146.711778,
-    "ema_slow": 146.438225,
-    "momentum": 0.19,
-    "vol_spike": 1.839,
-    "atr15": 1.056429,
-    "rsi14": 73.37,
-    "bb_z": 1.145,
-    "don_hi": 151.03,
-    "don_lo": 144.26,
-    "adx15": null,
-    "atr_pct": 0.556,
-    "ts": 1795126380000
-   }
-  },
   {
    "id": "ETHUSDT-1795127144898",
    "symbol": "ETHUSDT",
@@ -110,20 +42,20 @@
   }
  ],
  "stats": {
-  "trades": 77,
+  "trades": 79,
   "wins": 42,
-  "losses": 35,
-  "pnl": -1.388521255538273
+  "losses": 37,
+  "pnl": -2.033408473873658
  },
- "updated": 1795127157057,
+ "updated": 1795127488832,
  "adapt": {
   "mean_reversion|range": {
    "n": 25,
    "ewma": -0.2818
   },
   "baseline|range": {
-   "n": 33,
-   "ewma": 0.0793,
+   "n": 35,
+   "ewma": -0.0359,
    "blocked": 0
   },
   "trend_follow|trend_down": {
