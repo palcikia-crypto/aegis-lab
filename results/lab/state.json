@@ -1,6 +1,6 @@
 {
- "phase": "evaluate",
- "steps": 388,
+ "phase": "cooldown",
+ "steps": 389,
  "llm_used": 5,
  "llm_day": "20261119",
  "last_plan_ts": 1795057960544,
