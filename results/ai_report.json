@@ -1,21 +1,21 @@
 {
- "ts": "2026-11-19 21:16:10 UTC",
- "latency_s": 8.5,
+ "ts": "2026-11-19 21:21:47 UTC",
+ "latency_s": 2.2,
  "ok": true,
  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
  "verdict": "warn",
- "summary": "Торговля идёт с незначительной прибылью, но наблюдается высокий процент убытков и значительный realism_bias в реальной проверке",
+ "summary": "Торговля идёт с небольшой прибылью, но есть риски из-за низкого значения AUC и realism_bias",
  "risks": [
-  "высокий процент убытков",
-  "realism_bias в реальной проверке"
+  "низкий AUC",
+  "высокий realism_bias"
  ],
  "actions_applied": [
   {
-   "param": "loss_streak_pause",
-   "value": 4,
-   "reason": "уменьшить риск серии убытков [обрезано до 4..8]"
+   "param": "fee_edge_mult",
+   "value": 4.0,
+   "reason": "увеличить фильтр комиссий для снижения риска"
   }
  ],
  "actions_rejected": [],
- "last_trade_closed": 1795122688992
+ "last_trade_closed": 1795123037610
 }
