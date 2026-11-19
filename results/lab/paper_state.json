@@ -5,7 +5,76 @@
  "consec_losses": 0,
  "paused_until": 1795099679807,
  "halted_until": 0,
- "positions": [],
+ "positions": [
+  {
+   "id": "BTCUSDT-1795111756939",
+   "symbol": "BTCUSDT",
+   "side": "short",
+   "entry": 62645.5,
+   "dist": 351.542857,
+   "rr": 1.5,
+   "tp": 62118.185714,
+   "sl": 62997.042857,
+   "qty": 0.002,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1795111756939,
+   "expires_ts": 1795112656939,
+   "status": "open",
+   "source": "lab-paper",
+   "strategy": "baseline",
+   "regime": "range",
+   "features": {
+    "close": 62645.5,
+    "ema_fast": 62726.806667,
+    "ema_slow": 62773.374459,
+    "momentum": -88.9,
+    "vol_spike": 1.838,
+    "atr15": 439.428571,
+    "rsi14": 31.41,
+    "bb_z": -1.889,
+    "don_hi": 64048.5,
+    "don_lo": 62188.0,
+    "adx15": null,
+    "atr_pct": 0.368,
+    "ts": 1795111680000
+   }
+  },
+  {
+   "id": "NVDAUSDT-1795111756939",
+   "symbol": "NVDAUSDT",
+   "side": "short",
+   "entry": 148.73,
+   "dist": 1.437714,
+   "rr": 1.5,
+   "tp": 146.573429,
+   "sl": 150.167714,
+   "qty": 0.654,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1795111756939,
+   "expires_ts": 1795112656939,
+   "status": "open",
+   "source": "lab-paper",
+   "strategy": "baseline",
+   "regime": "range",
+   "features": {
+    "close": 148.73,
+    "ema_fast": 149.209111,
+    "ema_slow": 149.495801,
+    "momentum": -0.69,
+    "vol_spike": 2.552,
+    "atr15": 1.797143,
+    "rsi14": 23.98,
+    "bb_z": -2.231,
+    "don_hi": 158.34,
+    "don_lo": 148.08,
+    "adx15": null,
+    "atr_pct": 0.474,
+    "ts": 1795111680000
+   }
+  }
+ ],
  "adapt": {
   "baseline|range": {
    "n": 13,
@@ -31,5 +100,5 @@
   "losses": 29,
   "pnl": -7.928529181358469
  },
- "updated": 1795111481742
+ "updated": 1795111756939
 }
