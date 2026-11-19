@@ -1,45 +1,11 @@
 {
- "equity": 998.2767643795461,
+ "equity": 999.0565870080029,
  "day_key": 20776,
  "day_start_equity": 997.0934031817965,
- "consec_losses": 1,
+ "consec_losses": 0,
  "paused_until": 1795084901333,
  "halted_until": 0,
  "positions": [
-  {
-   "id": "BTCUSDT-1795109130481",
-   "symbol": "BTCUSDT",
-   "side": "long",
-   "entry": 62920.0,
-   "dist": 314.662857,
-   "rr": 1.5,
-   "tp": 63391.994286,
-   "sl": 62605.337143,
-   "qty": 0.002,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795109130481,
-   "expires_ts": 1795110030481,
-   "status": "open",
-   "source": "okx",
-   "strategy": "baseline",
-   "regime": "volatile",
-   "features": {
-    "close": 62920.0,
-    "ema_fast": 62539.173333,
-    "ema_slow": 62472.632035,
-    "momentum": 522.4,
-    "vol_spike": 2.74,
-    "atr15": 393.328571,
-    "rsi14": 74.73,
-    "bb_z": 2.738,
-    "don_hi": 64048.5,
-    "don_lo": 62289.8,
-    "adx15": null,
-    "atr_pct": 1.0,
-    "ts": 1795109040000
-   }
-  },
   {
    "id": "ETHUSDT-1795109130481",
    "symbol": "ETHUSDT",
@@ -76,12 +42,12 @@
   }
  ],
  "stats": {
-  "trades": 62,
-  "wins": 32,
+  "trades": 63,
+  "wins": 33,
   "losses": 30,
-  "pnl": -1.7232356204541972
+  "pnl": -0.9434129919973977
  },
- "updated": 1795109687338,
+ "updated": 1795109956764,
  "adapt": {
   "mean_reversion|range": {
    "n": 21,
@@ -109,8 +75,8 @@
    "ewma": -0.0
   },
   "baseline|volatile": {
-   "n": 40,
-   "ewma": 0.3731
+   "n": 41,
+   "ewma": 0.4341
   },
   "breakout|volatile": {
    "n": 15,
