@@ -1,5 +1,5 @@
 {
- "equity": 994.247447081264,
+ "equity": 995.418650819268,
  "day_key": 20776,
  "day_start_equity": 997.0934031817965,
  "consec_losses": 0,
@@ -7,47 +7,81 @@
  "halted_until": 0,
  "positions": [
   {
-   "id": "SNDKUSDT-1795098514730",
+   "id": "SNDKUSDT-1795098784306",
    "symbol": "SNDKUSDT",
-   "side": "short",
-   "entry": 815.69,
-   "dist": 5.017714,
+   "side": "long",
+   "entry": 837.21,
+   "dist": 6.507429,
    "rr": 1.5,
-   "tp": 808.163429,
-   "sl": 820.707714,
-   "qty": 0.181,
+   "tp": 846.971143,
+   "sl": 830.702571,
+   "qty": 0.14200000000000002,
    "risk": 1.0,
    "ttl": 900,
-   "opened_ts": 1795098514730,
-   "expires_ts": 1795099414730,
+   "opened_ts": 1795098784306,
+   "expires_ts": 1795099684306,
    "status": "open",
    "source": "okx",
    "strategy": "baseline",
    "regime": "volatile",
    "features": {
-    "close": 815.69,
-    "ema_fast": 815.470444,
-    "ema_slow": 816.300823,
-    "momentum": -1.94,
-    "vol_spike": 1.686,
-    "atr15": 6.272143,
-    "rsi14": 43.06,
-    "bb_z": -0.465,
+    "close": 837.21,
+    "ema_fast": 820.002,
+    "ema_slow": 818.358052,
+    "momentum": 22.01,
+    "vol_spike": 8.951,
+    "atr15": 8.134286,
+    "rsi14": 75.06,
+    "bb_z": 3.773,
     "don_hi": 823.6,
-    "don_lo": 805.27,
+    "don_lo": 806.89,
     "adx15": null,
-    "atr_pct": 0.947,
-    "ts": 1795098420000
+    "atr_pct": 1.0,
+    "ts": 1795098720000
+   }
+  },
+  {
+   "id": "NVDAUSDT-1795098784306",
+   "symbol": "NVDAUSDT",
+   "side": "long",
+   "entry": 156.75,
+   "dist": 0.720571,
+   "rr": 1.5,
+   "tp": 157.830857,
+   "sl": 156.029429,
+   "qty": 1.227,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1795098784306,
+   "expires_ts": 1795099684306,
+   "status": "open",
+   "source": "okx",
+   "strategy": "baseline",
+   "regime": "volatile",
+   "features": {
+    "close": 156.75,
+    "ema_fast": 154.240667,
+    "ema_slow": 153.725758,
+    "momentum": 3.57,
+    "vol_spike": 6.935,
+    "atr15": 0.900714,
+    "rsi14": 81.43,
+    "bb_z": 3.344,
+    "don_hi": 154.98,
+    "don_lo": 152.69,
+    "adx15": null,
+    "atr_pct": 1.0,
+    "ts": 1795098720000
    }
   }
  ],
  "stats": {
-  "trades": 48,
-  "wins": 24,
+  "trades": 49,
+  "wins": 25,
   "losses": 24,
-  "pnl": -5.752552918736342
+  "pnl": -4.581349180732313
  },
- "updated": 1795098528198,
+ "updated": 1795098799999,
  "adapt": {
   "mean_reversion|range": {
    "n": 21,
@@ -75,8 +109,8 @@
    "ewma": -0.0
   },
   "baseline|volatile": {
-   "n": 28,
-   "ewma": -0.2964
+   "n": 29,
+   "ewma": -0.0763
   },
   "breakout|volatile": {
    "n": 13,
