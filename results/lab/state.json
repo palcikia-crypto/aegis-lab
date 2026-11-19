@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 241,
+ "steps": 242,
  "llm_used": 4,
  "llm_day": "20261119",
  "last_plan_ts": 1795055152036,
@@ -25,18 +25,7 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [
-  {
-   "name": "risk_adjust",
-   "params": {
-    "risk_per_trade": 1.2,
-    "rr": 1.8
-   },
-   "module": null,
-   "note": "Повышение риска и доходности",
-   "rejected": []
-  }
- ],
+ "queue": [],
  "q_idx": 0,
  "best": null,
  "promoted": [],
