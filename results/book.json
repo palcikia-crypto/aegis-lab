@@ -1,15 +1,15 @@
 {
- "ts": "2026-11-19 18:22 UTC",
+ "ts": "2026-11-19 18:27 UTC",
  "books": {
-  "ETHUSDT": {
-   "symbol": "ETHUSDT",
-   "bid": 1778.31,
-   "ask": 1778.32,
-   "spread_bps": 0.06,
-   "imbalance": -0.976,
-   "depth_bid_usd": 44618,
-   "depth_ask_usd": 3704354,
-   "ts": 1795112568122
+  "NVDAUSDT": {
+   "symbol": "NVDAUSDT",
+   "bid": 149.69,
+   "ask": 149.7,
+   "spread_bps": 0.67,
+   "imbalance": -0.219,
+   "depth_bid_usd": 67835,
+   "depth_ask_usd": 105897,
+   "ts": 1795112837018
   }
  }
 }

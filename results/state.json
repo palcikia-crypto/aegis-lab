@@ -39,6 +39,40 @@
     "atr_pct": 0.421,
     "ts": 1795112460000
    }
+  },
+  {
+   "id": "NVDAUSDT-1795112824511",
+   "symbol": "NVDAUSDT",
+   "side": "short",
+   "entry": 149.66,
+   "dist": 1.319429,
+   "rr": 1.5,
+   "tp": 147.680857,
+   "sl": 150.979429,
+   "qty": 0.709,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1795112824511,
+   "expires_ts": 1795113724511,
+   "status": "open",
+   "source": "okx",
+   "strategy": "mean_reversion",
+   "regime": "range",
+   "features": {
+    "close": 149.66,
+    "ema_fast": 149.171111,
+    "ema_slow": 148.997229,
+    "momentum": 1.06,
+    "vol_spike": 0.597,
+    "atr15": 1.649286,
+    "rsi14": 70.68,
+    "bb_z": 2.347,
+    "don_hi": 158.34,
+    "don_lo": 148.08,
+    "adx15": null,
+    "atr_pct": 0.421,
+    "ts": 1795112760000
+   }
   }
  ],
  "stats": {
@@ -47,7 +81,7 @@
   "losses": 30,
   "pnl": -0.9327286009093959
  },
- "updated": 1795112568124,
+ "updated": 1795112837019,
  "adapt": {
   "mean_reversion|range": {
    "n": 21,
@@ -56,7 +90,7 @@
   "baseline|range": {
    "n": 24,
    "ewma": -0.406,
-   "blocked": 33
+   "blocked": 34
   },
   "trend_follow|trend_down": {
    "n": 11,
