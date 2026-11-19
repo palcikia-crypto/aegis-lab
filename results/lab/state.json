@@ -1,9 +1,9 @@
 {
- "phase": "deep_scan",
- "steps": 240,
- "llm_used": 3,
+ "phase": "evaluate",
+ "steps": 241,
+ "llm_used": 4,
  "llm_day": "20261119",
- "last_plan_ts": 1795052368187,
+ "last_plan_ts": 1795055152036,
  "baseline_ts": 1794975621027,
  "baseline": {
   "name": "baseline-оригинал",
@@ -25,7 +25,18 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [],
+ "queue": [
+  {
+   "name": "risk_adjust",
+   "params": {
+    "risk_per_trade": 1.2,
+    "rr": 1.8
+   },
+   "module": null,
+   "note": "Повышение риска и доходности",
+   "rejected": []
+  }
+ ],
  "q_idx": 0,
  "best": null,
  "promoted": [],
