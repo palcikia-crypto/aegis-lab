@@ -73,6 +73,40 @@
     "atr_pct": 0.556,
     "ts": 1795126380000
    }
+  },
+  {
+   "id": "ETHUSDT-1795127144898",
+   "symbol": "ETHUSDT",
+   "side": "long",
+   "entry": 1755.67,
+   "dist": 8.689714,
+   "rr": 1.5,
+   "tp": 1768.704571,
+   "sl": 1746.980286,
+   "qty": 0.1,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1795127144898,
+   "expires_ts": 1795128044898,
+   "status": "open",
+   "source": "okx",
+   "strategy": "baseline",
+   "regime": "range",
+   "features": {
+    "close": 1755.67,
+    "ema_fast": 1750.630889,
+    "ema_slow": 1747.978658,
+    "momentum": 8.05,
+    "vol_spike": 1.563,
+    "atr15": 10.862143,
+    "rsi14": 88.59,
+    "bb_z": 2.366,
+    "don_hi": 1790.98,
+    "don_lo": 1735.11,
+    "adx15": null,
+    "atr_pct": 0.632,
+    "ts": 1795127040000
+   }
   }
  ],
  "stats": {
@@ -81,7 +115,7 @@
   "losses": 35,
   "pnl": -1.388521255538273
  },
- "updated": 1795126804091,
+ "updated": 1795127157057,
  "adapt": {
   "mean_reversion|range": {
    "n": 25,
