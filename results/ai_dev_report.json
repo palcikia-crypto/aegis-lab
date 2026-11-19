@@ -1,19 +1,19 @@
 {
- "ts": "2026-11-19 07:19:48 UTC",
+ "ts": "2026-11-19 08:23:59 UTC",
  "ok": true,
- "latency_s": 5.9,
+ "latency_s": 12.9,
  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
- "thoughts": "Торговля идёт с небольшим убытком, последние сделки показывают нестабильность. Необходимо проанализировать результаты и найти причину нестабильности.",
+ "thoughts": "Торговля идёт с небольшим убытком, последние сделки показывают нестабильность. Нужно проанализировать параметры и экспериментировать с разными вариантами.",
  "params_applied": [
   {
    "param": "fee_edge_mult",
-   "value": 2.5,
-   "reason": "Уменьшить комиссию за сделку"
+   "value": 2.2,
+   "reason": "Попробовать увеличить fee_edge_mult для уменьшения количества сделок"
   },
   {
    "param": "vol_spike_min",
-   "value": 1.5,
-   "reason": "Увеличить минимальный объём для входа в сделку"
+   "value": 1.6,
+   "reason": "Увеличить vol_spike_min для фильтрации шумовых сигналов"
   }
  ],
  "experiments": [
@@ -21,42 +21,45 @@
    "name": "baseline (текущий)",
    "params": {},
    "score": -1000000000.0,
-   "trades": 103,
-   "wr": 28.2,
-   "pnl": -28.23
+   "trades": 137,
+   "wr": 28.5,
+   "pnl": -34.72
   },
   {
    "name": "exp1",
    "params": {
-    "fee_edge_mult": 2.5,
-    "vol_spike_min": 1.5
+    "fee_edge_mult": 2.2,
+    "ttl_min": 450,
+    "vol_spike_min": 1.6
    },
    "score": -1000000000.0,
-   "trades": 122,
-   "wr": 31.1,
-   "pnl": -30.82
+   "trades": 137,
+   "wr": 27.7,
+   "pnl": -40.63
   },
   {
    "name": "exp2",
    "params": {
     "atr_k": 1.2,
-    "rr": 1.8
+    "rr": 2.0,
+    "spread_buffer": 0.0003
    },
    "score": -1000000000.0,
-   "trades": 134,
-   "wr": 25.4,
-   "pnl": -35.67
+   "trades": 204,
+   "wr": 23.0,
+   "pnl": -48.76
   },
   {
    "name": "exp3",
    "params": {
-    "ttl_min": 300,
-    "ttl_max": 1200
+    "max_concurrent": 2,
+    "loss_streak_pause": 6,
+    "risk_per_trade": 1.2
    },
    "score": -1000000000.0,
-   "trades": 76,
-   "wr": 26.3,
-   "pnl": -29.76
+   "trades": 156,
+   "wr": 30.1,
+   "pnl": -40.6
   }
  ],
  "experiment_applied": [],
