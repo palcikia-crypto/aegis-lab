@@ -1,8 +1,8 @@
 {
- "equity": 996.6493453768552,
+ "equity": 994.5037069457289,
  "day_key": 20776,
  "day_start_equity": 997.0934031817965,
- "consec_losses": 0,
+ "consec_losses": 2,
  "paused_until": 1795084901333,
  "halted_until": 0,
  "positions": [
@@ -39,83 +39,15 @@
     "atr_pct": 1.0,
     "ts": 1795098720000
    }
-  },
-  {
-   "id": "SOXLUSDT-1795099061608",
-   "symbol": "SOXLUSDT",
-   "side": "long",
-   "entry": 55.46,
-   "dist": 0.672571,
-   "rr": 1.5,
-   "tp": 56.468857,
-   "sl": 54.787429,
-   "qty": 1.416,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795099061608,
-   "expires_ts": 1795099961608,
-   "status": "open",
-   "source": "okx",
-   "strategy": "baseline",
-   "regime": "volatile",
-   "features": {
-    "close": 55.46,
-    "ema_fast": 54.633333,
-    "ema_slow": 54.465628,
-    "momentum": 1.26,
-    "vol_spike": 3.787,
-    "atr15": 0.840714,
-    "rsi14": 67.04,
-    "bb_z": 2.465,
-    "don_hi": 55.31,
-    "don_lo": 53.37,
-    "adx15": null,
-    "atr_pct": 1.0,
-    "ts": 1795098960000
-   }
-  },
-  {
-   "id": "SNDKUSDT-1795099061608",
-   "symbol": "SNDKUSDT",
-   "side": "long",
-   "entry": 842.12,
-   "dist": 6.915429,
-   "rr": 1.5,
-   "tp": 852.493143,
-   "sl": 835.204571,
-   "qty": 0.134,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795099061608,
-   "expires_ts": 1795099961608,
-   "status": "open",
-   "source": "okx",
-   "strategy": "baseline",
-   "regime": "volatile",
-   "features": {
-    "close": 842.12,
-    "ema_fast": 830.171556,
-    "ema_slow": 822.626061,
-    "momentum": 28.24,
-    "vol_spike": 1.718,
-    "atr15": 8.644286,
-    "rsi14": 76.76,
-    "bb_z": 1.82,
-    "don_hi": 823.6,
-    "don_lo": 806.89,
-    "adx15": null,
-    "atr_pct": 1.0,
-    "ts": 1795098960000
-   }
   }
  ],
  "stats": {
-  "trades": 50,
+  "trades": 52,
   "wins": 26,
-  "losses": 24,
-  "pnl": -3.3506546231451155
+  "losses": 26,
+  "pnl": -5.496293054271402
  },
- "updated": 1795099076484,
+ "updated": 1795099353822,
  "adapt": {
   "mean_reversion|range": {
    "n": 21,
@@ -143,8 +75,8 @@
    "ewma": -0.0
   },
   "baseline|volatile": {
-   "n": 30,
-   "ewma": 0.1197
+   "n": 32,
+   "ewma": -0.2115
   },
   "breakout|volatile": {
    "n": 13,
