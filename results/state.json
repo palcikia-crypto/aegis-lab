@@ -1,79 +1,11 @@
 {
- "equity": 998.620611900672,
+ "equity": 996.8094972272485,
  "day_key": 20776,
  "day_start_equity": 997.0934031817965,
- "consec_losses": 0,
+ "consec_losses": 2,
  "paused_until": 1795084901333,
  "halted_until": 0,
  "positions": [
-  {
-   "id": "BTCUSDT-1795117900270",
-   "symbol": "BTCUSDT",
-   "side": "long",
-   "entry": 62465.3,
-   "dist": 307.234286,
-   "rr": 1.5,
-   "tp": 62926.151429,
-   "sl": 62158.065714,
-   "qty": 0.002,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795117900270,
-   "expires_ts": 1795118800270,
-   "status": "open",
-   "source": "okx",
-   "strategy": "mean_reversion",
-   "regime": "range",
-   "features": {
-    "close": 62465.3,
-    "ema_fast": 62538.926667,
-    "ema_slow": 62586.767532,
-    "momentum": -134.5,
-    "vol_spike": 0.627,
-    "atr15": 384.042857,
-    "rsi14": 29.65,
-    "bb_z": -2.43,
-    "don_hi": 63884.3,
-    "don_lo": 62188.0,
-    "adx15": null,
-    "atr_pct": 0.0,
-    "ts": 1795117800000
-   }
-  },
-  {
-   "id": "SOXLUSDT-1795117900270",
-   "symbol": "SOXLUSDT",
-   "side": "long",
-   "entry": 46.9,
-   "dist": 1.517714,
-   "rr": 1.5,
-   "tp": 49.176571,
-   "sl": 45.382286,
-   "qty": 0.646,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795117900270,
-   "expires_ts": 1795118800270,
-   "status": "open",
-   "source": "okx",
-   "strategy": "mean_reversion",
-   "regime": "range",
-   "features": {
-    "close": 46.9,
-    "ema_fast": 47.345333,
-    "ema_slow": 47.500866,
-    "momentum": -0.84,
-    "vol_spike": 0.915,
-    "atr15": 1.897143,
-    "rsi14": 29.73,
-    "bb_z": -2.26,
-    "don_hi": 56.36,
-    "don_lo": 45.02,
-    "adx15": null,
-    "atr_pct": 0.0,
-    "ts": 1795117800000
-   }
-  },
   {
    "id": "SNDKUSDT-1795117900270",
    "symbol": "SNDKUSDT",
@@ -110,16 +42,16 @@
   }
  ],
  "stats": {
-  "trades": 66,
+  "trades": 68,
   "wins": 35,
-  "losses": 31,
-  "pnl": -1.379388099328395
+  "losses": 33,
+  "pnl": -3.190502772751911
  },
- "updated": 1795118257405,
+ "updated": 1795118718284,
  "adapt": {
   "mean_reversion|range": {
-   "n": 23,
-   "ewma": -0.0385
+   "n": 25,
+   "ewma": -0.2818
   },
   "baseline|range": {
    "n": 24,
