@@ -1,14 +1,19 @@
 {
- "ts": "2026-11-19 16:46:43 UTC",
+ "ts": "2026-11-19 17:48:33 UTC",
  "ok": true,
- "latency_s": 6.6,
+ "latency_s": 6.7,
  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
- "thoughts": "Торговля идёт с незначительными убытками, система暂енно приостановлена из-за последовательных потерь. Нужно проанализировать результаты и найти причину убытков.",
+ "thoughts": "Торговля идёт с небольшой прибылью, дневная прибыль составляет 1.97. Система функционирует в пределах допустимых рисков. Нужно проверить эффективность стратегий и параметров, чтобы сохранить эдж.",
  "params_applied": [
   {
    "param": "fee_edge_mult",
-   "value": 2.8,
-   "reason": "Уменьшить комиссию для увеличения прибыли"
+   "value": 3.2,
+   "reason": "Повышение fee_edge_mult для увеличения эджа"
+  },
+  {
+   "param": "vol_spike_min",
+   "value": 1.8,
+   "reason": "Увеличение vol_spike_min для снижения количества сделок"
   }
  ],
  "experiments": [
@@ -16,38 +21,34 @@
    "name": "baseline (текущий)",
    "params": {},
    "score": -1000000000.0,
-   "trades": 81,
-   "wr": 29.6,
-   "pnl": -15.54
+   "trades": 116,
+   "wr": 35.3,
+   "pnl": -24.38
   },
   {
    "name": "exp1",
    "params": {
-    "fee_edge_mult": 2.5,
-    "vol_spike_min": 1.6
+    "fee_edge_mult": 3.2,
+    "vol_spike_min": 1.8
    },
    "score": -1000000000.0,
-   "trades": 97,
-   "wr": 32.0,
-   "pnl": -21.36
+   "trades": 105,
+   "wr": 38.1,
+   "pnl": -14.62
   },
   {
    "name": "exp2",
    "params": {
-    "ttl_min": 420,
-    "ttl_max": 1080
+    "atr_k": 1.0,
+    "rr": 2.0
    },
    "score": -1000000000.0,
-   "trades": 82,
-   "wr": 30.5,
-   "pnl": -16.03
+   "trades": 145,
+   "wr": 30.3,
+   "pnl": -30.54
   }
  ],
  "experiment_applied": [],
- "module": {
-  "ok": false,
-  "error": "не исполняется: __import__ not found",
-  "purpose": "Фильтр рискованных сделок"
- },
+ "module": null,
  "modules_active": 0
 }
