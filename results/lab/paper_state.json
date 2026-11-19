@@ -1,43 +1,111 @@
 {
- "equity": 991.038889675326,
+ "equity": 992.058510161766,
  "day_key": 20776,
  "day_start_equity": 994.1083015131885,
- "consec_losses": 3,
+ "consec_losses": 0,
  "paused_until": 1795099679807,
  "halted_until": 0,
  "positions": [
   {
-   "id": "ETHUSDT-1795106528855",
-   "symbol": "ETHUSDT",
+   "id": "BTCUSDT-1795107215244",
+   "symbol": "BTCUSDT",
    "side": "short",
-   "entry": 1785.74,
-   "dist": 9.094857,
+   "entry": 62832.2,
+   "dist": 256.937143,
    "rr": 1.5,
-   "tp": 1772.097714,
-   "sl": 1794.834857,
+   "tp": 62446.794286,
+   "sl": 63089.137143,
+   "qty": 0.003,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1795107215244,
+   "expires_ts": 1795108115244,
+   "status": "open",
+   "source": "lab-paper",
+   "strategy": "baseline",
+   "regime": "range",
+   "features": {
+    "close": 62832.2,
+    "ema_fast": 63042.84,
+    "ema_slow": 63094.736797,
+    "momentum": -422.8,
+    "vol_spike": 1.995,
+    "atr15": 321.171429,
+    "rsi14": 32.34,
+    "bb_z": -2.416,
+    "don_hi": 64048.5,
+    "don_lo": 62748.9,
+    "adx15": null,
+    "atr_pct": 0.789,
+    "ts": 1795107120000
+   }
+  },
+  {
+   "id": "ETHUSDT-1795107215244",
+   "symbol": "ETHUSDT",
+   "side": "long",
+   "entry": 1768.06,
+   "dist": 9.540571,
+   "rr": 1.5,
+   "tp": 1782.370857,
+   "sl": 1758.519429,
    "qty": 0.09,
    "risk": 1.0,
    "ttl": 900,
-   "opened_ts": 1795106528855,
-   "expires_ts": 1795107428855,
+   "opened_ts": 1795107215244,
+   "expires_ts": 1795108115244,
    "status": "open",
    "source": "lab-paper",
    "strategy": "mean_reversion",
    "regime": "range",
    "features": {
-    "close": 1785.74,
-    "ema_fast": 1781.440444,
-    "ema_slow": 1779.185455,
-    "momentum": 9.45,
-    "vol_spike": 1.407,
-    "atr15": 11.368571,
-    "rsi14": 72.81,
-    "bb_z": 2.22,
+    "close": 1768.06,
+    "ema_fast": 1776.512444,
+    "ema_slow": 1778.767792,
+    "momentum": -15.64,
+    "vol_spike": 4.588,
+    "atr15": 11.925714,
+    "rsi14": 29.27,
+    "bb_z": -2.592,
     "don_hi": 1816.82,
     "don_lo": 1767.2,
     "adx15": null,
-    "atr_pct": 0.737,
-    "ts": 1795106460000
+    "atr_pct": 0.842,
+    "ts": 1795107120000
+   }
+  },
+  {
+   "id": "SOXLUSDT-1795107215244",
+   "symbol": "SOXLUSDT",
+   "side": "short",
+   "entry": 48.61,
+   "dist": 1.472,
+   "rr": 1.5,
+   "tp": 46.402,
+   "sl": 50.082,
+   "qty": 0.666,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1795107215244,
+   "expires_ts": 1795108115244,
+   "status": "open",
+   "source": "lab-paper",
+   "strategy": "baseline",
+   "regime": "volatile",
+   "features": {
+    "close": 48.61,
+    "ema_fast": 50.605556,
+    "ema_slow": 51.055887,
+    "momentum": -3.31,
+    "vol_spike": 3.468,
+    "atr15": 1.84,
+    "rsi14": 15.6,
+    "bb_z": -2.996,
+    "don_hi": 56.46,
+    "don_lo": 48.28,
+    "adx15": null,
+    "atr_pct": 0.947,
+    "ts": 1795107120000
    }
   }
  ],
@@ -45,7 +113,7 @@
   "baseline|range": {
    "n": 11,
    "ewma": -0.5546,
-   "blocked": 39
+   "blocked": 0
   },
   "baseline|volatile": {
    "n": 15,
@@ -56,15 +124,15 @@
    "ewma": -0.46
   },
   "mean_reversion|range": {
-   "n": 15,
-   "ewma": 0.0448
+   "n": 16,
+   "ewma": 0.191
   }
  },
  "stats": {
-  "trades": 48,
-  "wins": 22,
+  "trades": 49,
+  "wins": 23,
   "losses": 26,
-  "pnl": -8.961110324674237
+  "pnl": -7.941489838234238
  },
- "updated": 1795106944657
+ "updated": 1795107215244
 }
