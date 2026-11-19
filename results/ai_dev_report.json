@@ -1,19 +1,19 @@
 {
- "ts": "2026-11-19 06:15:49 UTC",
+ "ts": "2026-11-19 07:19:48 UTC",
  "ok": true,
- "latency_s": 6.8,
+ "latency_s": 5.9,
  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
- "thoughts": "Торговля идёт с незначительными убытками, дневная прибыль отрицательная. Нужно проанализировать результаты симуляции и оптимизации, а также проверить реалистичность сделок. Возможно, необходимо скорректировать параметры, такие как fee_edge_mult, ttl_min, ttl_max, max_concurrent, risk_per_trade, loss_streak_pause, atr_k, rr, vol_spike_min, spread_buffer.",
+ "thoughts": "Торговля идёт с небольшим убытком, последние сделки показывают нестабильность. Необходимо проанализировать результаты и найти причину нестабильности.",
  "params_applied": [
   {
    "param": "fee_edge_mult",
-   "value": 2.8,
-   "reason": "Увеличить fee_edge_mult для снижения количества сделок с низкой прибылью"
+   "value": 2.5,
+   "reason": "Уменьшить комиссию за сделку"
   },
   {
-   "param": "ttl_min",
-   "value": 420,
-   "reason": "Увеличить ttl_min для снижения количества сделок с коротким временем жизни"
+   "param": "vol_spike_min",
+   "value": 1.5,
+   "reason": "Увеличить минимальный объём для входа в сделку"
   }
  ],
  "experiments": [
@@ -21,45 +21,42 @@
    "name": "baseline (текущий)",
    "params": {},
    "score": -1000000000.0,
-   "trades": 92,
-   "wr": 28.3,
-   "pnl": -26.13
+   "trades": 103,
+   "wr": 28.2,
+   "pnl": -28.23
   },
   {
    "name": "exp1",
    "params": {
-    "fee_edge_mult": 2.8,
-    "ttl_min": 420,
-    "ttl_max": 780
+    "fee_edge_mult": 2.5,
+    "vol_spike_min": 1.5
    },
    "score": -1000000000.0,
-   "trades": 125,
-   "wr": 37.6,
-   "pnl": -20.44
+   "trades": 122,
+   "wr": 31.1,
+   "pnl": -30.82
   },
   {
    "name": "exp2",
    "params": {
-    "max_concurrent": 2,
-    "risk_per_trade": 1.2,
-    "loss_streak_pause": 6
+    "atr_k": 1.2,
+    "rr": 1.8
    },
    "score": -1000000000.0,
-   "trades": 91,
-   "wr": 27.5,
-   "pnl": -31.79
+   "trades": 134,
+   "wr": 25.4,
+   "pnl": -35.67
   },
   {
    "name": "exp3",
    "params": {
-    "atr_k": 1.2,
-    "rr": 2.2,
-    "vol_spike_min": 1.8
+    "ttl_min": 300,
+    "ttl_max": 1200
    },
    "score": -1000000000.0,
-   "trades": 160,
-   "wr": 25.0,
-   "pnl": -33.47
+   "trades": 76,
+   "wr": 26.3,
+   "pnl": -29.76
   }
  ],
  "experiment_applied": [],
