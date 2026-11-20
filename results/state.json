@@ -115,7 +115,7 @@
   "losses": 42,
   "pnl": -1.0360850503990873
  },
- "updated": 1795143396943,
+ "updated": 1795143735799,
  "adapt": {
   "mean_reversion|range": {
    "n": 25,
