@@ -1,45 +1,11 @@
 {
- "equity": 988.6076599191977,
+ "equity": 988.8108715813257,
  "day_key": 20777,
  "day_start_equity": 997.1121715976207,
- "consec_losses": 3,
+ "consec_losses": 0,
  "paused_until": 1795184576243,
  "halted_until": 0,
  "positions": [
-  {
-   "id": "BTCUSDT-1795198913486",
-   "symbol": "BTCUSDT",
-   "side": "short",
-   "entry": 59230.9,
-   "dist": 392.265,
-   "rr": 1.5,
-   "tp": 58642.5025,
-   "sl": 59623.165,
-   "qty": 0.002,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795198913486,
-   "expires_ts": 1795199813486,
-   "status": "open",
-   "source": "okx",
-   "strategy": "mean_reversion",
-   "regime": "range",
-   "features": {
-    "close": 59230.9,
-    "ema_fast": 58982.722222,
-    "ema_slow": 58991.558009,
-    "momentum": 291.4,
-    "vol_spike": 2.727,
-    "atr15": 560.378571,
-    "rsi14": 71.51,
-    "bb_z": 2.854,
-    "don_hi": 62155.0,
-    "don_lo": 58726.0,
-    "adx15": null,
-    "atr_pct": 0.421,
-    "ts": 1795198800000
-   }
-  },
   {
    "id": "NVDAUSDT-1795199259548",
    "symbol": "NVDAUSDT",
@@ -76,16 +42,16 @@
   }
  ],
  "stats": {
-  "trades": 120,
-  "wins": 59,
+  "trades": 121,
+  "wins": 60,
   "losses": 61,
-  "pnl": -11.392340080803013
+  "pnl": -11.189128418674997
  },
- "updated": 1795199607686,
+ "updated": 1795199944773,
  "adapt": {
   "mean_reversion|range": {
-   "n": 28,
-   "ewma": -0.2732
+   "n": 29,
+   "ewma": -0.2017
   },
   "baseline|range": {
    "n": 66,
