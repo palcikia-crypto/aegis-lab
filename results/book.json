@@ -1,15 +1,15 @@
 {
- "ts": "2026-11-20 18:22 UTC",
+ "ts": "2026-11-20 18:27 UTC",
  "books": {
-  "BTCUSDT": {
-   "symbol": "BTCUSDT",
-   "bid": 59116.4,
-   "ask": 59116.5,
-   "spread_bps": 0.02,
-   "imbalance": 0.285,
-   "depth_bid_usd": 95133028,
-   "depth_ask_usd": 52984946,
-   "ts": 1795198925961
+  "NVDAUSDT": {
+   "symbol": "NVDAUSDT",
+   "bid": 136.2,
+   "ask": 136.21,
+   "spread_bps": 0.73,
+   "imbalance": 0.188,
+   "depth_bid_usd": 100883,
+   "depth_ask_usd": 68991,
+   "ts": 1795199271812
   }
  }
 }
