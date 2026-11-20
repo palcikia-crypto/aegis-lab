@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 509,
+ "steps": 510,
  "llm_used": 5,
  "llm_day": "20261120",
  "last_plan_ts": 1795144445595,
@@ -25,18 +25,7 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [
-  {
-   "name": "попытка_улучшения",
-   "params": {
-    "fee_edge_mult": 2.5,
-    "risk_per_trade": 0.8
-   },
-   "module": null,
-   "note": "снижение комиссионного мультипликатора и риска на сделку",
-   "rejected": []
-  }
- ],
+ "queue": [],
  "q_idx": 0,
  "best": null,
  "promoted": [],
