@@ -1,79 +1,11 @@
 {
- "equity": 996.5244061574439,
+ "equity": 996.6745845470239,
  "day_key": 20777,
  "day_start_equity": 997.1121715976207,
- "consec_losses": 1,
+ "consec_losses": 0,
  "paused_until": 1795134217945,
  "halted_until": 0,
  "positions": [
-  {
-   "id": "BTCUSDT-1795147602123",
-   "symbol": "BTCUSDT",
-   "side": "short",
-   "entry": 61832.1,
-   "dist": 341.154286,
-   "rr": 1.5,
-   "tp": 61320.368571,
-   "sl": 62173.254286,
-   "qty": 0.002,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795147602123,
-   "expires_ts": 1795148502123,
-   "status": "open",
-   "source": "okx",
-   "strategy": "baseline",
-   "regime": "range",
-   "features": {
-    "close": 61832.1,
-    "ema_fast": 61988.704444,
-    "ema_slow": 62080.48961,
-    "momentum": -334.1,
-    "vol_spike": 1.828,
-    "atr15": 426.442857,
-    "rsi14": 14.77,
-    "bb_z": -2.226,
-    "don_hi": 62621.5,
-    "don_lo": 61256.6,
-    "adx15": null,
-    "atr_pct": 0.526,
-    "ts": 1795147500000
-   }
-  },
-  {
-   "id": "ETHUSDT-1795147602123",
-   "symbol": "ETHUSDT",
-   "side": "short",
-   "entry": 1735.07,
-   "dist": 11.689714,
-   "rr": 1.5,
-   "tp": 1717.535429,
-   "sl": 1746.759714,
-   "qty": 0.07,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795147602123,
-   "expires_ts": 1795148502123,
-   "status": "open",
-   "source": "okx",
-   "strategy": "baseline",
-   "regime": "range",
-   "features": {
-    "close": 1735.07,
-    "ema_fast": 1740.657556,
-    "ema_slow": 1744.479524,
-    "momentum": -13.29,
-    "vol_spike": 2.989,
-    "atr15": 14.612143,
-    "rsi14": 16.25,
-    "bb_z": -2.094,
-    "don_hi": 1769.92,
-    "don_lo": 1722.02,
-    "adx15": null,
-    "atr_pct": 0.526,
-    "ts": 1795147500000
-   }
-  },
   {
    "id": "SOXLUSDT-1795147960417",
    "symbol": "SOXLUSDT",
@@ -110,20 +42,20 @@
   }
  ],
  "stats": {
-  "trades": 94,
-  "wins": 48,
+  "trades": 96,
+  "wins": 50,
   "losses": 46,
-  "pnl": -3.475593842556672
+  "pnl": -3.325415452976673
  },
- "updated": 1795148322387,
+ "updated": 1795148652089,
  "adapt": {
   "mean_reversion|range": {
    "n": 25,
    "ewma": -0.2818
   },
   "baseline|range": {
-   "n": 49,
-   "ewma": -0.1584,
+   "n": 51,
+   "ewma": -0.0949,
    "blocked": 0
   },
   "trend_follow|trend_down": {
