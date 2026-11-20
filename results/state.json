@@ -1,61 +1,61 @@
 {
- "equity": 997.104109692959,
+ "equity": 996.420182949295,
  "day_key": 20777,
  "day_start_equity": 997.1121715976207,
- "consec_losses": 0,
+ "consec_losses": 1,
  "paused_until": 1795134217945,
  "halted_until": 0,
  "positions": [
   {
-   "id": "XAUUSDT-1795155052846",
-   "symbol": "XAUUSDT",
-   "side": "long",
-   "entry": 3569.0,
-   "dist": 14.897143,
+   "id": "BTCUSDT-1795156079060",
+   "symbol": "BTCUSDT",
+   "side": "short",
+   "entry": 61778.6,
+   "dist": 222.337143,
    "rr": 1.5,
-   "tp": 3591.345714,
-   "sl": 3554.102857,
-   "qty": 0.058,
+   "tp": 61445.094286,
+   "sl": 62000.937143,
+   "qty": 0.003,
    "risk": 1.0,
    "ttl": 900,
-   "opened_ts": 1795155052846,
-   "expires_ts": 1795155952846,
+   "opened_ts": 1795156079060,
+   "expires_ts": 1795156979060,
    "status": "open",
    "source": "okx",
    "strategy": "baseline",
    "regime": "range",
    "features": {
-    "close": 3569.0,
-    "ema_fast": 3560.857778,
-    "ema_slow": 3557.0,
-    "momentum": 18.6,
-    "vol_spike": 1.75,
-    "atr15": 18.621429,
-    "rsi14": 69.21,
-    "bb_z": 2.188,
-    "don_hi": 3616.0,
-    "don_lo": 3521.2,
+    "close": 61778.6,
+    "ema_fast": 61819.444444,
+    "ema_slow": 61842.647619,
+    "momentum": -76.2,
+    "vol_spike": 2.193,
+    "atr15": 277.921429,
+    "rsi14": 37.84,
+    "bb_z": -1.625,
+    "don_hi": 62450.0,
+    "don_lo": 61256.6,
     "adx15": null,
-    "atr_pct": 0.579,
-    "ts": 1795155000000
+    "atr_pct": 0.211,
+    "ts": 1795156020000
    }
   }
  ],
  "stats": {
-  "trades": 107,
+  "trades": 108,
   "wins": 57,
-  "losses": 50,
-  "pnl": -2.895890307041634
+  "losses": 51,
+  "pnl": -3.579817050705638
  },
- "updated": 1795155758543,
+ "updated": 1795156093339,
  "adapt": {
   "mean_reversion|range": {
    "n": 27,
    "ewma": -0.2915
   },
   "baseline|range": {
-   "n": 59,
-   "ewma": 0.0693,
+   "n": 60,
+   "ewma": -0.0437,
    "blocked": 0
   },
   "trend_follow|trend_down": {
