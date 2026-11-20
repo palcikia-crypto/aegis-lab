@@ -5,14 +5,49 @@
  "consec_losses": 3,
  "paused_until": 1795161516432,
  "halted_until": 0,
- "positions": [],
+ "positions": [
+  {
+   "id": "SNDKUSDT-1795179916226",
+   "symbol": "SNDKUSDT",
+   "side": "short",
+   "entry": 87.45,
+   "dist": 0.716571,
+   "rr": 1.5,
+   "tp": 86.375143,
+   "sl": 88.166571,
+   "qty": 1.3,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1795179916226,
+   "expires_ts": 1795180816226,
+   "status": "open",
+   "source": "okx",
+   "strategy": "baseline",
+   "regime": "volatile",
+   "features": {
+    "close": 87.45,
+    "ema_fast": 87.698889,
+    "ema_slow": 87.83355,
+    "momentum": -0.96,
+    "vol_spike": 1.944,
+    "atr15": 0.895714,
+    "rsi14": 33.79,
+    "bb_z": -1.31,
+    "don_hi": 90.9,
+    "don_lo": 87.34,
+    "adx15": null,
+    "atr_pct": 0.947,
+    "ts": 1795179840000
+   }
+  }
+ ],
  "stats": {
   "trades": 116,
   "wins": 59,
   "losses": 57,
   "pnl": -7.616853809842334
  },
- "updated": 1795179472637,
+ "updated": 1795179930837,
  "adapt": {
   "mean_reversion|range": {
    "n": 28,
