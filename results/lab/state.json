@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 589,
+ "steps": 590,
  "llm_used": 6,
  "llm_day": "20261120",
  "last_plan_ts": 1795172654333,
@@ -25,31 +25,8 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [
-  {
-   "name": "risk_adjust",
-   "params": {
-    "risk_per_trade": 0.8,
-    "loss_streak_pause": 6
-   },
-   "module": null,
-   "note": "Уменьшить риск и увеличить паузу после серии проигрышных сделок",
-   "rejected": []
-  },
-  {
-   "name": "volatility_filter",
-   "params": {
-    "vol_spike_min": 1.8
-   },
-   "module": {
-    "name": "volatility_filter",
-    "error": "синтаксис: invalid syntax (<ai-module>, line 1)"
-   },
-   "note": "Добавить фильтр по волатильности для снижения риска",
-   "rejected": []
-  }
- ],
- "q_idx": 1,
+ "queue": [],
+ "q_idx": 0,
  "best": null,
  "promoted": [],
  "ckpts": 0,
