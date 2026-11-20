@@ -1,35 +1,15 @@
 {
- "ts": "2026-11-20 05:48 UTC",
+ "ts": "2026-11-20 06:11 UTC",
  "books": {
-  "BTCUSDT": {
-   "symbol": "BTCUSDT",
-   "bid": 61871.0,
-   "ask": 61871.1,
-   "spread_bps": 0.02,
-   "imbalance": 0.561,
-   "depth_bid_usd": 98025825,
-   "depth_ask_usd": 27531402,
-   "ts": 1795153691481
-  },
-  "ETHUSDT": {
-   "symbol": "ETHUSDT",
-   "bid": 1736.0,
-   "ask": 1736.01,
-   "spread_bps": 0.06,
-   "imbalance": 0.028,
-   "depth_bid_usd": 1162060,
-   "depth_ask_usd": 1099364,
-   "ts": 1795153691683
-  },
   "XAUUSDT": {
    "symbol": "XAUUSDT",
-   "bid": 3546.7,
-   "ask": 3546.8,
+   "bid": 3569.4,
+   "ask": 3569.5,
    "spread_bps": 0.28,
-   "imbalance": 0.639,
-   "depth_bid_usd": 565356423,
-   "depth_ask_usd": 124447693,
-   "ts": 1795153691897
+   "imbalance": 0.433,
+   "depth_bid_usd": 477229208,
+   "depth_ask_usd": 189030428,
+   "ts": 1795155066849
   }
  }
 }
