@@ -1,15 +1,15 @@
 {
- "ts": "2026-11-20 18:27 UTC",
+ "ts": "2026-11-20 18:56 UTC",
  "books": {
   "NVDAUSDT": {
    "symbol": "NVDAUSDT",
-   "bid": 136.2,
-   "ask": 136.21,
+   "bid": 136.72,
+   "ask": 136.73,
    "spread_bps": 0.73,
-   "imbalance": 0.188,
-   "depth_bid_usd": 100883,
-   "depth_ask_usd": 68991,
-   "ts": 1795199271812
+   "imbalance": -0.332,
+   "depth_bid_usd": 61350,
+   "depth_ask_usd": 122262,
+   "ts": 1795201005206
   }
  }
 }
