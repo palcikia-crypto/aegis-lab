@@ -5,7 +5,42 @@
  "consec_losses": 2,
  "paused_until": 1795169740867,
  "halted_until": 0,
- "positions": [],
+ "positions": [
+  {
+   "id": "ETHUSDT-1795182682917",
+   "symbol": "ETHUSDT",
+   "side": "long",
+   "entry": 1755.49,
+   "dist": 8.674286,
+   "rr": 1.5,
+   "tp": 1768.501429,
+   "sl": 1746.815714,
+   "qty": 0.1,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1795182682917,
+   "expires_ts": 1795183582917,
+   "status": "open",
+   "source": "lab-paper",
+   "strategy": "baseline",
+   "regime": "volatile",
+   "features": {
+    "close": 1755.49,
+    "ema_fast": 1741.938889,
+    "ema_slow": 1736.483074,
+    "momentum": 22.22,
+    "vol_spike": 5.868,
+    "atr15": 10.842857,
+    "rsi14": 91.08,
+    "bb_z": 2.937,
+    "don_hi": 1762.57,
+    "don_lo": 1726.38,
+    "adx15": null,
+    "atr_pct": 0.947,
+    "ts": 1795182600000
+   }
+  }
+ ],
  "adapt": {
   "baseline|range": {
    "n": 17,
@@ -32,5 +67,5 @@
   "losses": 41,
   "pnl": -15.757278925137415
  },
- "updated": 1795182336084
+ "updated": 1795182682917
 }
