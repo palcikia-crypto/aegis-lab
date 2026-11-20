@@ -1,9 +1,9 @@
 {
- "phase": "deep_scan",
- "steps": 587,
- "llm_used": 5,
+ "phase": "evaluate",
+ "steps": 588,
+ "llm_used": 6,
  "llm_day": "20261120",
- "last_plan_ts": 1795144445595,
+ "last_plan_ts": 1795172654333,
  "baseline_ts": 1794975621027,
  "baseline": {
   "name": "baseline-оригинал",
@@ -25,20 +25,43 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [],
+ "queue": [
+  {
+   "name": "risk_adjust",
+   "params": {
+    "risk_per_trade": 0.8,
+    "loss_streak_pause": 6
+   },
+   "module": null,
+   "note": "Уменьшить риск и увеличить паузу после серии проигрышных сделок",
+   "rejected": []
+  },
+  {
+   "name": "volatility_filter",
+   "params": {
+    "vol_spike_min": 1.8
+   },
+   "module": {
+    "name": "volatility_filter",
+    "error": "синтаксис: invalid syntax (<ai-module>, line 1)"
+   },
+   "note": "Добавить фильтр по волатильности для снижения риска",
+   "rejected": []
+  }
+ ],
  "q_idx": 0,
  "best": null,
  "promoted": [],
  "ckpts": 0,
  "pending": null,
  "triggers": {
-  "ml_shift": 1795000413119
+  "ml_shift": 1795172654328
  },
- "ml_seen_ts": 1795000129100,
- "ml_last_auc": 0.466,
+ "ml_seen_ts": 1795172459406,
+ "ml_last_auc": 0.506,
  "patterns_seen_ts": "2026-11-19 15:48 UTC",
  "hunt_clean": 2,
- "last_escalation": null,
+ "last_escalation": "ml_shift",
  "deep_scan": {
   "ts": "2026-11-19 12:35 UTC",
   "days": 90,
