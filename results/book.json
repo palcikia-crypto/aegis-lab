@@ -1,25 +1,15 @@
 {
- "ts": "2026-11-20 21:25 UTC",
+ "ts": "2026-11-20 22:30 UTC",
  "books": {
-  "BTCUSDT": {
-   "symbol": "BTCUSDT",
-   "bid": 58609.3,
-   "ask": 58609.4,
-   "spread_bps": 0.02,
-   "imbalance": -0.061,
-   "depth_bid_usd": 17355385,
-   "depth_ask_usd": 19628288,
-   "ts": 1795209899984
-  },
   "SOXLUSDT": {
    "symbol": "SOXLUSDT",
-   "bid": 32.54,
-   "ask": 32.55,
-   "spread_bps": 3.07,
-   "imbalance": 0.246,
-   "depth_bid_usd": 135815,
-   "depth_ask_usd": 82299,
-   "ts": 1795209900238
+   "bid": 33.41,
+   "ask": 33.42,
+   "spread_bps": 2.99,
+   "imbalance": 0.068,
+   "depth_bid_usd": 66285,
+   "depth_ask_usd": 57986,
+   "ts": 1795213824897
   }
  }
 }
