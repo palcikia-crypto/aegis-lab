@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 492,
+ "steps": 493,
  "llm_used": 3,
  "llm_day": "20261120",
  "last_plan_ts": 1795138556645,
@@ -25,19 +25,7 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [
-  {
-   "name": "test1",
-   "params": {
-    "fee_edge_mult": 3.8,
-    "ttl_min": 540,
-    "atr_k": 1.2
-   },
-   "module": null,
-   "note": "Проверка влияния изменения fee_edge_mult, ttl_min и atr_k на результаты торговли",
-   "rejected": []
-  }
- ],
+ "queue": [],
  "q_idx": 0,
  "best": null,
  "promoted": [],
