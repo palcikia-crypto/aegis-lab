@@ -5,7 +5,76 @@
  "consec_losses": 3,
  "paused_until": 1795169740867,
  "halted_until": 0,
- "positions": [],
+ "positions": [
+  {
+   "id": "SNDKUSDT-1795184924655",
+   "symbol": "SNDKUSDT",
+   "side": "long",
+   "entry": 90.15,
+   "dist": 0.869714,
+   "rr": 1.5,
+   "tp": 91.454571,
+   "sl": 89.280286,
+   "qty": 1.082,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1795184924655,
+   "expires_ts": 1795185824655,
+   "status": "open",
+   "source": "lab-paper",
+   "strategy": "baseline",
+   "regime": "volatile",
+   "features": {
+    "close": 90.15,
+    "ema_fast": 89.380222,
+    "ema_slow": 89.167749,
+    "momentum": 1.32,
+    "vol_spike": 1.712,
+    "atr15": 1.087143,
+    "rsi14": 66.94,
+    "bb_z": 2.817,
+    "don_hi": 90.14,
+    "don_lo": 86.28,
+    "adx15": null,
+    "atr_pct": 1.0,
+    "ts": 1795184820000
+   }
+  },
+  {
+   "id": "NVDAUSDT-1795184924655",
+   "symbol": "NVDAUSDT",
+   "side": "long",
+   "entry": 144.27,
+   "dist": 0.68,
+   "rr": 1.5,
+   "tp": 145.29,
+   "sl": 143.59,
+   "qty": 1.304,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1795184924655,
+   "expires_ts": 1795185824655,
+   "status": "open",
+   "source": "lab-paper",
+   "strategy": "breakout",
+   "regime": "volatile",
+   "features": {
+    "close": 144.27,
+    "ema_fast": 143.764222,
+    "ema_slow": 143.466104,
+    "momentum": 1.25,
+    "vol_spike": 1.329,
+    "atr15": 0.85,
+    "rsi14": 72.83,
+    "bb_z": 2.099,
+    "don_hi": 143.82,
+    "don_lo": 140.42,
+    "adx15": null,
+    "atr_pct": 1.0,
+    "ts": 1795184820000
+   }
+  }
+ ],
  "adapt": {
   "baseline|range": {
    "n": 17,
@@ -32,5 +101,5 @@
   "losses": 42,
   "pnl": -16.372788547337432
  },
- "updated": 1795184585765
+ "updated": 1795184924655
 }
