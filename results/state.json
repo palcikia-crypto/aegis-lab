@@ -1,45 +1,11 @@
 {
- "equity": 996.420182949295,
+ "equity": 996.337236319879,
  "day_key": 20777,
  "day_start_equity": 997.1121715976207,
- "consec_losses": 1,
+ "consec_losses": 2,
  "paused_until": 1795134217945,
  "halted_until": 0,
  "positions": [
-  {
-   "id": "BTCUSDT-1795156079060",
-   "symbol": "BTCUSDT",
-   "side": "short",
-   "entry": 61778.6,
-   "dist": 222.337143,
-   "rr": 1.5,
-   "tp": 61445.094286,
-   "sl": 62000.937143,
-   "qty": 0.003,
-   "risk": 1.0,
-   "ttl": 900,
-   "opened_ts": 1795156079060,
-   "expires_ts": 1795156979060,
-   "status": "open",
-   "source": "okx",
-   "strategy": "baseline",
-   "regime": "range",
-   "features": {
-    "close": 61778.6,
-    "ema_fast": 61819.444444,
-    "ema_slow": 61842.647619,
-    "momentum": -76.2,
-    "vol_spike": 2.193,
-    "atr15": 277.921429,
-    "rsi14": 37.84,
-    "bb_z": -1.625,
-    "don_hi": 62450.0,
-    "don_lo": 61256.6,
-    "adx15": null,
-    "atr_pct": 0.211,
-    "ts": 1795156020000
-   }
-  },
   {
    "id": "SOXLUSDT-1795156896227",
    "symbol": "SOXLUSDT",
@@ -107,23 +73,57 @@
     "atr_pct": 0.263,
     "ts": 1795156800000
    }
+  },
+  {
+   "id": "ETHUSDT-1795157228601",
+   "symbol": "ETHUSDT",
+   "side": "long",
+   "entry": 1743.7,
+   "dist": 7.234857,
+   "rr": 1.5,
+   "tp": 1754.552286,
+   "sl": 1736.465143,
+   "qty": 0.12,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1795157228601,
+   "expires_ts": 1795158128601,
+   "status": "open",
+   "source": "okx",
+   "strategy": "baseline",
+   "regime": "range",
+   "features": {
+    "close": 1743.7,
+    "ema_fast": 1740.888444,
+    "ema_slow": 1740.861039,
+    "momentum": 2.01,
+    "vol_spike": 1.671,
+    "atr15": 9.043571,
+    "rsi14": 53.85,
+    "bb_z": 1.744,
+    "don_hi": 1757.26,
+    "don_lo": 1717.0,
+    "adx15": null,
+    "atr_pct": 0.0,
+    "ts": 1795157160000
+   }
   }
  ],
  "stats": {
-  "trades": 108,
+  "trades": 109,
   "wins": 57,
-  "losses": 51,
-  "pnl": -3.579817050705638
+  "losses": 52,
+  "pnl": -3.662763680121637
  },
- "updated": 1795156908972,
+ "updated": 1795157241798,
  "adapt": {
   "mean_reversion|range": {
    "n": 27,
    "ewma": -0.2915
   },
   "baseline|range": {
-   "n": 60,
-   "ewma": -0.0437,
+   "n": 61,
+   "ewma": -0.0496,
    "blocked": 0
   },
   "trend_follow|trend_down": {
