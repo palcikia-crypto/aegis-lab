@@ -1,68 +1,68 @@
 {
- "equity": 901.6732089911725,
+ "equity": 908.5949287770235,
  "day_key": 20777,
- "day_start_equity": 903.9163003825781,
- "consec_losses": 5,
- "paused_until": 1795083420000,
+ "day_start_equity": 901.3128903816234,
+ "consec_losses": 0,
+ "paused_until": 1794855780000,
  "halted_until": 0,
  "positions": [],
  "adapt": {
   "baseline|range": {
-   "n": 79,
-   "ewma": -0.5286,
-   "blocked": 15
-  },
-  "trend_follow|trend_down": {
-   "n": 56,
-   "ewma": -0.5451,
-   "blocked": 34
-  },
-  "trend_follow|trend_up": {
-   "n": 74,
-   "ewma": -0.5851,
-   "blocked": 23
-  },
-  "mean_reversion|range": {
-   "n": 47,
-   "ewma": -0.5238,
-   "blocked": 16
-  },
-  "baseline|volatile": {
-   "n": 14,
-   "ewma": -0.3989,
+   "n": 101,
+   "ewma": -0.5986,
    "blocked": 30
   },
-  "baseline|trend_up": {
-   "n": 52,
-   "ewma": -0.4495,
-   "blocked": 1
-  },
   "baseline|trend_down": {
-   "n": 69,
-   "ewma": -0.3533,
-   "blocked": 28
+   "n": 72,
+   "ewma": -0.572,
+   "blocked": 17
   },
-  "breakout|volatile": {
-   "n": 13,
-   "ewma": -0.5013,
+  "trend_follow|trend_up": {
+   "n": 69,
+   "ewma": -0.6069,
    "blocked": 3
   },
-  "breakout|trend_up": {
-   "n": 17,
-   "ewma": -0.4016,
-   "blocked": 16
+  "baseline|volatile": {
+   "n": 12,
+   "ewma": -0.584,
+   "blocked": 36
+  },
+  "trend_follow|trend_down": {
+   "n": 95,
+   "ewma": 0.2036,
+   "blocked": 0
+  },
+  "baseline|trend_up": {
+   "n": 40,
+   "ewma": -0.5272,
+   "blocked": 5
+  },
+  "mean_reversion|range": {
+   "n": 25,
+   "ewma": -0.3716,
+   "blocked": 6
+  },
+  "breakout|volatile": {
+   "n": 27,
+   "ewma": 0.5409,
+   "blocked": 2
   },
   "breakout|trend_down": {
-   "n": 69,
-   "ewma": -0.4746,
-   "blocked": 9
+   "n": 27,
+   "ewma": -0.42,
+   "blocked": 16
+  },
+  "breakout|trend_up": {
+   "n": 23,
+   "ewma": -0.4145,
+   "blocked": 26
   }
  },
  "stats": {
-  "trades": 490,
-  "wins": 176,
-  "losses": 314,
-  "pnl": -98.32679100882797
+  "trades": 491,
+  "wins": 191,
+  "losses": 300,
+  "pnl": -91.40507122297645
  },
- "updated": 1795172459013
+ "updated": 1795198019634
 }
