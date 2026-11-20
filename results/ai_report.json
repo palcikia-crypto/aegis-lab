@@ -1,21 +1,14 @@
 {
- "ts": "2026-11-20 00:37:29 UTC",
- "latency_s": 1.9,
+ "ts": "2026-11-20 00:43:03 UTC",
+ "latency_s": 2.1,
  "ok": true,
  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
- "verdict": "warn",
- "summary": "Торговля идёт с небольшим прибылью, но есть риски из-за низкого значения AUC и realism_bias",
+ "verdict": "ok",
+ "summary": "Торговля идёт с небольшим прибылью, дневная прибыль составляет 2.59. Система функционирует в пределах допустимых рисков.",
  "risks": [
-  "низкий AUC",
-  "высокий realism_bias"
+  "loss_streak_pause может быть достигнут при продолжении убытков"
  ],
- "actions_applied": [
-  {
-   "param": "fee_edge_mult",
-   "value": 3.5,
-   "reason": "увеличить фильтр комиссий для снижения рисков"
-  }
- ],
+ "actions_applied": [],
  "actions_rejected": [],
- "last_trade_closed": 1795134720000
+ "last_trade_closed": 1795135080000
 }
