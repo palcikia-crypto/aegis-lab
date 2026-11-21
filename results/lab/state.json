@@ -1,6 +1,6 @@
 {
- "phase": "evaluate",
- "steps": 746,
+ "phase": "deep_scan",
+ "steps": 747,
  "llm_used": 5,
  "llm_day": "20261121",
  "last_plan_ts": 1795228256354,
