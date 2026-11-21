@@ -1,19 +1,19 @@
 {
- "ts": "2026-11-21 11:25:46 UTC",
+ "ts": "2026-11-21 12:31:02 UTC",
  "ok": true,
- "latency_s": 7.0,
+ "latency_s": 16.1,
  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
- "thoughts": "Торговля идёт с убытками, последние сделки неэффективны. Нужно проанализировать параметры и найти причину неэффективности.",
+ "thoughts": "Система торгуется с убытками, последние сделки неэффективны. Необходимо проанализировать параметры и результаты, чтобы найти причину неэффективности.",
  "params_applied": [
   {
    "param": "fee_edge_mult",
-   "value": 2.5,
-   "reason": "Увеличить fee_edge_mult для снижения количества сделок"
+   "value": 2.2,
+   "reason": "снижение комиссии"
   },
   {
    "param": "vol_spike_min",
-   "value": 1.5,
-   "reason": "Увеличить vol_spike_min для фильтрации слабых сигналов"
+   "value": 1.3,
+   "reason": "увеличение минимального объема"
   }
  ],
  "experiments": [
@@ -21,49 +21,45 @@
    "name": "baseline (текущий)",
    "params": {},
    "score": -1000000000.0,
-   "trades": 93,
-   "wr": 24.7,
-   "pnl": -32.68
+   "trades": 107,
+   "wr": 31.8,
+   "pnl": -20.03
   },
   {
    "name": "exp1",
    "params": {
-    "fee_edge_mult": 2.5,
-    "vol_spike_min": 1.5
+    "fee_edge_mult": 2.0,
+    "vol_spike_min": 1.2
    },
    "score": -1000000000.0,
-   "trades": 98,
-   "wr": 26.5,
-   "pnl": -33.78
+   "trades": 121,
+   "wr": 31.4,
+   "pnl": -25.03
   },
   {
    "name": "exp2",
    "params": {
-    "atr_k": 0.9,
-    "rr": 1.8
+    "atr_k": 0.5,
+    "rr": 1.2
    },
    "score": -1000000000.0,
-   "trades": 116,
-   "wr": 30.2,
-   "pnl": -34.81
+   "trades": 70,
+   "wr": 31.4,
+   "pnl": -26.67
   },
   {
    "name": "exp3",
    "params": {
-    "ttl_min": 420,
-    "ttl_max": 900
+    "ttl_min": 240,
+    "ttl_max": 960
    },
    "score": -1000000000.0,
-   "trades": 86,
-   "wr": 22.1,
-   "pnl": -35.95
+   "trades": 97,
+   "wr": 35.1,
+   "pnl": -18.31
   }
  ],
  "experiment_applied": [],
- "module": {
-  "ok": false,
-  "error": "не исполняется: __import__ not found",
-  "purpose": "Фильтровать слабые сигналы"
- },
+ "module": null,
  "modules_active": 0
 }
