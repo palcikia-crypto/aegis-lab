@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 750,
+ "steps": 751,
  "llm_used": 6,
  "llm_day": "20261121",
  "last_plan_ts": 1795230087021,
@@ -25,18 +25,7 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [
-  {
-   "name": "коррекция_фии",
-   "params": {
-    "fee_edge_mult": 2.2,
-    "ttl_min": 420
-   },
-   "module": null,
-   "note": "Попытка оптимизации параметров для снижения ошибок",
-   "rejected": []
-  }
- ],
+ "queue": [],
  "q_idx": 0,
  "best": null,
  "promoted": [],
