@@ -1,52 +1,62 @@
 {
- "ts": "2026-11-21 06:01:22 UTC",
+ "ts": "2026-11-21 07:06:52 UTC",
  "ok": true,
- "latency_s": 8.2,
+ "latency_s": 5.1,
  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
- "thoughts": "Осмотрев систему, я понял, что торговля идёт с убытками, и последние сделки неэффективны. Чтобы улучшить результаты, я планирую провести эксперименты с разными параметрами и внедрить модуль-фильтр сигналов для снижения риска.",
+ "thoughts": "Система торгует с убытками, последние сделки неэффективны. Нужно проанализировать параметры и экспериментировать с разными вариантами.",
  "params_applied": [
   {
    "param": "fee_edge_mult",
-   "value": 2.8,
-   "reason": "снижение риска"
+   "value": 2.2,
+   "reason": "снижение комиссии"
   },
   {
    "param": "ttl_min",
-   "value": 400,
-   "reason": "оптимизация времени"
+   "value": 300,
+   "reason": "снижение минимального времени сделки"
+  },
+  {
+   "param": "atr_k",
+   "value": 0.7,
+   "reason": "эксперимент 'exp2': score -1000000000.0 -> 4.573"
+  },
+  {
+   "param": "vol_spike_min",
+   "value": 1.5,
+   "reason": "эксперимент 'exp2': score -1000000000.0 -> 4.573"
   }
  ],
  "experiments": [
-  {
-   "name": "baseline (текущий)",
-   "params": {},
-   "score": -1000000000.0,
-   "trades": 156,
-   "wr": 24.4,
-   "pnl": -39.18
-  },
-  {
-   "name": "exp1",
-   "params": {
-    "fee_edge_mult": 3.0,
-    "ttl_min": 420,
-    "ttl_max": 900
-   },
-   "score": -1000000000.0,
-   "trades": 130,
-   "wr": 30.0,
-   "pnl": -18.64
-  },
   {
    "name": "exp2",
    "params": {
     "atr_k": 0.7,
     "vol_spike_min": 1.5
    },
+   "score": 4.573,
+   "trades": 109,
+   "wr": 50.5,
+   "pnl": 4.1
+  },
+  {
+   "name": "baseline (текущий)",
+   "params": {},
    "score": -1000000000.0,
-   "trades": 105,
-   "wr": 32.4,
-   "pnl": -17.61
+   "trades": 160,
+   "wr": 44.4,
+   "pnl": -9.64
+  },
+  {
+   "name": "exp1",
+   "params": {
+    "fee_edge_mult": 2.2,
+    "ttl_min": 300,
+    "ttl_max": 900
+   },
+   "score": -1000000000.0,
+   "trades": 171,
+   "wr": 35.1,
+   "pnl": -29.94
   },
   {
    "name": "exp3",
@@ -55,16 +65,24 @@
     "spread_buffer": 0.00015
    },
    "score": -1000000000.0,
-   "trades": 135,
-   "wr": 28.1,
-   "pnl": -29.58
+   "trades": 178,
+   "wr": 43.8,
+   "pnl": -10.02
   }
  ],
- "experiment_applied": [],
- "module": {
-  "ok": false,
-  "error": "не исполняется: __import__ not found",
-  "purpose": "фильтр сигналов для снижения риска"
- },
+ "experiment_applied": [
+  {
+   "name": "exp2",
+   "params": {
+    "atr_k": 0.7,
+    "vol_spike_min": 1.5
+   },
+   "score": 4.573,
+   "trades": 109,
+   "wr": 50.5,
+   "pnl": 4.1
+  }
+ ],
+ "module": null,
  "modules_active": 0
 }
