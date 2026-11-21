@@ -1,19 +1,19 @@
 {
- "ts": "2026-11-21 19:59:42 UTC",
+ "ts": "2026-11-21 21:05:13 UTC",
  "ok": true,
- "latency_s": 5.8,
+ "latency_s": 4.6,
  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
- "thoughts": "Торговля идёт с убытками, последние сделки неэффективны. Нужно проанализировать параметры и найти причину неэффективности.",
+ "thoughts": "Торговля идёт с убытками, последние сделки неэффективны. Нужно проанализировать параметры и экспериментировать с вариантами.",
  "params_applied": [
   {
    "param": "fee_edge_mult",
-   "value": 2.2,
-   "reason": "снижение комиссии"
+   "value": 2.5,
+   "reason": "увеличить Fee-Edge Envelope"
   },
   {
-   "param": "vol_spike_min",
-   "value": 1.5,
-   "reason": "увеличение минимального объёма"
+   "param": "ttl_min",
+   "value": 300,
+   "reason": "уменьшить минимальное время жизни сделки"
   }
  ],
  "experiments": [
@@ -21,49 +21,46 @@
    "name": "baseline (текущий)",
    "params": {},
    "score": -1000000000.0,
-   "trades": 120,
-   "wr": 37.5,
-   "pnl": -19.0
+   "trades": 128,
+   "wr": 35.9,
+   "pnl": -23.35
   },
   {
    "name": "exp1",
    "params": {
-    "fee_edge_mult": 2.2,
-    "vol_spike_min": 1.5
-   },
-   "score": -1000000000.0,
-   "trades": 101,
-   "wr": 32.7,
-   "pnl": -27.21
-  },
-  {
-   "name": "exp2",
-   "params": {
-    "atr_k": 0.5,
-    "rr": 1.2
-   },
-   "score": -1000000000.0,
-   "trades": 49,
-   "wr": 44.9,
-   "pnl": -6.88
-  },
-  {
-   "name": "exp3",
-   "params": {
+    "fee_edge_mult": 2.5,
     "ttl_min": 300,
     "ttl_max": 900
    },
    "score": -1000000000.0,
-   "trades": 125,
-   "wr": 42.4,
-   "pnl": -18.82
+   "trades": 174,
+   "wr": 41.4,
+   "pnl": -11.57
+  },
+  {
+   "name": "exp2",
+   "params": {
+    "atr_k": 0.9,
+    "vol_spike_min": 1.6
+   },
+   "score": -1000000000.0,
+   "trades": 160,
+   "wr": 31.9,
+   "pnl": -32.89
+  },
+  {
+   "name": "exp3",
+   "params": {
+    "rr": 1.8,
+    "spread_buffer": 0.0003
+   },
+   "score": -1000000000.0,
+   "trades": 171,
+   "wr": 38.0,
+   "pnl": -20.18
   }
  ],
  "experiment_applied": [],
- "module": {
-  "ok": false,
-  "error": "не исполняется: __import__ not found",
-  "purpose": "фильтр сигналов"
- },
+ "module": null,
  "modules_active": 0
 }
