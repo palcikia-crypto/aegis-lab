@@ -1,68 +1,68 @@
 {
- "equity": 908.5949287770235,
- "day_key": 20777,
- "day_start_equity": 901.3128903816234,
+ "equity": 892.0056053112419,
+ "day_key": 20778,
+ "day_start_equity": 893.5084056254075,
  "consec_losses": 0,
- "paused_until": 1794855780000,
+ "paused_until": 1795036920000,
  "halted_until": 0,
  "positions": [],
  "adapt": {
-  "baseline|range": {
-   "n": 101,
-   "ewma": -0.5986,
-   "blocked": 30
+  "baseline|trend_up": {
+   "n": 64,
+   "ewma": -0.422,
+   "blocked": 24
   },
   "baseline|trend_down": {
-   "n": 72,
-   "ewma": -0.572,
-   "blocked": 17
+   "n": 32,
+   "ewma": -0.52,
+   "blocked": 24
   },
   "trend_follow|trend_up": {
-   "n": 69,
-   "ewma": -0.6069,
-   "blocked": 3
-  },
-  "baseline|volatile": {
-   "n": 12,
-   "ewma": -0.584,
-   "blocked": 36
+   "n": 114,
+   "ewma": -0.36,
+   "blocked": 27
   },
   "trend_follow|trend_down": {
-   "n": 95,
-   "ewma": 0.2036,
-   "blocked": 0
+   "n": 90,
+   "ewma": -0.4207,
+   "blocked": 19
   },
-  "baseline|trend_up": {
-   "n": 40,
-   "ewma": -0.5272,
-   "blocked": 5
+  "baseline|range": {
+   "n": 102,
+   "ewma": -0.3951,
+   "blocked": 38
   },
   "mean_reversion|range": {
-   "n": 25,
-   "ewma": -0.3716,
-   "blocked": 6
+   "n": 13,
+   "ewma": -0.4282,
+   "blocked": 12
+  },
+  "baseline|volatile": {
+   "n": 13,
+   "ewma": -0.4808,
+   "blocked": 31
   },
   "breakout|volatile": {
-   "n": 27,
-   "ewma": 0.5409,
-   "blocked": 2
-  },
-  "breakout|trend_down": {
-   "n": 27,
-   "ewma": -0.42,
-   "blocked": 16
+   "n": 18,
+   "ewma": 0.2125,
+   "blocked": 0
   },
   "breakout|trend_up": {
-   "n": 23,
-   "ewma": -0.4145,
-   "blocked": 26
+   "n": 29,
+   "ewma": -0.4323,
+   "blocked": 32
+  },
+  "breakout|trend_down": {
+   "n": 80,
+   "ewma": -0.3821,
+   "blocked": 39
   }
  },
  "stats": {
-  "trades": 491,
-  "wins": 191,
-  "losses": 300,
-  "pnl": -91.40507122297645
+  "trades": 555,
+  "wins": 215,
+  "losses": 340,
+  "pnl": -107.99439468875705
  },
- "updated": 1795198019634
+ "updated": 1795293028803
 }
