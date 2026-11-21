@@ -1,88 +1,65 @@
 {
- "ts": "2026-11-21 07:06:52 UTC",
+ "ts": "2026-11-21 08:11:54 UTC",
  "ok": true,
- "latency_s": 5.1,
+ "latency_s": 7.5,
  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
- "thoughts": "Система торгует с убытками, последние сделки неэффективны. Нужно проанализировать параметры и экспериментировать с разными вариантами.",
+ "thoughts": "Торговля идёт с убытками, последние сделки неэффективны. Нужно проанализировать параметры и найти причину неэффективности.",
  "params_applied": [
   {
    "param": "fee_edge_mult",
    "value": 2.2,
-   "reason": "снижение комиссии"
-  },
-  {
-   "param": "ttl_min",
-   "value": 300,
-   "reason": "снижение минимального времени сделки"
-  },
-  {
-   "param": "atr_k",
-   "value": 0.7,
-   "reason": "эксперимент 'exp2': score -1000000000.0 -> 4.573"
+   "reason": "Попробовать уменьшить fee_edge_mult, чтобы увеличить количество сделок"
   },
   {
    "param": "vol_spike_min",
-   "value": 1.5,
-   "reason": "эксперимент 'exp2': score -1000000000.0 -> 4.573"
+   "value": 1.4,
+   "reason": "Уменьшить vol_spike_min, чтобы увеличить количество сделок"
   }
  ],
  "experiments": [
   {
-   "name": "exp2",
-   "params": {
-    "atr_k": 0.7,
-    "vol_spike_min": 1.5
-   },
-   "score": 4.573,
-   "trades": 109,
-   "wr": 50.5,
-   "pnl": 4.1
-  },
-  {
    "name": "baseline (текущий)",
    "params": {},
    "score": -1000000000.0,
-   "trades": 160,
-   "wr": 44.4,
-   "pnl": -9.64
+   "trades": 116,
+   "wr": 33.6,
+   "pnl": -23.53
   },
   {
    "name": "exp1",
    "params": {
-    "fee_edge_mult": 2.2,
-    "ttl_min": 300,
-    "ttl_max": 900
+    "fee_edge_mult": 2.5,
+    "vol_spike_min": 1.6
    },
    "score": -1000000000.0,
-   "trades": 171,
-   "wr": 35.1,
-   "pnl": -29.94
+   "trades": 86,
+   "wr": 26.7,
+   "pnl": -21.13
+  },
+  {
+   "name": "exp2",
+   "params": {
+    "atr_k": 0.9,
+    "rr": 2.0
+   },
+   "score": -1000000000.0,
+   "trades": 174,
+   "wr": 31.6,
+   "pnl": -38.88
   },
   {
    "name": "exp3",
    "params": {
-    "rr": 1.2,
-    "spread_buffer": 0.00015
+    "ttl_min": 420,
+    "ttl_max": 1080
    },
    "score": -1000000000.0,
-   "trades": 178,
-   "wr": 43.8,
-   "pnl": -10.02
+   "trades": 113,
+   "wr": 39.8,
+   "pnl": -20.08
   }
  ],
- "experiment_applied": [
-  {
-   "name": "exp2",
-   "params": {
-    "atr_k": 0.7,
-    "vol_spike_min": 1.5
-   },
-   "score": 4.573,
-   "trades": 109,
-   "wr": 50.5,
-   "pnl": 4.1
-  }
- ],
+ "experiment_applied": [],
  "module": null,
  "modules_active": 0
 }
