@@ -1,19 +1,19 @@
 {
- "ts": "2026-11-21 14:41:29 UTC",
+ "ts": "2026-11-21 15:41:35 UTC",
  "ok": true,
- "latency_s": 7.3,
+ "latency_s": 17.4,
  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
- "thoughts": "Система работает с убытками, последние сделки неэффективны. Нужно проанализировать параметры и найти причину неэффективности.",
+ "thoughts": "Торговля идёт с убытками, последние сделки неэффективны. Нужно проанализировать параметры и результаты, чтобы найти причину неэффективности.",
  "params_applied": [
   {
-   "param": "atr_k",
-   "value": 0.7,
-   "reason": "попробовать среднее значение"
+   "param": "fee_edge_mult",
+   "value": 2.8,
+   "reason": "Попробовать увеличить fee_edge_mult, чтобы уменьшить количество сделок с низкой прибылью"
   },
   {
    "param": "vol_spike_min",
-   "value": 1.5,
-   "reason": "снизить порог спайка"
+   "value": 1.6,
+   "reason": "Попробовать увеличить vol_spike_min, чтобы уменьшить количество сделок с низкой волатильностью"
   }
  ],
  "experiments": [
@@ -28,38 +28,42 @@
   {
    "name": "exp1",
    "params": {
-    "atr_k": 0.6,
-    "vol_spike_min": 1.7
+    "fee_edge_mult": 2.8,
+    "vol_spike_min": 1.6
    },
    "score": -1000000000.0,
-   "trades": 86,
-   "wr": 34.9,
-   "pnl": -26.7
+   "trades": 79,
+   "wr": 34.2,
+   "pnl": -23.76
   },
   {
    "name": "exp2",
    "params": {
-    "fee_edge_mult": 2.0,
-    "ttl_min": 180
+    "atr_k": 0.9,
+    "rr": 1.8
    },
    "score": -1000000000.0,
-   "trades": 97,
-   "wr": 34.0,
-   "pnl": -28.42
+   "trades": 90,
+   "wr": 31.1,
+   "pnl": -26.83
   },
   {
    "name": "exp3",
    "params": {
-    "rr": 1.0,
-    "spread_buffer": 0.0001
+    "ttl_min": 420,
+    "ttl_max": 900
    },
    "score": -1000000000.0,
-   "trades": 92,
-   "wr": 40.2,
-   "pnl": -22.26
+   "trades": 91,
+   "wr": 33.0,
+   "pnl": -24.17
   }
  ],
  "experiment_applied": [],
- "module": null,
+ "module": {
+  "ok": false,
+  "error": "не исполняется: __import__ not found",
+  "purpose": "Фильтр сигналов на основе волатильности и прибыльности"
+ },
  "modules_active": 0
 }
