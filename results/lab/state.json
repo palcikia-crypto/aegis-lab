@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 727,
+ "steps": 728,
  "llm_used": 2,
  "llm_day": "20261121",
  "last_plan_ts": 1795222110582,
@@ -25,17 +25,7 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [
-  {
-   "name": "увеличение_atr_k",
-   "params": {
-    "atr_k": 1.2
-   },
-   "module": null,
-   "note": "Повышение чувствительности к волатильности",
-   "rejected": []
-  }
- ],
+ "queue": [],
  "q_idx": 0,
  "best": null,
  "promoted": [],
