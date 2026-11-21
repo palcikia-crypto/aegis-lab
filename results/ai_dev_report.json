@@ -1,19 +1,19 @@
 {
- "ts": "2026-11-21 18:54:40 UTC",
+ "ts": "2026-11-21 19:59:42 UTC",
  "ok": true,
- "latency_s": 5.1,
+ "latency_s": 5.8,
  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
- "thoughts": "Осмотрел состояние системы и результаты. Торговля идёт с убытками, последние сделки неэффективны. Буду ставить эксперименты с вариантами параметров, чтобы найти оптимальные настройки.",
+ "thoughts": "Торговля идёт с убытками, последние сделки неэффективны. Нужно проанализировать параметры и найти причину неэффективности.",
  "params_applied": [
   {
    "param": "fee_edge_mult",
-   "value": 2.8,
-   "reason": "увеличить fee_edge_mult для снижения риска"
+   "value": 2.2,
+   "reason": "снижение комиссии"
   },
   {
-   "param": "ttl_min",
-   "value": 420,
-   "reason": "увеличить ttl_min для снижения частоты сделок"
+   "param": "vol_spike_min",
+   "value": 1.5,
+   "reason": "увеличение минимального объёма"
   }
  ],
  "experiments": [
@@ -21,46 +21,49 @@
    "name": "baseline (текущий)",
    "params": {},
    "score": -1000000000.0,
-   "trades": 121,
-   "wr": 27.3,
-   "pnl": -34.18
+   "trades": 120,
+   "wr": 37.5,
+   "pnl": -19.0
   },
   {
    "name": "exp1",
    "params": {
-    "fee_edge_mult": 2.8,
-    "ttl_min": 420,
-    "ttl_max": 900
+    "fee_edge_mult": 2.2,
+    "vol_spike_min": 1.5
    },
    "score": -1000000000.0,
-   "trades": 79,
-   "wr": 30.4,
-   "pnl": -28.81
+   "trades": 101,
+   "wr": 32.7,
+   "pnl": -27.21
   },
   {
    "name": "exp2",
    "params": {
-    "atr_k": 0.9,
-    "vol_spike_min": 1.8
+    "atr_k": 0.5,
+    "rr": 1.2
    },
    "score": -1000000000.0,
-   "trades": 119,
-   "wr": 29.4,
-   "pnl": -32.84
+   "trades": 49,
+   "wr": 44.9,
+   "pnl": -6.88
   },
   {
    "name": "exp3",
    "params": {
-    "rr": 2.0,
-    "spread_buffer": 0.0003
+    "ttl_min": 300,
+    "ttl_max": 900
    },
    "score": -1000000000.0,
-   "trades": 79,
-   "wr": 29.1,
-   "pnl": -23.83
+   "trades": 125,
+   "wr": 42.4,
+   "pnl": -18.82
   }
  ],
  "experiment_applied": [],
- "module": null,
+ "module": {
+  "ok": false,
+  "error": "не исполняется: __import__ not found",
+  "purpose": "фильтр сигналов"
+ },
  "modules_active": 0
 }
