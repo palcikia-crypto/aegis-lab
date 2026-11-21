@@ -1,6 +1,6 @@
 {
  "phase": "deep_scan",
- "steps": 804,
+ "steps": 805,
  "llm_used": 6,
  "llm_day": "20261121",
  "last_plan_ts": 1795230087021,
@@ -33,7 +33,7 @@
  "pending": null,
  "triggers": {
   "ml_shift": 1795198135377,
-  "lab_paper_drift": 1795247702092
+  "lab_paper_drift": 1795249538838
  },
  "ml_seen_ts": 1795198019966,
  "ml_last_auc": 0.553,
