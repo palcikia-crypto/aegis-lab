@@ -1,14 +1,19 @@
 {
- "ts": "2026-11-21 10:20:48 UTC",
+ "ts": "2026-11-21 11:25:46 UTC",
  "ok": true,
- "latency_s": 4.5,
+ "latency_s": 7.0,
  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
- "thoughts": "Система торгуется с убытками, последние сделки неэффективны. Нужно проанализировать параметры и найти причину неэффективности.",
+ "thoughts": "Торговля идёт с убытками, последние сделки неэффективны. Нужно проанализировать параметры и найти причину неэффективности.",
  "params_applied": [
   {
    "param": "fee_edge_mult",
-   "value": 2.8,
-   "reason": "Увеличить fee_edge_mult для уменьшения количества сделок"
+   "value": 2.5,
+   "reason": "Увеличить fee_edge_mult для снижения количества сделок"
+  },
+  {
+   "param": "vol_spike_min",
+   "value": 1.5,
+   "reason": "Увеличить vol_spike_min для фильтрации слабых сигналов"
   }
  ],
  "experiments": [
@@ -16,20 +21,20 @@
    "name": "baseline (текущий)",
    "params": {},
    "score": -1000000000.0,
-   "trades": 124,
-   "wr": 37.9,
-   "pnl": -13.62
+   "trades": 93,
+   "wr": 24.7,
+   "pnl": -32.68
   },
   {
    "name": "exp1",
    "params": {
-    "fee_edge_mult": 2.8,
+    "fee_edge_mult": 2.5,
     "vol_spike_min": 1.5
    },
    "score": -1000000000.0,
-   "trades": 142,
-   "wr": 38.7,
-   "pnl": -9.64
+   "trades": 98,
+   "wr": 26.5,
+   "pnl": -33.78
   },
   {
    "name": "exp2",
@@ -38,12 +43,27 @@
     "rr": 1.8
    },
    "score": -1000000000.0,
-   "trades": 152,
-   "wr": 33.6,
-   "pnl": -26.09
+   "trades": 116,
+   "wr": 30.2,
+   "pnl": -34.81
+  },
+  {
+   "name": "exp3",
+   "params": {
+    "ttl_min": 420,
+    "ttl_max": 900
+   },
+   "score": -1000000000.0,
+   "trades": 86,
+   "wr": 22.1,
+   "pnl": -35.95
   }
  ],
  "experiment_applied": [],
- "module": null,
+ "module": {
+  "ok": false,
+  "error": "не исполняется: __import__ not found",
+  "purpose": "Фильтровать слабые сигналы"
+ },
  "modules_active": 0
 }
