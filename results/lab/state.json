@@ -1,9 +1,9 @@
 {
  "phase": "evaluate",
- "steps": 744,
- "llm_used": 4,
+ "steps": 745,
+ "llm_used": 5,
  "llm_day": "20261121",
- "last_plan_ts": 1795227988591,
+ "last_plan_ts": 1795228256354,
  "baseline_ts": 1794975621027,
  "baseline": {
   "name": "baseline-оригинал",
@@ -43,13 +43,14 @@
  "ckpts": 0,
  "pending": null,
  "triggers": {
-  "ml_shift": 1795198135377
+  "ml_shift": 1795198135377,
+  "lab_paper_drift": 1795228256348
  },
  "ml_seen_ts": 1795198019966,
  "ml_last_auc": 0.553,
  "patterns_seen_ts": "2026-11-19 15:48 UTC",
  "hunt_clean": 2,
- "last_escalation": null,
+ "last_escalation": "lab_paper_drift",
  "deep_scan": {
   "ts": "2026-11-19 12:35 UTC",
   "days": 90,

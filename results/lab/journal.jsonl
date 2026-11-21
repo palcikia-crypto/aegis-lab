@@ -33168,3 +33168,6 @@
 {"ts": "2026-11-21 02:26 UTC", "event": "paper_realcheck_error", "symbol": "SNDKUSDT", "detail": "no real bars for SNDKUSDT: HTTP Error 403: Forbidden"}
 {"ts": "2026-11-21 02:26 UTC", "event": "data_request", "symbol": "BTCUSDT", "days": 10, "detail": "скачано при следующем бэктесте"}
 {"ts": "2026-11-21 02:26 UTC", "event": "plan", "detail": "Нужно улучшить результаты торговой системы, чтобы обогнать оригинал по score при PF>1 и глубине трейдов. Для этого можно попробовать изменить параметры системы, такие как fee_edge_mult, ttl_min, ttl_m", "queued": 1, "trigger": null}
+{"ts": "2026-11-21 02:30 UTC", "event": "paper_realcheck", "checked": 2, "match_rate": null, "detail": "lab-paper real_total -3.242"}
+{"ts": "2026-11-21 02:31 UTC", "event": "data_request", "symbol": "BTCUSDT", "days": 30, "detail": "скачано при следующем бэктесте"}
+{"ts": "2026-11-21 02:31 UTC", "event": "plan", "detail": "Нужно улучшить результаты торговой системы, чтобы обогнать оригинал по score при PF>1 и глубине трейдов. Для этого можно попробовать изменить параметры, такие как fee_edge_mult, ttl_min, ttl_max, max_", "queued": 1, "trigger": "lab_paper_drift"}
