@@ -10,7 +10,7 @@
   "baseline|range": {
    "n": 18,
    "ewma": -0.5164,
-   "blocked": 20
+   "blocked": 21
   },
   "baseline|volatile": {
    "n": 27,
@@ -33,5 +33,5 @@
   "losses": 48,
   "pnl": -22.46126438267983
  },
- "updated": 1795219914657
+ "updated": 1795220246410
 }
