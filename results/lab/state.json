@@ -1,9 +1,9 @@
 {
- "phase": "deep_scan",
- "steps": 749,
- "llm_used": 5,
+ "phase": "evaluate",
+ "steps": 750,
+ "llm_used": 6,
  "llm_day": "20261121",
- "last_plan_ts": 1795228256354,
+ "last_plan_ts": 1795230087021,
  "baseline_ts": 1794975621027,
  "baseline": {
   "name": "baseline-оригинал",
@@ -25,7 +25,18 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [],
+ "queue": [
+  {
+   "name": "коррекция_фии",
+   "params": {
+    "fee_edge_mult": 2.2,
+    "ttl_min": 420
+   },
+   "module": null,
+   "note": "Попытка оптимизации параметров для снижения ошибок",
+   "rejected": []
+  }
+ ],
  "q_idx": 0,
  "best": null,
  "promoted": [],
@@ -33,7 +44,7 @@
  "pending": null,
  "triggers": {
   "ml_shift": 1795198135377,
-  "lab_paper_drift": 1795228256348
+  "lab_paper_drift": 1795230087014
  },
  "ml_seen_ts": 1795198019966,
  "ml_last_auc": 0.553,
