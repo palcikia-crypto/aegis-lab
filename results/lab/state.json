@@ -1,9 +1,9 @@
 {
- "phase": "deep_scan",
- "steps": 969,
- "llm_used": 2,
+ "phase": "evaluate",
+ "steps": 970,
+ "llm_used": 3,
  "llm_day": "20261122",
- "last_plan_ts": 1795306047823,
+ "last_plan_ts": 1795307865357,
  "baseline_ts": 1794975621027,
  "baseline": {
   "name": "baseline-оригинал",
@@ -25,7 +25,18 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [],
+ "queue": [
+  {
+   "name": "test1",
+   "params": {
+    "fee_edge_mult": 2.5,
+    "ttl_min": 420
+   },
+   "module": null,
+   "note": "Попробовать уменьшить fee_edge_mult и увеличить ttl_min для улучшения результатов",
+   "rejected": []
+  }
+ ],
  "q_idx": 0,
  "best": null,
  "promoted": [],
@@ -33,7 +44,7 @@
  "pending": null,
  "triggers": {
   "ml_shift": 1795293391739,
-  "lab_paper_drift": 1795306047815
+  "lab_paper_drift": 1795307865347
  },
  "ml_seen_ts": 1795293029132,
  "ml_last_auc": 0.432,
