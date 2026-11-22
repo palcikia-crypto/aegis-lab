@@ -1,9 +1,9 @@
 {
- "phase": "deep_scan",
- "steps": 963,
- "llm_used": 6,
- "llm_day": "20261121",
- "last_plan_ts": 1795230087021,
+ "phase": "evaluate",
+ "steps": 964,
+ "llm_used": 1,
+ "llm_day": "20261122",
+ "last_plan_ts": 1795305760814,
  "baseline_ts": 1794975621027,
  "baseline": {
   "name": "baseline-оригинал",
@@ -25,7 +25,17 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [],
+ "queue": [
+  {
+   "name": "test_fee_edge_mult",
+   "params": {
+    "fee_edge_mult": 3.5
+   },
+   "module": null,
+   "note": "Повышение fee_edge_mult для увеличения потенциальной прибыли",
+   "rejected": []
+  }
+ ],
  "q_idx": 0,
  "best": null,
  "promoted": [],
@@ -39,7 +49,7 @@
  "ml_last_auc": 0.432,
  "patterns_seen_ts": "2026-11-19 15:48 UTC",
  "hunt_clean": 2,
- "last_escalation": "lab_paper_drift",
+ "last_escalation": null,
  "deep_scan": {
   "ts": "2026-11-19 12:35 UTC",
   "days": 90,
