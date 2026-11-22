@@ -1,15 +1,15 @@
 {
- "ts": "2026-11-21 12:19 UTC",
+ "ts": "2026-11-22 01:04 UTC",
  "books": {
-  "ETHUSDT": {
-   "symbol": "ETHUSDT",
-   "bid": 1660.31,
-   "ask": 1660.32,
-   "spread_bps": 0.06,
-   "imbalance": -0.102,
-   "depth_bid_usd": 1171996,
-   "depth_ask_usd": 1436901,
-   "ts": 1795263569803
+  "SOXLUSDT": {
+   "symbol": "SOXLUSDT",
+   "bid": 33.38,
+   "ask": 33.39,
+   "spread_bps": 3.0,
+   "imbalance": -0.107,
+   "depth_bid_usd": 295533,
+   "depth_ask_usd": 366749,
+   "ts": 1795309441616
   }
  }
 }
