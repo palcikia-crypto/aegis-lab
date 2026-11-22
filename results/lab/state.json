@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 976,
+ "steps": 977,
  "llm_used": 5,
  "llm_day": "20261122",
  "last_plan_ts": 1795309781013,
@@ -25,17 +25,7 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [
-  {
-   "name": "корректировка_fee_edge_mult",
-   "params": {
-    "fee_edge_mult": 2.5
-   },
-   "module": null,
-   "note": "попробовать уменьшить fee_edge_mult, чтобы увеличить количество трейдов",
-   "rejected": []
-  }
- ],
+ "queue": [],
  "q_idx": 0,
  "best": null,
  "promoted": [],
