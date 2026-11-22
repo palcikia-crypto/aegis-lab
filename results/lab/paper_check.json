@@ -1,11 +1,11 @@
 {
  "summary": {
-  "updated": "2026-11-22 16:41 UTC",
-  "trades": 6,
-  "recorded_total": -3.638,
-  "real_total": -4.293,
-  "realism_bias": -0.655,
-  "avg_bias": -0.109,
+  "updated": "2026-11-22 16:46 UTC",
+  "trades": 8,
+  "recorded_total": -5.506,
+  "real_total": -4.055,
+  "realism_bias": 1.451,
+  "avg_bias": 0.181,
   "ambiguous": 0,
   "kind_mismatch": 0,
   "errors": 0
@@ -80,6 +80,30 @@
    "kind_real": "timeout",
    "pnl_recorded": -0.2133,
    "pnl_real": -0.0517,
+   "ambiguous": false,
+   "match": true
+  },
+  {
+   "id": "ETHUSDT-1795190765698",
+   "symbol": "ETHUSDT",
+   "side": "short",
+   "opened": "11-20 16:06",
+   "status_recorded": "loss",
+   "kind_real": "loss",
+   "pnl_recorded": -0.9123,
+   "pnl_real": 0.0578,
+   "ambiguous": false,
+   "match": true
+  },
+  {
+   "id": "BTCUSDT-1795190765698",
+   "symbol": "BTCUSDT",
+   "side": "short",
+   "opened": "11-20 16:06",
+   "status_recorded": "loss",
+   "kind_real": "loss",
+   "pnl_recorded": -0.9558,
+   "pnl_real": 0.1801,
    "ambiguous": false,
    "match": true
   }
