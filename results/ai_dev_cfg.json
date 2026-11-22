@@ -1,7 +1,8 @@
 {
- "fee_edge_mult": 2.5,
+ "fee_edge_mult": 2.2,
  "vol_spike_min": 1.5,
  "ttl_min": 300,
  "atr_k": 0.7,
- "ttl_max": 720
+ "ttl_max": 720,
+ "loss_streak_pause": 6
 }
