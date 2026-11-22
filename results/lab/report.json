@@ -1,10 +1,10 @@
 {
- "ts": "2026-11-22 00:02 UTC",
+ "ts": "2026-11-22 00:07 UTC",
  "phase": "evaluate",
- "steps": 964,
- "llm_used_today": 1,
+ "steps": 965,
+ "llm_used_today": 2,
  "llm_day_limit": 6,
- "queue_left": 1,
+ "queue_left": 3,
  "checkpoints": 0,
  "baseline": {
   "score": -1000000000.0,
@@ -41,10 +41,14 @@
   "active_pack": null
  },
  "paper_realcheck": {
-  "updated": "2026-11-22 00:02 UTC",
+  "updated": "2026-11-22 00:07 UTC",
   "trades": 4,
   "real_total": -3.242,
   "recorded_total": -2.284,
   "avg_bias": -0.24
+ },
+ "escalation": {
+  "kind": "lab_paper_drift",
+  "llm_used": 2
  }
 }

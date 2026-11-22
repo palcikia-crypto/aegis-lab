@@ -1,9 +1,9 @@
 {
  "phase": "evaluate",
- "steps": 964,
- "llm_used": 1,
+ "steps": 965,
+ "llm_used": 2,
  "llm_day": "20261122",
- "last_plan_ts": 1795305760814,
+ "last_plan_ts": 1795306047823,
  "baseline_ts": 1794975621027,
  "baseline": {
   "name": "baseline-оригинал",
@@ -27,12 +27,31 @@
  },
  "queue": [
   {
-   "name": "test_fee_edge_mult",
+   "name": "увеличение_fee_edge_mult",
    "params": {
     "fee_edge_mult": 3.5
    },
    "module": null,
-   "note": "Повышение fee_edge_mult для увеличения потенциальной прибыли",
+   "note": "Повышение fee_edge_mult может улучшить точность входов в сделки",
+   "rejected": []
+  },
+  {
+   "name": "добавление_фильтра_vol_spike_min",
+   "params": {
+    "vol_spike_min": 1.5
+   },
+   "module": {
+    "name": "filter_vol_spike",
+    "error": "нет NAME (str, snake_case)"
+   },
+   "note": "Добавление фильтра по объему спайка может помочь избежать входов в сделки с низким объемом",
+   "rejected": []
+  },
+  {
+   "name": "переобучение_ML",
+   "params": {},
+   "module": null,
+   "note": "Переобучение ML может улучшить ее точность и адаптивность к новым данным",
    "rejected": []
   }
  ],
@@ -43,13 +62,13 @@
  "pending": null,
  "triggers": {
   "ml_shift": 1795293391739,
-  "lab_paper_drift": 1795304048201
+  "lab_paper_drift": 1795306047815
  },
  "ml_seen_ts": 1795293029132,
  "ml_last_auc": 0.432,
  "patterns_seen_ts": "2026-11-19 15:48 UTC",
  "hunt_clean": 2,
- "last_escalation": null,
+ "last_escalation": "lab_paper_drift",
  "deep_scan": {
   "ts": "2026-11-19 12:35 UTC",
   "days": 90,
