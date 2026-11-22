@@ -1,19 +1,19 @@
 {
- "ts": "2026-11-22 14:05:30 UTC",
+ "ts": "2026-11-22 15:10:25 UTC",
  "ok": true,
- "latency_s": 5.1,
+ "latency_s": 5.5,
  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
- "thoughts": "Торговля идёт с небольшой прибылью, но последние сделки показывают убытки, риск последовательных потерь увеличивается. Необходимо провести эксперименты, чтобы оценить влияние различных параметров на результаты торговли.",
+ "thoughts": "Система показывает небольшую прибыль, но последние сделки убыточны. Риск последовательных потерь увеличивается. Буду ставить эксперименты с параметрами, чтобы найти оптимальные значения.",
  "params_applied": [
   {
    "param": "fee_edge_mult",
-   "value": 2.2,
-   "reason": "Уменьшить риск потерь"
+   "value": 2.5,
+   "reason": "Увеличить fee_edge_mult для снижения риска"
   },
   {
-   "param": "loss_streak_pause",
-   "value": 6,
-   "reason": "Увеличить паузу между сделками при потере"
+   "param": "vol_spike_min",
+   "value": 1.6,
+   "reason": "Увеличить vol_spike_min для фильтрации слабых сигналов"
   }
  ],
  "experiments": [
@@ -21,45 +21,42 @@
    "name": "baseline (текущий)",
    "params": {},
    "score": -1000000000.0,
-   "trades": 145,
-   "wr": 34.5,
-   "pnl": -19.83
+   "trades": 107,
+   "wr": 31.8,
+   "pnl": -32.95
   },
   {
    "name": "exp1",
    "params": {
-    "fee_edge_mult": 2.2,
-    "ttl_min": 300,
-    "ttl_max": 720
+    "fee_edge_mult": 2.5,
+    "vol_spike_min": 1.6
    },
    "score": -1000000000.0,
-   "trades": 151,
-   "wr": 34.4,
-   "pnl": -27.58
+   "trades": 120,
+   "wr": 34.2,
+   "pnl": -24.62
   },
   {
    "name": "exp2",
    "params": {
-    "max_concurrent": 2,
-    "risk_per_trade": 0.8,
-    "loss_streak_pause": 6
+    "atr_k": 0.9,
+    "rr": 1.8
    },
    "score": -1000000000.0,
-   "trades": 148,
-   "wr": 34.5,
-   "pnl": -18.14
+   "trades": 110,
+   "wr": 22.7,
+   "pnl": -44.14
   },
   {
    "name": "exp3",
    "params": {
-    "atr_k": 0.6,
-    "rr": 1.2,
-    "vol_spike_min": 1.2
+    "ttl_min": 420,
+    "ttl_max": 900
    },
    "score": -1000000000.0,
-   "trades": 106,
-   "wr": 36.8,
-   "pnl": -20.42
+   "trades": 111,
+   "wr": 32.4,
+   "pnl": -32.07
   }
  ],
  "experiment_applied": [],
