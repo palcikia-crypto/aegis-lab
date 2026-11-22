@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 982,
+ "steps": 983,
  "llm_used": 6,
  "llm_day": "20261122",
  "last_plan_ts": 1795311923306,
@@ -25,17 +25,7 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [
-  {
-   "name": "увеличение_фактора_риска",
-   "params": {
-    "risk_per_trade": 1.2
-   },
-   "module": null,
-   "note": "Попробовать увеличить фактор риска, чтобы увеличить потенциальную прибыль",
-   "rejected": []
-  }
- ],
+ "queue": [],
  "q_idx": 0,
  "best": null,
  "promoted": [],
