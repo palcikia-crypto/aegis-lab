@@ -1,68 +1,68 @@
 {
- "equity": 892.0056053112419,
- "day_key": 20778,
- "day_start_equity": 893.5084056254075,
+ "equity": 874.6543777797467,
+ "day_key": 20779,
+ "day_start_equity": 874.6543777797467,
  "consec_losses": 0,
- "paused_until": 1795036920000,
+ "paused_until": 1795255200000,
  "halted_until": 0,
  "positions": [],
  "adapt": {
-  "baseline|trend_up": {
-   "n": 64,
-   "ewma": -0.422,
-   "blocked": 24
-  },
   "baseline|trend_down": {
-   "n": 32,
-   "ewma": -0.52,
-   "blocked": 24
+   "n": 120,
+   "ewma": -0.3771,
+   "blocked": 29
+  },
+  "baseline|trend_up": {
+   "n": 39,
+   "ewma": -0.4005,
+   "blocked": 10
   },
   "trend_follow|trend_up": {
-   "n": 114,
-   "ewma": -0.36,
-   "blocked": 27
+   "n": 45,
+   "ewma": -0.3753,
+   "blocked": 33
   },
   "trend_follow|trend_down": {
-   "n": 90,
-   "ewma": -0.4207,
-   "blocked": 19
+   "n": 28,
+   "ewma": -0.5397,
+   "blocked": 2
   },
   "baseline|range": {
-   "n": 102,
-   "ewma": -0.3951,
-   "blocked": 38
+   "n": 83,
+   "ewma": -0.5064,
+   "blocked": 11
   },
   "mean_reversion|range": {
    "n": 13,
-   "ewma": -0.4282,
-   "blocked": 12
+   "ewma": -0.4586,
+   "blocked": 1
   },
   "baseline|volatile": {
-   "n": 13,
-   "ewma": -0.4808,
-   "blocked": 31
+   "n": 25,
+   "ewma": -0.4334,
+   "blocked": 12
   },
   "breakout|volatile": {
-   "n": 18,
-   "ewma": 0.2125,
-   "blocked": 0
-  },
-  "breakout|trend_up": {
-   "n": 29,
-   "ewma": -0.4323,
-   "blocked": 32
+   "n": 19,
+   "ewma": -0.4416,
+   "blocked": 11
   },
   "breakout|trend_down": {
-   "n": 80,
-   "ewma": -0.3821,
-   "blocked": 39
+   "n": 40,
+   "ewma": -0.6495,
+   "blocked": 4
+  },
+  "breakout|trend_up": {
+   "n": 43,
+   "ewma": -0.4222,
+   "blocked": 8
   }
  },
  "stats": {
-  "trades": 555,
-  "wins": 215,
-  "losses": 340,
-  "pnl": -107.99439468875705
+  "trades": 455,
+  "wins": 158,
+  "losses": 297,
+  "pnl": -125.34562222025271
  },
- "updated": 1795293028803
+ "updated": 1795308221239
 }
