@@ -1,6 +1,6 @@
 {
  "phase": "deep_scan",
- "steps": 1086,
+ "steps": 1087,
  "llm_used": 6,
  "llm_day": "20261122",
  "last_plan_ts": 1795311923306,
@@ -32,12 +32,12 @@
  "ckpts": 0,
  "pending": null,
  "triggers": {
-  "ml_shift": 1795308487257,
+  "ml_shift": 1795344718084,
   "lab_paper_drift": 1795317820514,
   "hunt_sterile": 1795318810019
  },
- "ml_seen_ts": 1795308221524,
- "ml_last_auc": 0.596,
+ "ml_seen_ts": 1795344296235,
+ "ml_last_auc": 0.535,
  "patterns_seen_ts": "2026-11-22 06:38 UTC",
  "hunt_clean": 1,
  "last_escalation": "lab_paper_drift",
