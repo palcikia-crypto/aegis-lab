@@ -5,14 +5,49 @@
  "consec_losses": 1,
  "paused_until": 1795184576243,
  "halted_until": 0,
- "positions": [],
+ "positions": [
+  {
+   "id": "SOXLUSDT-1795360698790",
+   "symbol": "SOXLUSDT",
+   "side": "long",
+   "entry": 33.82,
+   "dist": 0.185,
+   "rr": 1.5,
+   "tp": 34.0975,
+   "sl": 33.635,
+   "qty": 4.871,
+   "risk": 1.0,
+   "ttl": 720,
+   "opened_ts": 1795360698790,
+   "expires_ts": 1795361418790,
+   "status": "open",
+   "source": "okx",
+   "strategy": "mean_reversion",
+   "regime": "range",
+   "features": {
+    "close": 33.82,
+    "ema_fast": 33.887556,
+    "ema_slow": 33.917403,
+    "momentum": -0.12,
+    "vol_spike": 0.95,
+    "atr15": 0.264286,
+    "rsi14": 25.0,
+    "bb_z": -2.72,
+    "don_hi": 34.31,
+    "don_lo": 33.53,
+    "adx15": null,
+    "atr_pct": 0.0,
+    "ts": 1795360620000
+   }
+  }
+ ],
  "stats": {
   "trades": 128,
   "wins": 62,
   "losses": 66,
   "pnl": -11.968856221856955
  },
- "updated": 1795360216994,
+ "updated": 1795360712882,
  "adapt": {
   "mean_reversion|range": {
    "n": 34,
