@@ -1,95 +1,26 @@
 {
- "equity": 989.5210210320156,
+ "equity": 988.5382171268787,
  "day_key": 20780,
  "day_start_equity": 987.8854485975245,
  "consec_losses": 1,
  "paused_until": 1795184576243,
  "halted_until": 0,
- "positions": [
-  {
-   "id": "SOXLUSDT-1795401192607",
-   "symbol": "SOXLUSDT",
-   "side": "short",
-   "entry": 33.68,
-   "dist": 0.545,
-   "rr": 1.5,
-   "tp": 32.8625,
-   "sl": 34.225,
-   "qty": 1.7690000000000001,
-   "risk": 1.0,
-   "ttl": 720,
-   "opened_ts": 1795401192607,
-   "expires_ts": 1795401912607,
-   "status": "open",
-   "source": "okx",
-   "strategy": "baseline",
-   "regime": "range",
-   "features": {
-    "close": 33.68,
-    "ema_fast": 33.860444,
-    "ema_slow": 34.188658,
-    "momentum": -0.4,
-    "vol_spike": 1.725,
-    "atr15": 0.778571,
-    "rsi14": 12.37,
-    "bb_z": -1.464,
-    "don_hi": 35.27,
-    "don_lo": 33.42,
-    "adx15": null,
-    "atr_pct": 0.158,
-    "ts": 1795401120000
-   }
-  },
-  {
-   "id": "NVDAUSDT-1795401826240",
-   "symbol": "NVDAUSDT",
-   "side": "short",
-   "entry": 130.63,
-   "dist": 0.8595,
-   "rr": 1.5,
-   "tp": 129.34075,
-   "sl": 131.4895,
-   "qty": 1.066,
-   "risk": 1.0,
-   "ttl": 720,
-   "opened_ts": 1795401826240,
-   "expires_ts": 1795402546240,
-   "status": "open",
-   "source": "okx",
-   "strategy": "baseline",
-   "regime": "range",
-   "features": {
-    "close": 130.63,
-    "ema_fast": 131.015778,
-    "ema_slow": 131.404892,
-    "momentum": -0.66,
-    "vol_spike": 1.797,
-    "atr15": 1.227857,
-    "rsi14": 25.51,
-    "bb_z": -1.982,
-    "don_hi": 136.0,
-    "don_lo": 131.39,
-    "adx15": null,
-    "atr_pct": 0.684,
-    "ts": 1795401720000
-   }
-  }
- ],
+ "positions": [],
  "stats": {
-  "trades": 133,
-  "wins": 65,
-  "losses": 68,
-  "pnl": -10.47897896798499
+  "trades": 135,
+  "wins": 66,
+  "losses": 69,
+  "pnl": -11.461782873121782
  },
- "updated": 1795401838314,
+ "updated": 1795402322404,
  "adapt": {
   "mean_reversion|range": {
    "n": 38,
    "ewma": -0.0855
   },
   "baseline|range": {
-   "n": 68,
-   "ewma": -0.1402,
+   "n": 70,
+   "ewma": -0.2516,
    "blocked": 2
   },
   "trend_follow|trend_down": {
