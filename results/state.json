@@ -1,45 +1,11 @@
 {
- "equity": 989.0408481290741,
+ "equity": 990.4040375374373,
  "day_key": 20780,
  "day_start_equity": 987.8854485975245,
  "consec_losses": 0,
  "paused_until": 1795184576243,
  "halted_until": 0,
  "positions": [
-  {
-   "id": "SOXLUSDT-1795400158256",
-   "symbol": "SOXLUSDT",
-   "side": "short",
-   "entry": 34.68,
-   "dist": 0.5335,
-   "rr": 1.5,
-   "tp": 33.87975,
-   "sl": 35.2135,
-   "qty": 1.804,
-   "risk": 1.0,
-   "ttl": 720,
-   "opened_ts": 1795400158256,
-   "expires_ts": 1795400878256,
-   "status": "open",
-   "source": "okx",
-   "strategy": "baseline",
-   "regime": "range",
-   "features": {
-    "close": 34.68,
-    "ema_fast": 34.699556,
-    "ema_slow": 34.780866,
-    "momentum": -0.14,
-    "vol_spike": 2.884,
-    "atr15": 0.762143,
-    "rsi14": 35.23,
-    "bb_z": -0.916,
-    "don_hi": 35.27,
-    "don_lo": 33.42,
-    "adx15": null,
-    "atr_pct": 0.053,
-    "ts": 1795400100000
-   }
-  },
   {
    "id": "NVDAUSDT-1795400509515",
    "symbol": "NVDAUSDT",
@@ -73,23 +39,57 @@
     "atr_pct": 0.789,
     "ts": 1795400400000
    }
+  },
+  {
+   "id": "SOXLUSDT-1795401192607",
+   "symbol": "SOXLUSDT",
+   "side": "short",
+   "entry": 33.68,
+   "dist": 0.545,
+   "rr": 1.5,
+   "tp": 32.8625,
+   "sl": 34.225,
+   "qty": 1.7690000000000001,
+   "risk": 1.0,
+   "ttl": 720,
+   "opened_ts": 1795401192607,
+   "expires_ts": 1795401912607,
+   "status": "open",
+   "source": "okx",
+   "strategy": "baseline",
+   "regime": "range",
+   "features": {
+    "close": 33.68,
+    "ema_fast": 33.860444,
+    "ema_slow": 34.188658,
+    "momentum": -0.4,
+    "vol_spike": 1.725,
+    "atr15": 0.778571,
+    "rsi14": 12.37,
+    "bb_z": -1.464,
+    "don_hi": 35.27,
+    "don_lo": 33.42,
+    "adx15": null,
+    "atr_pct": 0.158,
+    "ts": 1795401120000
+   }
   }
  ],
  "stats": {
-  "trades": 131,
-  "wins": 64,
+  "trades": 132,
+  "wins": 65,
   "losses": 67,
-  "pnl": -10.959151870926576
+  "pnl": -9.595962462563374
  },
- "updated": 1795400865494,
+ "updated": 1795401207283,
  "adapt": {
   "mean_reversion|range": {
    "n": 37,
    "ewma": 0.0552
   },
   "baseline|range": {
-   "n": 67,
-   "ewma": -0.4055,
+   "n": 68,
+   "ewma": -0.1402,
    "blocked": 2
   },
   "trend_follow|trend_down": {
@@ -111,7 +111,7 @@
   "baseline|volatile": {
    "n": 50,
    "ewma": -0.3576,
-   "blocked": 5
+   "blocked": 6
   },
   "breakout|volatile": {
    "n": 15,

@@ -5,17 +5,52 @@
  "consec_losses": 3,
  "paused_until": 1795212127412,
  "halted_until": 0,
- "positions": [],
+ "positions": [
+  {
+   "id": "SOXLUSDT-1795401218985",
+   "symbol": "SOXLUSDT",
+   "side": "short",
+   "entry": 33.68,
+   "dist": 0.545,
+   "rr": 1.5,
+   "tp": 32.8625,
+   "sl": 34.225,
+   "qty": 1.7690000000000001,
+   "risk": 1.0,
+   "ttl": 720,
+   "opened_ts": 1795401218985,
+   "expires_ts": 1795401938985,
+   "status": "open",
+   "source": "lab-paper",
+   "strategy": "baseline",
+   "regime": "range",
+   "features": {
+    "close": 33.68,
+    "ema_fast": 33.860444,
+    "ema_slow": 34.188658,
+    "momentum": -0.4,
+    "vol_spike": 1.725,
+    "atr15": 0.778571,
+    "rsi14": 12.37,
+    "bb_z": -1.464,
+    "don_hi": 35.27,
+    "don_lo": 33.42,
+    "adx15": null,
+    "atr_pct": 0.158,
+    "ts": 1795401120000
+   }
+  }
+ ],
  "adapt": {
   "baseline|range": {
    "n": 20,
    "ewma": -0.5713,
-   "blocked": 39
+   "blocked": 1
   },
   "baseline|volatile": {
    "n": 27,
    "ewma": -0.4881,
-   "blocked": 35
+   "blocked": 36
   },
   "breakout|volatile": {
    "n": 10,
@@ -34,5 +69,5 @@
   "losses": 51,
   "pnl": -24.996623208835643
  },
- "updated": 1795400870271
+ "updated": 1795401218985
 }
