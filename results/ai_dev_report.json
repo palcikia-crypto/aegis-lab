@@ -1,29 +1,51 @@
 {
- "ts": "2026-11-23 18:32:31 UTC",
+ "ts": "2026-11-23 19:36:35 UTC",
  "ok": true,
- "latency_s": 5.9,
+ "latency_s": 6.6,
  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
- "thoughts": "Торговля идёт с незначительными убытками, дневная прибыль составляет -2.89. Система функционирует в пределах допустимых рисков. Буду ставить эксперименты с вариантами параметров, чтобы улучшить результаты.",
+ "thoughts": "Осмотрел состояние системы и результаты. Торговля идёт с незначительными убытками, последние сделки не принесли ожидаемой прибыли. Буду ставить эксперименты с вариантами параметров, чтобы улучшить результаты.",
  "params_applied": [
   {
    "param": "fee_edge_mult",
-   "value": 3.2,
-   "reason": "Попробовать увеличить fee_edge_mult, чтобы уменьшить количество сделок с низкой прибылью"
+   "value": 3.5,
+   "reason": "Увеличить коэффициент fee_edge_mult, чтобы улучшить результаты"
   },
   {
-   "param": "ttl_min",
-   "value": 480,
-   "reason": "Уменьшить ttl_min, чтобы увеличить количество сделок"
+   "param": "vol_spike_min",
+   "value": 1.8,
+   "reason": "Увеличить минимальный объём спайка, чтобы уменьшить количество сделок"
   }
  ],
  "experiments": [
   {
-   "name": "ошибка песочницы",
-   "error": "all history sources failed for BTCUSDT: HTTP Error 451:  | bybit range failed for BTCUSDT: api.bybit.com: HTTP Error 403: Forbidden | bybit range failed for BTC",
+   "name": "baseline (текущий)",
+   "params": {},
    "score": -1000000000.0,
-   "trades": 0,
-   "wr": 0,
-   "pnl": 0
+   "trades": 78,
+   "wr": 39.7,
+   "pnl": -14.37
+  },
+  {
+   "name": "exp1",
+   "params": {
+    "fee_edge_mult": 3.5,
+    "vol_spike_min": 1.8
+   },
+   "score": -1000000000.0,
+   "trades": 66,
+   "wr": 39.4,
+   "pnl": -14.17
+  },
+  {
+   "name": "exp2",
+   "params": {
+    "atr_k": 0.8,
+    "rr": 1.8
+   },
+   "score": -1000000000.0,
+   "trades": 119,
+   "wr": 37.0,
+   "pnl": -18.97
   }
  ],
  "experiment_applied": [],
