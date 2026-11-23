@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 1250,
+ "steps": 1251,
  "llm_used": 3,
  "llm_day": "20261123",
  "last_plan_ts": 1795398272540,
@@ -25,22 +25,7 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [
-  {
-   "name": "попытка_улучшения",
-   "params": {
-    "fee_edge_mult": 3.8,
-    "ttl_min": 540,
-    "risk_per_trade": 1.2
-   },
-   "module": {
-    "name": "filter_signal",
-    "error": "нет NAME (str, snake_case)"
-   },
-   "note": "Попробовать увеличить fee_edge_mult, ttl_min и risk_per_trade, добавить фильтр по волатильности",
-   "rejected": []
-  }
- ],
+ "queue": [],
  "q_idx": 0,
  "best": null,
  "promoted": [],
