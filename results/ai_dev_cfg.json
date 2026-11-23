@@ -1,5 +1,5 @@
 {
- "fee_edge_mult": 2.5,
+ "fee_edge_mult": 2.8,
  "vol_spike_min": 1.7,
  "ttl_min": 540,
  "atr_k": 0.7,
