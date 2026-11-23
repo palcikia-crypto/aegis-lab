@@ -1,66 +1,68 @@
 {
- "equity": 893.7496975727421,
- "day_key": 20779,
- "day_start_equity": 891.9670360745487,
- "consec_losses": 2,
- "paused_until": 1795092660000,
+ "equity": 891.5073397673863,
+ "day_key": 20780,
+ "day_start_equity": 894.8017580229127,
+ "consec_losses": 4,
+ "paused_until": 1795330740000,
  "halted_until": 0,
  "positions": [],
  "adapt": {
-  "trend_follow|trend_up": {
-   "n": 135,
-   "ewma": -0.4055,
-   "blocked": 0
-  },
-  "baseline|trend_down": {
-   "n": 41,
-   "ewma": -0.5319,
-   "blocked": 36
-  },
-  "baseline|trend_up": {
-   "n": 58,
-   "ewma": -0.4603,
-   "blocked": 23
-  },
-  "trend_follow|trend_down": {
-   "n": 80,
-   "ewma": -0.4122,
-   "blocked": 33
+  "mean_reversion|range": {
+   "n": 17,
+   "ewma": -0.4794,
+   "blocked": 32
   },
   "baseline|range": {
-   "n": 104,
-   "ewma": -0.4511,
-   "blocked": 30
+   "n": 60,
+   "ewma": -0.5739,
+   "blocked": 36
   },
-  "mean_reversion|range": {
-   "n": 12,
-   "ewma": -0.4927,
-   "blocked": 8
+  "baseline|trend_down": {
+   "n": 67,
+   "ewma": -0.5427,
+   "blocked": 22
+  },
+  "baseline|trend_up": {
+   "n": 68,
+   "ewma": -0.5946,
+   "blocked": 4
+  },
+  "trend_follow|trend_down": {
+   "n": 28,
+   "ewma": -0.5765,
+   "blocked": 29
+  },
+  "trend_follow|trend_up": {
+   "n": 67,
+   "ewma": -0.5227,
+   "blocked": 13
   },
   "baseline|volatile": {
-   "n": 19,
-   "ewma": -0.6388,
-   "blocked": 17
-  },
-  "breakout|volatile": {
-   "n": 55,
-   "ewma": 0.3108
+   "n": 12,
+   "ewma": -0.5069,
+   "blocked": 37
   },
   "breakout|trend_up": {
-   "n": 66,
-   "ewma": 0.3019
+   "n": 16,
+   "ewma": -0.6121,
+   "blocked": 1
+  },
+  "breakout|volatile": {
+   "n": 28,
+   "ewma": -0.4969,
+   "blocked": 1
   },
   "breakout|trend_down": {
-   "n": 33,
-   "ewma": -0.424,
-   "blocked": 24
+   "n": 34,
+   "ewma": -0.572,
+   "blocked": 5
   }
  },
  "stats": {
-  "trades": 603,
-  "wins": 227,
-  "losses": 376,
-  "pnl": -106.25030242725815
+  "trades": 397,
+  "wins": 122,
+  "losses": 275,
+  "pnl": -108.49266023261333
  },
- "updated": 1795344295883
+ "updated": 1795434137135
 }
