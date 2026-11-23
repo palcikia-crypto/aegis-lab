@@ -1,50 +1,118 @@
 {
- "equity": 975.9259509794127,
+ "equity": 975.1369277024047,
  "day_key": 20780,
  "day_start_equity": 975.0033767911648,
- "consec_losses": 0,
+ "consec_losses": 1,
  "paused_until": 1795212127412,
  "halted_until": 0,
  "positions": [
   {
-   "id": "BTCUSDT-1795458410087",
-   "symbol": "BTCUSDT",
-   "side": "long",
-   "entry": 61662.5,
-   "dist": 336.62,
+   "id": "ETHUSDT-1795459155838",
+   "symbol": "ETHUSDT",
+   "side": "short",
+   "entry": 1738.29,
+   "dist": 10.4665,
    "rr": 1.5,
-   "tp": 62167.43,
-   "sl": 61325.88,
-   "qty": 0.002,
+   "tp": 1722.59025,
+   "sl": 1748.7565,
+   "qty": 0.08,
    "risk": 1.0,
    "ttl": 720,
-   "opened_ts": 1795458410087,
-   "expires_ts": 1795459130087,
+   "opened_ts": 1795459155838,
+   "expires_ts": 1795459875838,
    "status": "open",
    "source": "lab-paper",
    "strategy": "baseline",
    "regime": "range",
    "features": {
-    "close": 61662.5,
-    "ema_fast": 61563.468889,
-    "ema_slow": 61561.075758,
-    "momentum": 186.5,
-    "vol_spike": 2.05,
-    "atr15": 480.885714,
-    "rsi14": 64.46,
-    "bb_z": 1.846,
-    "don_hi": 64570.0,
-    "don_lo": 61052.0,
+    "close": 1738.29,
+    "ema_fast": 1742.829556,
+    "ema_slow": 1744.220303,
+    "momentum": -6.61,
+    "vol_spike": 3.003,
+    "atr15": 14.952143,
+    "rsi14": 18.25,
+    "bb_z": -3.192,
+    "don_hi": 1844.99,
+    "don_lo": 1717.83,
+    "adx15": null,
+    "atr_pct": 0.053,
+    "ts": 1795459080000
+   }
+  },
+  {
+   "id": "SOXLUSDT-1795459155838",
+   "symbol": "SOXLUSDT",
+   "side": "short",
+   "entry": 42.52,
+   "dist": 0.683,
+   "rr": 1.5,
+   "tp": 41.4955,
+   "sl": 43.203,
+   "qty": 1.411,
+   "risk": 1.0,
+   "ttl": 720,
+   "opened_ts": 1795459155838,
+   "expires_ts": 1795459875838,
+   "status": "open",
+   "source": "lab-paper",
+   "strategy": "baseline",
+   "regime": "range",
+   "features": {
+    "close": 42.52,
+    "ema_fast": 42.830222,
+    "ema_slow": 42.965887,
+    "momentum": -0.42,
+    "vol_spike": 3.839,
+    "atr15": 0.975714,
+    "rsi14": 18.35,
+    "bb_z": -2.654,
+    "don_hi": 45.43,
+    "don_lo": 35.54,
+    "adx15": null,
+    "atr_pct": 0.053,
+    "ts": 1795459080000
+   }
+  },
+  {
+   "id": "SNDKUSDT-1795459155838",
+   "symbol": "SNDKUSDT",
+   "side": "short",
+   "entry": 89.32,
+   "dist": 1.048,
+   "rr": 1.5,
+   "tp": 87.748,
+   "sl": 90.368,
+   "qty": 0.907,
+   "risk": 1.0,
+   "ttl": 720,
+   "opened_ts": 1795459155838,
+   "expires_ts": 1795459875838,
+   "status": "open",
+   "source": "lab-paper",
+   "strategy": "baseline",
+   "regime": "range",
+   "features": {
+    "close": 89.32,
+    "ema_fast": 89.790222,
+    "ema_slow": 90.094459,
+    "momentum": -0.84,
+    "vol_spike": 2.169,
+    "atr15": 1.497143,
+    "rsi14": 5.0,
+    "bb_z": -2.398,
+    "don_hi": 100.84,
+    "don_lo": 83.25,
     "adx15": null,
     "atr_pct": 0.158,
-    "ts": 1795458300000
+    "ts": 1795459080000
    }
   }
  ],
  "adapt": {
   "baseline|range": {
-   "n": 22,
-   "ewma": -0.2625,
+   "n": 23,
+   "ewma": -0.3415,
    "blocked": 3
   },
   "baseline|volatile": {
@@ -60,14 +128,14 @@
   "mean_reversion|range": {
    "n": 24,
    "ewma": -0.529,
-   "blocked": 12
+   "blocked": 13
   }
  },
  "stats": {
-  "trades": 85,
+  "trades": 86,
   "wins": 33,
-  "losses": 52,
-  "pnl": -24.074049020587594
+  "losses": 53,
+  "pnl": -24.863072297595608
  },
- "updated": 1795458822967
+ "updated": 1795459155838
 }
