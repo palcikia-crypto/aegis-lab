@@ -1,84 +1,15 @@
 {
- "equity": 975.250820656743,
+ "equity": 973.404421557323,
  "day_key": 20780,
  "day_start_equity": 975.0033767911648,
- "consec_losses": 0,
+ "consec_losses": 2,
  "paused_until": 1795212127412,
  "halted_until": 0,
- "positions": [
-  {
-   "id": "BTCUSDT-1795460181481",
-   "symbol": "BTCUSDT",
-   "side": "short",
-   "entry": 61357.0,
-   "dist": 297.93,
-   "rr": 1.5,
-   "tp": 60910.105,
-   "sl": 61654.93,
-   "qty": 0.002,
-   "risk": 1.0,
-   "ttl": 720,
-   "opened_ts": 1795460181481,
-   "expires_ts": 1795460901481,
-   "status": "open",
-   "source": "lab-paper",
-   "strategy": "baseline",
-   "regime": "range",
-   "features": {
-    "close": 61357.0,
-    "ema_fast": 61373.115556,
-    "ema_slow": 61376.251082,
-    "momentum": -1.2,
-    "vol_spike": 2.174,
-    "atr15": 425.614286,
-    "rsi14": 52.08,
-    "bb_z": -0.179,
-    "don_hi": 64570.0,
-    "don_lo": 61200.0,
-    "adx15": null,
-    "atr_pct": 0.0,
-    "ts": 1795460100000
-   }
-  },
-  {
-   "id": "SNDKUSDT-1795460517625",
-   "symbol": "SNDKUSDT",
-   "side": "short",
-   "entry": 88.95,
-   "dist": 0.8525,
-   "rr": 1.5,
-   "tp": 87.67125,
-   "sl": 89.8025,
-   "qty": 1.103,
-   "risk": 1.0,
-   "ttl": 720,
-   "opened_ts": 1795460517625,
-   "expires_ts": 1795461237625,
-   "status": "open",
-   "source": "lab-paper",
-   "strategy": "baseline",
-   "regime": "range",
-   "features": {
-    "close": 88.95,
-    "ema_fast": 89.118,
-    "ema_slow": 89.229221,
-    "momentum": -0.29,
-    "vol_spike": 2.221,
-    "atr15": 1.217857,
-    "rsi14": 42.44,
-    "bb_z": -1.75,
-    "don_hi": 100.84,
-    "don_lo": 88.54,
-    "adx15": null,
-    "atr_pct": 0.0,
-    "ts": 1795460400000
-   }
-  }
- ],
+ "positions": [],
  "adapt": {
   "baseline|range": {
-   "n": 26,
-   "ewma": -0.1896,
+   "n": 28,
+   "ewma": -0.3967,
    "blocked": 3
   },
   "baseline|volatile": {
@@ -98,10 +29,10 @@
   }
  },
  "stats": {
-  "trades": 89,
+  "trades": 91,
   "wins": 35,
-  "losses": 54,
-  "pnl": -24.74917934325722
+  "losses": 56,
+  "pnl": -26.59557844267725
  },
- "updated": 1795460517625
+ "updated": 1795460855172
 }
