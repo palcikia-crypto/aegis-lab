@@ -5,14 +5,49 @@
  "consec_losses": 2,
  "paused_until": 1795184576243,
  "halted_until": 0,
- "positions": [],
+ "positions": [
+  {
+   "id": "NVDAUSDT-1795521792158",
+   "symbol": "NVDAUSDT",
+   "side": "long",
+   "entry": 156.82,
+   "dist": 1.192,
+   "rr": 1.5,
+   "tp": 158.608,
+   "sl": 155.628,
+   "qty": 0.777,
+   "risk": 1.0,
+   "ttl": 720,
+   "opened_ts": 1795521792158,
+   "expires_ts": 1795522512158,
+   "status": "open",
+   "source": "okx",
+   "strategy": "mean_reversion",
+   "regime": "range",
+   "features": {
+    "close": 156.82,
+    "ema_fast": 157.667111,
+    "ema_slow": 157.727792,
+    "momentum": -1.04,
+    "vol_spike": 1.205,
+    "atr15": 1.702857,
+    "rsi14": 17.96,
+    "bb_z": -2.795,
+    "don_hi": 164.5,
+    "don_lo": 155.04,
+    "adx15": null,
+    "atr_pct": 0.789,
+    "ts": 1795521720000
+   }
+  }
+ ],
  "stats": {
   "trades": 171,
   "wins": 83,
   "losses": 88,
   "pnl": -12.344365523604127
  },
- "updated": 1795521449600,
+ "updated": 1795521806747,
  "adapt": {
   "mean_reversion|range": {
    "n": 57,
@@ -42,7 +77,7 @@
   "baseline|volatile": {
    "n": 50,
    "ewma": -0.3576,
-   "blocked": 25
+   "blocked": 26
   },
   "breakout|volatile": {
    "n": 15,
