@@ -1,57 +1,57 @@
 {
- "equity": 988.9379081999543,
+ "equity": 989.0629247625529,
  "day_key": 20781,
  "day_start_equity": 989.2312093944226,
- "consec_losses": 1,
+ "consec_losses": 0,
  "paused_until": 1795184576243,
  "halted_until": 0,
  "positions": [
   {
-   "id": "SOXLUSDT-1795550348685",
-   "symbol": "SOXLUSDT",
-   "side": "long",
-   "entry": 32.74,
-   "dist": 0.6525,
+   "id": "NVDAUSDT-1795551409709",
+   "symbol": "NVDAUSDT",
+   "side": "short",
+   "entry": 153.51,
+   "dist": 0.8145,
    "rr": 1.5,
-   "tp": 33.71875,
-   "sl": 32.0875,
-   "qty": 1.487,
+   "tp": 152.28825,
+   "sl": 154.3245,
+   "qty": 1.103,
    "risk": 1.0,
    "ttl": 720,
-   "opened_ts": 1795550348685,
-   "expires_ts": 1795551068685,
+   "opened_ts": 1795551409709,
+   "expires_ts": 1795552129709,
    "status": "open",
    "source": "okx",
    "strategy": "mean_reversion",
    "regime": "range",
    "features": {
-    "close": 32.74,
-    "ema_fast": 33.141778,
-    "ema_slow": 33.330043,
-    "momentum": -0.71,
-    "vol_spike": 1.112,
-    "atr15": 0.932143,
-    "rsi14": 10.92,
-    "bb_z": -2.236,
-    "don_hi": 35.8,
-    "don_lo": 30.22,
+    "close": 153.51,
+    "ema_fast": 152.896667,
+    "ema_slow": 152.762381,
+    "momentum": 0.82,
+    "vol_spike": 1.178,
+    "atr15": 1.163571,
+    "rsi14": 70.12,
+    "bb_z": 2.599,
+    "don_hi": 154.57,
+    "don_lo": 150.78,
     "adx15": null,
-    "atr_pct": 0.5,
-    "ts": 1795550280000
+    "atr_pct": 0.0,
+    "ts": 1795551360000
    }
   }
  ],
  "stats": {
-  "trades": 175,
-  "wins": 85,
+  "trades": 176,
+  "wins": 86,
   "losses": 90,
-  "pnl": -11.062091800046314
+  "pnl": -10.937075237447718
  },
- "updated": 1795551068773,
+ "updated": 1795551423847,
  "adapt": {
   "mean_reversion|range": {
-   "n": 61,
-   "ewma": 0.259
+   "n": 62,
+   "ewma": 0.2389
   },
   "baseline|range": {
    "n": 87,
