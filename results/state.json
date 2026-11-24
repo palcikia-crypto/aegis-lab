@@ -1,91 +1,22 @@
 {
- "equity": 987.1666986602823,
+ "equity": 989.1428225121783,
  "day_key": 20781,
  "day_start_equity": 989.2312093944226,
- "consec_losses": 3,
+ "consec_losses": 0,
  "paused_until": 1795184576243,
  "halted_until": 0,
- "positions": [
-  {
-   "id": "BTCUSDT-1795530714229",
-   "symbol": "BTCUSDT",
-   "side": "short",
-   "entry": 60611.5,
-   "dist": 255.385,
-   "rr": 1.5,
-   "tp": 60228.4225,
-   "sl": 60866.885,
-   "qty": 0.003,
-   "risk": 1.0,
-   "ttl": 720,
-   "opened_ts": 1795530714229,
-   "expires_ts": 1795531434229,
-   "status": "open",
-   "source": "okx",
-   "strategy": "mean_reversion",
-   "regime": "range",
-   "features": {
-    "close": 60611.5,
-    "ema_fast": 60432.335556,
-    "ema_slow": 60366.777056,
-    "momentum": 323.8,
-    "vol_spike": 19.387,
-    "atr15": 364.835714,
-    "rsi14": 75.24,
-    "bb_z": 3.405,
-    "don_hi": 60632.0,
-    "don_lo": 59366.0,
-    "adx15": null,
-    "atr_pct": 0.526,
-    "ts": 1795530600000
-   }
-  },
-  {
-   "id": "ETHUSDT-1795530714229",
-   "symbol": "ETHUSDT",
-   "side": "short",
-   "entry": 1703.61,
-   "dist": 7.9115,
-   "rr": 1.5,
-   "tp": 1691.74275,
-   "sl": 1711.5215,
-   "qty": 0.11,
-   "risk": 1.0,
-   "ttl": 720,
-   "opened_ts": 1795530714229,
-   "expires_ts": 1795531434229,
-   "status": "open",
-   "source": "okx",
-   "strategy": "mean_reversion",
-   "regime": "range",
-   "features": {
-    "close": 1703.61,
-    "ema_fast": 1699.132667,
-    "ema_slow": 1697.60697,
-    "momentum": 8.75,
-    "vol_spike": 5.936,
-    "atr15": 11.302143,
-    "rsi14": 77.04,
-    "bb_z": 3.188,
-    "don_hi": 1707.68,
-    "don_lo": 1671.75,
-    "adx15": null,
-    "atr_pct": 0.158,
-    "ts": 1795530600000
-   }
-  }
- ],
+ "positions": [],
  "stats": {
-  "trades": 172,
-  "wins": 83,
+  "trades": 174,
+  "wins": 85,
   "losses": 89,
-  "pnl": -12.833301339718314
+  "pnl": -10.857177487822314
  },
- "updated": 1795530726872,
+ "updated": 1795531064647,
  "adapt": {
   "mean_reversion|range": {
-   "n": 58,
-   "ewma": 0.0901
+   "n": 60,
+   "ewma": 0.3409
   },
   "baseline|range": {
    "n": 87,
@@ -111,7 +42,7 @@
   "baseline|volatile": {
    "n": 50,
    "ewma": -0.3576,
-   "blocked": 33
+   "blocked": 36
   },
   "breakout|volatile": {
    "n": 15,
