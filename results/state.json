@@ -1,95 +1,26 @@
 {
- "equity": 988.2542043373128,
+ "equity": 988.552374664306,
  "day_key": 20781,
  "day_start_equity": 989.2312093944226,
- "consec_losses": 1,
+ "consec_losses": 0,
  "paused_until": 1795184576243,
  "halted_until": 0,
- "positions": [
-  {
-   "id": "SOXLUSDT-1795563322170",
-   "symbol": "SOXLUSDT",
-   "side": "short",
-   "entry": 32.44,
-   "dist": 0.3725,
-   "rr": 1.5,
-   "tp": 31.88125,
-   "sl": 32.8125,
-   "qty": 2.551,
-   "risk": 1.0,
-   "ttl": 720,
-   "opened_ts": 1795563322170,
-   "expires_ts": 1795564042170,
-   "status": "open",
-   "source": "okx",
-   "strategy": "baseline",
-   "regime": "range",
-   "features": {
-    "close": 32.44,
-    "ema_fast": 32.731556,
-    "ema_slow": 32.846061,
-    "momentum": -0.43,
-    "vol_spike": 1.91,
-    "atr15": 0.532143,
-    "rsi14": 31.43,
-    "bb_z": -2.594,
-    "don_hi": 34.13,
-    "don_lo": 31.94,
-    "adx15": null,
-    "atr_pct": 0.421,
-    "ts": 1795563240000
-   }
-  },
-  {
-   "id": "NVDAUSDT-1795563322170",
-   "symbol": "NVDAUSDT",
-   "side": "long",
-   "entry": 152.94,
-   "dist": 0.7035,
-   "rr": 1.5,
-   "tp": 153.99525,
-   "sl": 152.2365,
-   "qty": 1.2570000000000001,
-   "risk": 1.0,
-   "ttl": 720,
-   "opened_ts": 1795563322170,
-   "expires_ts": 1795564042170,
-   "status": "open",
-   "source": "okx",
-   "strategy": "mean_reversion",
-   "regime": "range",
-   "features": {
-    "close": 152.94,
-    "ema_fast": 153.481333,
-    "ema_slow": 153.795844,
-    "momentum": -0.84,
-    "vol_spike": 1.202,
-    "atr15": 1.005,
-    "rsi14": 8.57,
-    "bb_z": -2.422,
-    "don_hi": 155.85,
-    "don_lo": 152.21,
-    "adx15": null,
-    "atr_pct": 0.526,
-    "ts": 1795563240000
-   }
-  }
- ],
+ "positions": [],
  "stats": {
-  "trades": 178,
-  "wins": 87,
+  "trades": 180,
+  "wins": 89,
   "losses": 91,
-  "pnl": -11.745795662687916
+  "pnl": -11.447625335694712
  },
- "updated": 1795564030536,
+ "updated": 1795564374044,
  "adapt": {
   "mean_reversion|range": {
-   "n": 63,
-   "ewma": 0.2536
+   "n": 64,
+   "ewma": 0.2317
   },
   "baseline|range": {
-   "n": 87,
-   "ewma": -0.5699,
+   "n": 88,
+   "ewma": -0.4558,
    "blocked": 1
   },
   "trend_follow|trend_down": {
