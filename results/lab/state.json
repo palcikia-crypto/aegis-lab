@@ -1,9 +1,9 @@
 {
- "phase": "deep_scan",
- "steps": 1506,
- "llm_used": 4,
+ "phase": "evaluate",
+ "steps": 1507,
+ "llm_used": 5,
  "llm_day": "20261124",
- "last_plan_ts": 1795486992285,
+ "last_plan_ts": 1795489830741,
  "baseline_ts": 1794975621027,
  "baseline": {
   "name": "baseline-оригинал",
@@ -25,7 +25,17 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [],
+ "queue": [
+  {
+   "name": "увеличение_fee_edge_mult",
+   "params": {
+    "fee_edge_mult": 3.8
+   },
+   "module": null,
+   "note": "Попробовать увеличить fee_edge_mult, чтобы увеличить количество выигрышных трейдов",
+   "rejected": []
+  }
+ ],
  "q_idx": 0,
  "best": null,
  "promoted": [],
