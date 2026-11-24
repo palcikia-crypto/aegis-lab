@@ -1,57 +1,57 @@
 {
- "equity": 989.1428225121783,
+ "equity": 988.9379081999543,
  "day_key": 20781,
  "day_start_equity": 989.2312093944226,
- "consec_losses": 0,
+ "consec_losses": 1,
  "paused_until": 1795184576243,
  "halted_until": 0,
  "positions": [
   {
-   "id": "BTCUSDT-1795549155854",
-   "symbol": "BTCUSDT",
+   "id": "SOXLUSDT-1795550348685",
+   "symbol": "SOXLUSDT",
    "side": "long",
-   "entry": 59718.5,
-   "dist": 209.89,
+   "entry": 32.74,
+   "dist": 0.6525,
    "rr": 1.5,
-   "tp": 60033.335,
-   "sl": 59508.61,
-   "qty": 0.004,
+   "tp": 33.71875,
+   "sl": 32.0875,
+   "qty": 1.487,
    "risk": 1.0,
    "ttl": 720,
-   "opened_ts": 1795549155854,
-   "expires_ts": 1795549875854,
+   "opened_ts": 1795550348685,
+   "expires_ts": 1795551068685,
    "status": "open",
    "source": "okx",
    "strategy": "mean_reversion",
    "regime": "range",
    "features": {
-    "close": 59718.5,
-    "ema_fast": 59803.202222,
-    "ema_slow": 59851.837662,
-    "momentum": -163.9,
-    "vol_spike": 2.592,
-    "atr15": 299.842857,
-    "rsi14": 22.31,
-    "bb_z": -2.486,
-    "don_hi": 60530.6,
-    "don_lo": 59231.8,
+    "close": 32.74,
+    "ema_fast": 33.141778,
+    "ema_slow": 33.330043,
+    "momentum": -0.71,
+    "vol_spike": 1.112,
+    "atr15": 0.932143,
+    "rsi14": 10.92,
+    "bb_z": -2.236,
+    "don_hi": 35.8,
+    "don_lo": 30.22,
     "adx15": null,
-    "atr_pct": 0.211,
-    "ts": 1795549080000
+    "atr_pct": 0.5,
+    "ts": 1795550280000
    }
   }
  ],
  "stats": {
-  "trades": 174,
+  "trades": 175,
   "wins": 85,
-  "losses": 89,
-  "pnl": -10.857177487822314
+  "losses": 90,
+  "pnl": -11.062091800046314
  },
- "updated": 1795549868422,
+ "updated": 1795550363256,
  "adapt": {
   "mean_reversion|range": {
-   "n": 60,
-   "ewma": 0.3409
+   "n": 61,
+   "ewma": 0.259
   },
   "baseline|range": {
    "n": 87,
