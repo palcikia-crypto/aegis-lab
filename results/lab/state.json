@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 1507,
+ "steps": 1508,
  "llm_used": 5,
  "llm_day": "20261124",
  "last_plan_ts": 1795489830741,
@@ -25,17 +25,7 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [
-  {
-   "name": "увеличение_fee_edge_mult",
-   "params": {
-    "fee_edge_mult": 3.8
-   },
-   "module": null,
-   "note": "Попробовать увеличить fee_edge_mult, чтобы увеличить количество выигрышных трейдов",
-   "rejected": []
-  }
- ],
+ "queue": [],
  "q_idx": 0,
  "best": null,
  "promoted": [],
