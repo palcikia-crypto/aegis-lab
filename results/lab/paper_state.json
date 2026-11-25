@@ -15,7 +15,7 @@
   "baseline|volatile": {
    "n": 29,
    "ewma": -0.3959,
-   "blocked": 33
+   "blocked": 35
   },
   "breakout|volatile": {
    "n": 10,
@@ -34,5 +34,5 @@
   "losses": 59,
   "pnl": -27.80296688400715
  },
- "updated": 1795597684685
+ "updated": 1795598030979
 }
