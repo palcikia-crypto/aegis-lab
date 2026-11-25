@@ -1,21 +1,14 @@
 {
- "ts": "2026-11-25 06:56:28 UTC",
- "latency_s": 2.1,
+ "ts": "2026-11-25 07:13:45 UTC",
+ "latency_s": 2.4,
  "ok": true,
  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
  "verdict": "ok",
- "summary": "Торговля идёт стабильно, небольшая прибыль за день",
+ "summary": "Торговля идёт с небольшой прибылью, дневная прибыль составляет 1.77. Система функционирует в пределах допустимых рисков.",
  "risks": [
-  "loss_streak_pause может быть слишком велик",
-  "fee_edge_mult может быть слишком мал"
+  "loss_streak_pause может быть достигнут при 6 последовательных убытках"
  ],
- "actions_applied": [
-  {
-   "param": "loss_streak_pause",
-   "value": 4,
-   "reason": "чтобы не пропустить слишком много возможных сделок"
-  }
- ],
+ "actions_applied": [],
  "actions_rejected": [],
- "last_trade_closed": 1795589424904
+ "last_trade_closed": 1795590477738
 }

@@ -1,91 +1,22 @@
 {
- "equity": 989.8599504595805,
+ "equity": 990.3211835511737,
  "day_key": 20782,
  "day_start_equity": 988.552374664306,
  "consec_losses": 0,
  "paused_until": 1795184576243,
  "halted_until": 0,
- "positions": [
-  {
-   "id": "SOXLUSDT-1795589757738",
-   "symbol": "SOXLUSDT",
-   "side": "long",
-   "entry": 29.67,
-   "dist": 0.3605,
-   "rr": 1.5,
-   "tp": 30.21075,
-   "sl": 29.3095,
-   "qty": 2.6430000000000002,
-   "risk": 1.0,
-   "ttl": 720,
-   "opened_ts": 1795589757738,
-   "expires_ts": 1795590477738,
-   "status": "open",
-   "source": "okx",
-   "strategy": "mean_reversion",
-   "regime": "range",
-   "features": {
-    "close": 29.67,
-    "ema_fast": 29.990889,
-    "ema_slow": 30.075195,
-    "momentum": -0.36,
-    "vol_spike": 17.834,
-    "atr15": 0.515,
-    "rsi14": 29.41,
-    "bb_z": -3.059,
-    "don_hi": 31.67,
-    "don_lo": 29.94,
-    "adx15": null,
-    "atr_pct": 0.684,
-    "ts": 1795589700000
-   }
-  },
-  {
-   "id": "SNDKUSDT-1795589757738",
-   "symbol": "SNDKUSDT",
-   "side": "long",
-   "entry": 74.82,
-   "dist": 0.4275,
-   "rr": 1.5,
-   "tp": 75.46125,
-   "sl": 74.3925,
-   "qty": 2.116,
-   "risk": 1.0,
-   "ttl": 720,
-   "opened_ts": 1795589757738,
-   "expires_ts": 1795590477738,
-   "status": "open",
-   "source": "okx",
-   "strategy": "mean_reversion",
-   "regime": "range",
-   "features": {
-    "close": 74.82,
-    "ema_fast": 75.211111,
-    "ema_slow": 75.365455,
-    "momentum": -0.56,
-    "vol_spike": 4.928,
-    "atr15": 0.610714,
-    "rsi14": 15.96,
-    "bb_z": -2.898,
-    "don_hi": 76.72,
-    "don_lo": 74.25,
-    "adx15": null,
-    "atr_pct": 0.579,
-    "ts": 1795589700000
-   }
-  }
- ],
+ "positions": [],
  "stats": {
-  "trades": 183,
-  "wins": 91,
+  "trades": 185,
+  "wins": 93,
   "losses": 92,
-  "pnl": -10.140049540420113
+  "pnl": -9.678816448826902
  },
- "updated": 1795590481212,
+ "updated": 1795590818695,
  "adapt": {
   "mean_reversion|range": {
-   "n": 67,
-   "ewma": 0.3202
+   "n": 69,
+   "ewma": 0.2947
   },
   "baseline|range": {
    "n": 88,
