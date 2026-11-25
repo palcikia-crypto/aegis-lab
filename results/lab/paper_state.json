@@ -1,50 +1,15 @@
 {
- "equity": 972.2565319888905,
+ "equity": 973.3348828072906,
  "day_key": 20782,
  "day_start_equity": 972.2565319888905,
- "consec_losses": 4,
+ "consec_losses": 0,
  "paused_until": 1795212127412,
  "halted_until": 0,
- "positions": [
-  {
-   "id": "NVDAUSDT-1795565191684",
-   "symbol": "NVDAUSDT",
-   "side": "short",
-   "entry": 153.0,
-   "dist": 0.705,
-   "rr": 1.5,
-   "tp": 151.9425,
-   "sl": 153.705,
-   "qty": 1.2550000000000001,
-   "risk": 1.0,
-   "ttl": 720,
-   "opened_ts": 1795565191684,
-   "expires_ts": 1795565911684,
-   "status": "open",
-   "source": "lab-paper",
-   "strategy": "baseline",
-   "regime": "range",
-   "features": {
-    "close": 153.0,
-    "ema_fast": 153.029333,
-    "ema_slow": 153.121645,
-    "momentum": -0.09,
-    "vol_spike": 2.156,
-    "atr15": 1.007143,
-    "rsi14": 46.77,
-    "bb_z": -0.645,
-    "don_hi": 155.85,
-    "don_lo": 152.21,
-    "adx15": null,
-    "atr_pct": 0.421,
-    "ts": 1795565100000
-   }
-  }
- ],
+ "positions": [],
  "adapt": {
   "baseline|range": {
-   "n": 30,
-   "ewma": -0.4574,
+   "n": 31,
+   "ewma": -0.227,
    "blocked": 2
   },
   "baseline|volatile": {
@@ -64,10 +29,10 @@
   }
  },
  "stats": {
-  "trades": 93,
-  "wins": 35,
+  "trades": 94,
+  "wins": 36,
   "losses": 58,
-  "pnl": -27.74346801110968
+  "pnl": -26.66511719270967
  },
- "updated": 1795565537810
+ "updated": 1795565894164
 }
