@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 1732,
+ "steps": 1733,
  "llm_used": 3,
  "llm_day": "20261125",
  "last_plan_ts": 1795570541702,
@@ -25,18 +25,7 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [
-  {
-   "name": "test1",
-   "params": {
-    "fee_edge_mult": 3.8,
-    "ttl_min": 480
-   },
-   "module": null,
-   "note": "Попробовать увеличить fee_edge_mult и ttl_min, чтобы улучшить прибыльность сделок",
-   "rejected": []
-  }
- ],
+ "queue": [],
  "q_idx": 0,
  "best": null,
  "promoted": [],
