@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 1919,
+ "steps": 1920,
  "llm_used": 1,
  "llm_day": "20261126",
  "last_plan_ts": 1795651484571,
@@ -25,19 +25,7 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [
-  {
-   "name": "коррекция_параметров",
-   "params": {
-    "fee_edge_mult": 3.5,
-    "ttl_min": 420,
-    "risk_per_trade": 0.8
-   },
-   "module": null,
-   "note": "Уменьшение риска и увеличение минимального времени жизни сделки",
-   "rejected": []
-  }
- ],
+ "queue": [],
  "q_idx": 0,
  "best": null,
  "promoted": [],
