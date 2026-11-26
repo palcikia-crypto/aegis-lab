@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 1935,
+ "steps": 1936,
  "llm_used": 3,
  "llm_day": "20261126",
  "last_plan_ts": 1795657188117,
@@ -25,18 +25,7 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [
-  {
-   "name": "test1",
-   "params": {
-    "risk_per_trade": 0.8,
-    "atr_k": 0.8
-   },
-   "module": null,
-   "note": "Попробовать уменьшить риск и увеличить чувствительность к волатильности",
-   "rejected": []
-  }
- ],
+ "queue": [],
  "q_idx": 0,
  "best": null,
  "promoted": [],
