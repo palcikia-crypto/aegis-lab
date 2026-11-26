@@ -1,9 +1,9 @@
 {
- "phase": "deep_scan",
- "steps": 1926,
- "llm_used": 1,
+ "phase": "evaluate",
+ "steps": 1927,
+ "llm_used": 2,
  "llm_day": "20261126",
- "last_plan_ts": 1795651484571,
+ "last_plan_ts": 1795654417612,
  "baseline_ts": 1794975621027,
  "baseline": {
   "name": "baseline-оригинал",
@@ -25,7 +25,17 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [],
+ "queue": [
+  {
+   "name": "test_fee_edge_mult",
+   "params": {
+    "fee_edge_mult": 3.0
+   },
+   "module": null,
+   "note": "Проверка влияния увеличения fee_edge_mult на результаты",
+   "rejected": []
+  }
+ ],
  "q_idx": 0,
  "best": null,
  "promoted": [],
