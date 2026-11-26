@@ -1,9 +1,9 @@
 {
- "phase": "deep_scan",
- "steps": 1934,
- "llm_used": 2,
+ "phase": "evaluate",
+ "steps": 1935,
+ "llm_used": 3,
  "llm_day": "20261126",
- "last_plan_ts": 1795654417612,
+ "last_plan_ts": 1795657188117,
  "baseline_ts": 1794975621027,
  "baseline": {
   "name": "baseline-оригинал",
@@ -25,7 +25,18 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [],
+ "queue": [
+  {
+   "name": "test1",
+   "params": {
+    "risk_per_trade": 0.8,
+    "atr_k": 0.8
+   },
+   "module": null,
+   "note": "Попробовать уменьшить риск и увеличить чувствительность к волатильности",
+   "rejected": []
+  }
+ ],
  "q_idx": 0,
  "best": null,
  "promoted": [],

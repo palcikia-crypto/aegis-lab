@@ -60,7 +60,7 @@
   "mean_reversion|range": {
    "n": 24,
    "ewma": -0.529,
-   "blocked": 32
+   "blocked": 33
   }
  },
  "stats": {
@@ -69,5 +69,5 @@
   "losses": 59,
   "pnl": -27.80296688400715
  },
- "updated": 1795656847511
+ "updated": 1795657184785
 }
