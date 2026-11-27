@@ -1,5 +1,5 @@
 {
- "equity": 970.693418136998,
+ "equity": 971.8461456240782,
  "day_key": 20784,
  "day_start_equity": 970.257547742942,
  "consec_losses": 0,
@@ -7,44 +7,44 @@
  "halted_until": 0,
  "positions": [
   {
-   "id": "SNDKUSDT-1795774798868",
+   "id": "SNDKUSDT-1795775487912",
    "symbol": "SNDKUSDT",
    "side": "long",
-   "entry": 81.48,
-   "dist": 0.469286,
+   "entry": 82.22,
+   "dist": 0.467143,
    "rr": 1.5,
-   "tp": 82.183929,
-   "sl": 81.010714,
-   "qty": 1.929,
+   "tp": 82.920714,
+   "sl": 81.752857,
+   "qty": 1.936,
    "risk": 1.0,
    "ttl": 720,
-   "opened_ts": 1795774798868,
-   "expires_ts": 1795775518868,
+   "opened_ts": 1795775487912,
+   "expires_ts": 1795776207912,
    "status": "open",
    "source": "lab-paper",
    "strategy": "baseline",
    "regime": "range",
    "features": {
-    "close": 81.48,
-    "ema_fast": 81.176,
-    "ema_slow": 81.075238,
-    "momentum": 0.54,
-    "vol_spike": 3.315,
-    "atr15": 0.782143,
-    "rsi14": 63.82,
-    "bb_z": 2.384,
+    "close": 82.22,
+    "ema_fast": 81.760444,
+    "ema_slow": 81.472381,
+    "momentum": 0.62,
+    "vol_spike": 3.297,
+    "atr15": 0.778571,
+    "rsi14": 82.39,
+    "bb_z": 2.411,
     "don_hi": 82.61,
     "don_lo": 79.05,
     "adx15": null,
-    "atr_pct": 0.316,
-    "ts": 1795774680000
+    "atr_pct": 0.158,
+    "ts": 1795775400000
    }
   }
  ],
  "adapt": {
   "baseline|range": {
-   "n": 34,
-   "ewma": -0.3035,
+   "n": 35,
+   "ewma": -0.0851,
    "blocked": 3
   },
   "baseline|volatile": {
@@ -64,10 +64,10 @@
   }
  },
  "stats": {
-  "trades": 98,
-  "wins": 37,
+  "trades": 99,
+  "wins": 38,
   "losses": 61,
-  "pnl": -29.306581863002197
+  "pnl": -28.153854375922002
  },
- "updated": 1795775144337
+ "updated": 1795775487912
 }
