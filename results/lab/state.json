@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 2138,
+ "steps": 2139,
  "llm_used": 1,
  "llm_day": "20261127",
  "last_plan_ts": 1795737642455,
@@ -25,17 +25,7 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [
-  {
-   "name": "попробовать_новый_fee_edge_mult",
-   "params": {
-    "fee_edge_mult": 2.5
-   },
-   "module": null,
-   "note": "попробовать увеличить fee_edge_mult, чтобы улучшить прибыльность",
-   "rejected": []
-  }
- ],
+ "queue": [],
  "q_idx": 0,
  "best": null,
  "promoted": [],
