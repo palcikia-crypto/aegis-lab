@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 2170,
+ "steps": 2171,
  "llm_used": 5,
  "llm_day": "20261127",
  "last_plan_ts": 1795748915633,
@@ -25,18 +25,7 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [
-  {
-   "name": "risk_atr_test",
-   "params": {
-    "risk_per_trade": 0.8,
-    "atr_k": 0.8
-   },
-   "module": null,
-   "note": "Попробовать уменьшить риск и изменить коэффициент ATR",
-   "rejected": []
-  }
- ],
+ "queue": [],
  "q_idx": 0,
  "best": null,
  "promoted": [],
