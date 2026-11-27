@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 2163,
+ "steps": 2164,
  "llm_used": 4,
  "llm_day": "20261127",
  "last_plan_ts": 1795746037197,
@@ -25,27 +25,8 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [
-  {
-   "name": "увеличение_fee_edge_mult",
-   "params": {
-    "fee_edge_mult": 3.2
-   },
-   "module": null,
-   "note": "Попробовать увеличить значение 'fee_edge_mult', чтобы повысить прибыльность стратегии",
-   "rejected": []
-  },
-  {
-   "name": "уменьшение_ttl_min",
-   "params": {
-    "ttl_min": 300
-   },
-   "module": null,
-   "note": "Попробовать уменьшить значение 'ttl_min', чтобы повысить скорость реакции стратегии на изменения рынка",
-   "rejected": []
-  }
- ],
- "q_idx": 1,
+ "queue": [],
+ "q_idx": 0,
  "best": null,
  "promoted": [],
  "ckpts": 0,
