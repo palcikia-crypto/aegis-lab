@@ -1,68 +1,103 @@
 {
- "equity": 891.5073397673863,
- "day_key": 20780,
- "day_start_equity": 894.8017580229127,
- "consec_losses": 4,
- "paused_until": 1795330740000,
+ "equity": 868.7044058209633,
+ "day_key": 20784,
+ "day_start_equity": 868.535433815909,
+ "consec_losses": 3,
+ "paused_until": 1795474560000,
  "halted_until": 0,
- "positions": [],
+ "positions": [
+  {
+   "id": "SOXLUSDT-1795779360000",
+   "symbol": "SOXLUSDT",
+   "side": "short",
+   "entry": 36.07,
+   "dist": 0.373143,
+   "rr": 1.5,
+   "tp": 35.510286,
+   "sl": 36.443143,
+   "qty": 2.533,
+   "risk": 1.0,
+   "ttl": 900,
+   "opened_ts": 1795779360000,
+   "expires_ts": 1795780260000,
+   "status": "open",
+   "source": "sim",
+   "strategy": "baseline",
+   "regime": "range",
+   "features": {
+    "close": 36.07,
+    "ema_fast": 36.27,
+    "ema_slow": 36.341861,
+    "momentum": -0.28,
+    "vol_spike": 2.92,
+    "atr15": 0.466429,
+    "rsi14": 31.78,
+    "bb_z": -2.894,
+    "don_hi": 37.7,
+    "don_lo": 35.28,
+    "adx15": 16.22,
+    "atr_pct": 0.191,
+    "ts": 1795779360000
+   }
+  }
+ ],
  "adapt": {
-  "mean_reversion|range": {
-   "n": 17,
-   "ewma": -0.4794,
-   "blocked": 32
+  "baseline|trend_down": {
+   "n": 94,
+   "ewma": -0.3806,
+   "blocked": 19
   },
   "baseline|range": {
-   "n": 60,
-   "ewma": -0.5739,
-   "blocked": 36
-  },
-  "baseline|trend_down": {
-   "n": 67,
-   "ewma": -0.5427,
-   "blocked": 22
-  },
-  "baseline|trend_up": {
-   "n": 68,
-   "ewma": -0.5946,
-   "blocked": 4
-  },
-  "trend_follow|trend_down": {
-   "n": 28,
-   "ewma": -0.5765,
-   "blocked": 29
-  },
-  "trend_follow|trend_up": {
-   "n": 67,
-   "ewma": -0.5227,
-   "blocked": 13
+   "n": 124,
+   "ewma": -0.3179,
+   "blocked": 0
   },
   "baseline|volatile": {
-   "n": 12,
-   "ewma": -0.5069,
+   "n": 30,
+   "ewma": -0.3942,
    "blocked": 37
   },
-  "breakout|trend_up": {
-   "n": 16,
-   "ewma": -0.6121,
-   "blocked": 1
+  "baseline|trend_up": {
+   "n": 73,
+   "ewma": 0.2541,
+   "blocked": 0
+  },
+  "trend_follow|trend_up": {
+   "n": 25,
+   "ewma": -0.5051,
+   "blocked": 27
+  },
+  "trend_follow|trend_down": {
+   "n": 134,
+   "ewma": -0.5788,
+   "blocked": 24
   },
   "breakout|volatile": {
-   "n": 28,
-   "ewma": -0.4969,
-   "blocked": 1
+   "n": 22,
+   "ewma": -0.0596,
+   "blocked": 0
+  },
+  "mean_reversion|range": {
+   "n": 23,
+   "ewma": -0.4887,
+   "blocked": 6
   },
   "breakout|trend_down": {
-   "n": 34,
-   "ewma": -0.572,
-   "blocked": 5
+   "n": 18,
+   "ewma": -0.5861,
+   "blocked": 17
+  },
+  "breakout|trend_up": {
+   "n": 11,
+   "ewma": -0.4089,
+   "blocked": 19
   }
  },
  "stats": {
-  "trades": 397,
-  "wins": 122,
-  "losses": 275,
-  "pnl": -108.49266023261333
+  "trades": 554,
+  "wins": 190,
+  "losses": 364,
+  "pnl": -131.2955941790369
  },
- "updated": 1795434137135
+ "updated": 1795780173942
 }
