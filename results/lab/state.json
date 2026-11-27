@@ -1,6 +1,6 @@
 {
  "phase": "deep_scan",
- "steps": 2257,
+ "steps": 2258,
  "llm_used": 5,
  "llm_day": "20261127",
  "last_plan_ts": 1795748915633,
@@ -36,8 +36,8 @@
   "lab_paper_drift": 1795317820514,
   "hunt_sterile": 1795377598196
  },
- "ml_seen_ts": 1795434137404,
- "ml_last_auc": 0.54,
+ "ml_seen_ts": 1795780174405,
+ "ml_last_auc": 0.549,
  "patterns_seen_ts": "2026-11-22 19:55 UTC",
  "hunt_clean": 0,
  "last_escalation": null,
