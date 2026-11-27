@@ -1,15 +1,15 @@
 {
- "ts": "2026-11-27 11:05 UTC",
+ "ts": "2026-11-27 14:20 UTC",
  "books": {
-  "NVDAUSDT": {
-   "symbol": "NVDAUSDT",
-   "bid": 155.27,
-   "ask": 155.28,
-   "spread_bps": 0.64,
-   "imbalance": 0.185,
-   "depth_bid_usd": 110536,
-   "depth_ask_usd": 76031,
-   "ts": 1795777546263
+  "SOXLUSDT": {
+   "symbol": "SOXLUSDT",
+   "bid": 35.79,
+   "ask": 35.8,
+   "spread_bps": 2.79,
+   "imbalance": -0.041,
+   "depth_bid_usd": 202257,
+   "depth_ask_usd": 220081,
+   "ts": 1795789259694
   }
  }
 }
