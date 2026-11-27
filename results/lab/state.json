@@ -1,9 +1,9 @@
 {
- "phase": "deep_scan",
- "steps": 2153,
- "llm_used": 2,
+ "phase": "evaluate",
+ "steps": 2154,
+ "llm_used": 3,
  "llm_day": "20261127",
- "last_plan_ts": 1795740482487,
+ "last_plan_ts": 1795743188895,
  "baseline_ts": 1794975621027,
  "baseline": {
   "name": "baseline-оригинал",
@@ -25,7 +25,22 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [],
+ "queue": [
+  {
+   "name": "variant1",
+   "params": {
+    "fee_edge_mult": 3.0,
+    "ttl_min": 300,
+    "ttl_max": 900
+   },
+   "module": {
+    "name": "signal_filter",
+    "error": "нет NAME (str, snake_case)"
+   },
+   "note": "Попробовать увеличить fee_edge_mult и изменить ttl_min и ttl_max, а также добавить фильтр сигналов на основе волатильности",
+   "rejected": []
+  }
+ ],
  "q_idx": 0,
  "best": null,
  "promoted": [],
