@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 2146,
+ "steps": 2147,
  "llm_used": 2,
  "llm_day": "20261127",
  "last_plan_ts": 1795740482487,
@@ -25,22 +25,7 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [
-  {
-   "name": "test1",
-   "params": {
-    "fee_edge_mult": 2.8,
-    "ttl_min": 300,
-    "ttl_max": 900
-   },
-   "module": {
-    "name": "filter_signal",
-    "error": "не исполняется: __import__ not found"
-   },
-   "note": "Проверка влияния изменения параметров и добавления модуля фильтрации сигналов",
-   "rejected": []
-  }
- ],
+ "queue": [],
  "q_idx": 0,
  "best": null,
  "promoted": [],
