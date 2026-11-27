@@ -1,7 +1,7 @@
 {
  "equity": 986.9580283406219,
- "day_key": 20783,
- "day_start_equity": 988.7784824643162,
+ "day_key": 20784,
+ "day_start_equity": 986.9580283406219,
  "consec_losses": 2,
  "paused_until": 1795184576243,
  "halted_until": 0,
@@ -12,7 +12,7 @@
   "losses": 100,
   "pnl": -13.041971659378763
  },
- "updated": 1795737261742,
+ "updated": 1795737624025,
  "adapt": {
   "mean_reversion|range": {
    "n": 83,
