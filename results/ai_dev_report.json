@@ -1,14 +1,19 @@
 {
- "ts": "2026-11-28 14:05:47 UTC",
+ "ts": "2026-11-28 15:08:20 UTC",
  "ok": true,
- "latency_s": 5.0,
+ "latency_s": 6.1,
  "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
  "thoughts": "Осмотрел систему и понял, что она находится в небольшом убытке за день, с последовательностью убытков равной 1. Буду ставить эксперименты с вариантами параметров, чтобы найти оптимальные значения.",
  "params_applied": [
   {
    "param": "fee_edge_mult",
-   "value": 2.5,
-   "reason": "Попробовать уменьшить fee_edge_mult, чтобы увеличить количество сделок"
+   "value": 2.8,
+   "reason": "Попробовать увеличить fee_edge_mult, чтобы уменьшить количество сделок с низкой прибылью"
+  },
+  {
+   "param": "vol_spike_min",
+   "value": 1.5,
+   "reason": "Увеличить vol_spike_min, чтобы фильтровать сигналы с низкой волатильностью"
   }
  ],
  "experiments": [
@@ -16,31 +21,45 @@
    "name": "baseline (текущий)",
    "params": {},
    "score": -1000000000.0,
-   "trades": 68,
-   "wr": 35.3,
-   "pnl": -14.97
+   "trades": 67,
+   "wr": 35.8,
+   "pnl": -16.19
   },
   {
    "name": "exp1",
    "params": {
-    "fee_edge_mult": 2.5,
+    "fee_edge_mult": 2.8,
+    "ttl_min": 420,
     "vol_spike_min": 1.5
    },
    "score": -1000000000.0,
-   "trades": 78,
-   "wr": 33.3,
-   "pnl": -20.11
+   "trades": 51,
+   "wr": 37.3,
+   "pnl": -9.69
   },
   {
    "name": "exp2",
    "params": {
-    "atr_k": 0.8,
-    "rr": 1.2
+    "atr_k": 0.7,
+    "rr": 1.2,
+    "spread_buffer": 0.0003
    },
    "score": -1000000000.0,
-   "trades": 129,
-   "wr": 36.4,
-   "pnl": -13.46
+   "trades": 77,
+   "wr": 31.2,
+   "pnl": -18.95
+  },
+  {
+   "name": "exp3",
+   "params": {
+    "max_concurrent": 2,
+    "risk_per_trade": 1.2,
+    "loss_streak_pause": 5
+   },
+   "score": -1000000000.0,
+   "trades": 64,
+   "wr": 34.4,
+   "pnl": -20.09
   }
  ],
  "experiment_applied": [],
