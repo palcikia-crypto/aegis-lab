@@ -1,9 +1,9 @@
 {
- "phase": "deep_scan",
- "steps": 2390,
- "llm_used": 4,
+ "phase": "evaluate",
+ "steps": 2391,
+ "llm_used": 5,
  "llm_day": "20261128",
- "last_plan_ts": 1795845169474,
+ "last_plan_ts": 1795848314091,
  "baseline_ts": 1794975621027,
  "baseline": {
   "name": "baseline-оригинал",
@@ -25,7 +25,19 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [],
+ "queue": [
+  {
+   "name": "параметр_фидж",
+   "params": {
+    "fee_edge_mult": 3.2,
+    "ttl_min": 420,
+    "atr_k": 0.8
+   },
+   "module": null,
+   "note": "Увеличение fee_edge_mult и уменьшение ttl_min для увеличения прибыльности",
+   "rejected": []
+  }
+ ],
  "q_idx": 0,
  "best": null,
  "promoted": [],
