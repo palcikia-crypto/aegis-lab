@@ -1,9 +1,9 @@
 {
- "phase": "deep_scan",
- "steps": 2381,
- "llm_used": 3,
+ "phase": "evaluate",
+ "steps": 2382,
+ "llm_used": 4,
  "llm_day": "20261128",
- "last_plan_ts": 1795842304826,
+ "last_plan_ts": 1795845169474,
  "baseline_ts": 1794975621027,
  "baseline": {
   "name": "baseline-оригинал",
@@ -25,7 +25,22 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [],
+ "queue": [
+  {
+   "name": "test1",
+   "params": {
+    "fee_edge_mult": 2.8,
+    "ttl_min": 420,
+    "risk_per_trade": 0.8
+   },
+   "module": {
+    "name": "filter_signal",
+    "error": "не исполняется: __import__ not found"
+   },
+   "note": "Проверка влияния изменения fee_edge_mult, ttl_min и risk_per_trade на результаты",
+   "rejected": []
+  }
+ ],
  "q_idx": 0,
  "best": null,
  "promoted": [],
