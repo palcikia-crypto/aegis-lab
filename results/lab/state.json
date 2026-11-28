@@ -1,9 +1,9 @@
 {
- "phase": "deep_scan",
- "steps": 2373,
- "llm_used": 2,
+ "phase": "evaluate",
+ "steps": 2374,
+ "llm_used": 3,
  "llm_day": "20261128",
- "last_plan_ts": 1795839428745,
+ "last_plan_ts": 1795842304826,
  "baseline_ts": 1794975621027,
  "baseline": {
   "name": "baseline-оригинал",
@@ -25,7 +25,18 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [],
+ "queue": [
+  {
+   "name": "risk_optimization",
+   "params": {
+    "risk_per_trade": 0.8,
+    "loss_streak_pause": 5
+   },
+   "module": null,
+   "note": "Уменьшение риска на торговлю и коррекция паузы при проигрышной серии",
+   "rejected": []
+  }
+ ],
  "q_idx": 0,
  "best": null,
  "promoted": [],
