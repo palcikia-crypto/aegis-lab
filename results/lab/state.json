@@ -1,9 +1,9 @@
 {
- "phase": "deep_scan",
- "steps": 2365,
- "llm_used": 1,
+ "phase": "evaluate",
+ "steps": 2366,
+ "llm_used": 2,
  "llm_day": "20261128",
- "last_plan_ts": 1795836719063,
+ "last_plan_ts": 1795839428745,
  "baseline_ts": 1794975621027,
  "baseline": {
   "name": "baseline-оригинал",
@@ -25,7 +25,18 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [],
+ "queue": [
+  {
+   "name": "попытка_1",
+   "params": {
+    "fee_edge_mult": 3.0,
+    "ttl_min": 420
+   },
+   "module": null,
+   "note": "попробовать увеличить fee_edge_mult и уменьшить ttl_min",
+   "rejected": []
+  }
+ ],
  "q_idx": 0,
  "best": null,
  "promoted": [],
