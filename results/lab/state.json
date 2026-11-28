@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 2358,
+ "steps": 2359,
  "llm_used": 1,
  "llm_day": "20261128",
  "last_plan_ts": 1795836719063,
@@ -25,17 +25,7 @@
    "spread_buffer": 0.0002
   }
  },
- "queue": [
-  {
-   "name": "test_fee_edge_mult",
-   "params": {
-    "fee_edge_mult": 3.0
-   },
-   "module": null,
-   "note": "Проверка влияния коэффициента комиссии на результаты",
-   "rejected": []
-  }
- ],
+ "queue": [],
  "q_idx": 0,
  "best": null,
  "promoted": [],
