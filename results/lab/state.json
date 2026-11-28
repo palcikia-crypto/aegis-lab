@@ -1,6 +1,6 @@
 {
  "phase": "evaluate",
- "steps": 2450,
+ "steps": 2451,
  "llm_used": 5,
  "llm_day": "20261128",
  "last_plan_ts": 1795848314091,
@@ -50,7 +50,7 @@
    "note": "охота: пробой сжатого Donchian-канала"
   }
  ],
- "q_idx": 1,
+ "q_idx": 2,
  "best": null,
  "promoted": [],
  "ckpts": 0,
